@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Umer Hashmi — Projects</title>
+<meta name="description" content="Projects by Umer Hashmi: security tooling, machine learning, data analysis and applications. Every project has tests, CI and a README with real output.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Umer Hashmi — Projects">
+<meta property="og:description" content="Security tooling, machine learning and applications that hold up under test.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip" href="#projects">Skip to projects</a>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Portfolio</p>
+    <h1 id="site-name">Umer Hashmi</h1>
+    <p class="tagline" id="site-tagline"></p>
+    <p class="intro" id="site-intro"></p>
+    <nav class="links" aria-label="Elsewhere">
+      <a class="btn primary" href="https://github.com/umer-78">GitHub profile</a>
+      <a class="btn" href="#projects">Browse projects</a>
+    </nav>
+    <dl class="stats" id="stats" aria-label="At a glance"></dl>
+  </div>
+</header>
+
+<main class="wrap" id="projects">
+  <section class="controls" aria-label="Filter projects">
+    <div class="search">
+      <label for="q">Search</label>
+      <input id="q" type="search" placeholder="Try &quot;python&quot;, &quot;retrieval&quot;, &quot;kanban&quot;" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Category"></div>
+  </section>
+
+  <p class="count" id="count" role="status" aria-live="polite"></p>
+
+  <ul class="cards" id="cards"></ul>
+
+  <p class="empty" id="empty" hidden>Nothing matches that. <button class="linkish" id="clear" type="button">Clear the filters</button></p>
+</main>
+
+<footer class="wrap foot">
+  <p>Built as a plain page — no framework, no build step. <a href="https://github.com/umer-78/umer-78.github.io">Source</a>.</p>
+</footer>
+
+<script type="module" src="scripts/app.js"></script>
+</body>
+</html>
