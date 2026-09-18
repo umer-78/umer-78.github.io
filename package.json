@@ -1,0 +1,11 @@
+{
+  "name": "umer-78.github.io",
+  "version": "1.0.0",
+  "description": "Project portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "serve": "python3 -m http.server 8080"
+  }
+}
