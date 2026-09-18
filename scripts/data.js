@@ -17,6 +17,51 @@ const site = {
   ],
   "projects": [
     {
+      "name": "anomaly-detection",
+      "title": "Anomaly Detection",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "Statistical detectors and an isolation forest for metrics, with scoring that shows how much point-adjusted F1 flatters a detector.",
+      "highlights": ["Ships a random detector to prove the point: pure noise scores 0.46 on point-adjusted F1 against a real 0.08", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
+      "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"]
+    },
+    {
+      "name": "image-toolkit",
+      "title": "Image Toolkit",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "Image processing from scratch in NumPy: convolution, Gaussian and median filters, Otsu thresholding and Canny-style edges.",
+      "highlights": ["True convolution and correlation kept apart \u2014 the Sobel sign difference is pinned by a test", "Separable Gaussian is 11x faster and matches the full 2D pass to 1e-13", "42 tests, three generated sample images"],
+      "topics": ["python", "computer-vision", "numpy", "convolution", "edge-detection"]
+    },
+    {
+      "name": "gradient-boosting",
+      "title": "Gradient Boosting",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "Gradient boosting written from scratch: histogram trees, Newton leaf values, early stopping and honest feature importance.",
+      "highlights": ["Every analytic gradient checked against finite differences", "Gain importance ranks a planted noise column third of six; permutation importance scores it zero", "38 tests, early stopping that refuses to run without a held-out set"],
+      "topics": ["python", "gradient-boosting", "machine-learning", "numpy", "from-scratch"]
+    },
+    {
+      "name": "timeseries-forecasting",
+      "title": "Time Series Forecasting",
+      "category": "Data & analytics",
+      "language": "Python",
+      "summary": "Baselines, exponential smoothing, parameter search and rolling-origin backtesting with no dependencies.",
+      "highlights": ["MASE scaled by the training window, so a hard test period cannot flatter a model", "A test proves no backtest fold ever sees data past its own origin", "50 tests; tuning is scored at the horizon actually forecast"],
+      "topics": ["python", "time-series", "forecasting", "holt-winters", "backtesting"]
+    },
+    {
+      "name": "recommender-engine",
+      "title": "Recommender Engine",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "Popularity and random baselines, item-item CF, matrix factorisation and BPR, scored on a temporal split.",
+      "highlights": ["Rating-trained factorisation ranks worse than random; the same model on a pairwise loss is 13x better", "Split is by time per user \u2014 a random split leaks the future", "32 tests; coverage reported next to accuracy"],
+      "topics": ["python", "recommender-system", "collaborative-filtering", "bpr", "ranking"]
+    },
+    {
       "name": "password-strength-checker",
       "title": "Password Strength Checker",
       "category": "Security & networking",
