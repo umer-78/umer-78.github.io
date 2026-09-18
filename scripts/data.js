@@ -17,6 +17,15 @@ const site = {
   ],
   "projects": [
     {
+      "name": "regex-engine",
+      "title": "Rex",
+      "category": "Security & networking",
+      "language": "Python",
+      "summary": "A regular expression engine from scratch: parser, backtracking matcher, Thompson NFA and a lazy DFA, so catastrophic backtracking can be measured rather than described.",
+      "highlights": ["Backtracking takes exactly 2^(n+4) steps where the automaton takes 30n \u2014 16.7 million against 592 at twenty characters", "Python's own re is a backtracking engine and blows up on the same input: 25 seconds at n=28", "A static check for the shapes behind almost all reported ReDoS, with its limits stated by the tool", "217 tests; 600 random patterns checked against Python's re found a real bug in the DFA"],
+      "topics": ["python", "regex", "nfa", "dfa", "redos", "security"]
+    },
+    {
       "name": "route-planner",
       "title": "Route Planner",
       "category": "Data & analytics",
