@@ -17,6 +17,15 @@ const site = {
   ],
   "projects": [
     {
+      "name": "text-search",
+      "title": "Text Search",
+      "category": "Data & analytics",
+      "language": "Python",
+      "summary": "A search engine from the index up: positions, BM25, phrase and boolean queries, Porter stemming and typo tolerance, with no dependencies.",
+      "highlights": ["Textbook BM25 idf measures -1.4351 on a term in 10 of 12 documents \u2014 the clamped form is used instead", "Phrase search carries the query's own stopword gaps, so \"state of the art\" matches the phrase and not \"state art\"", "115 tests, standard library only"],
+      "topics": ["python", "search-engine", "information-retrieval", "bm25", "inverted-index"]
+    },
+    {
       "name": "anomaly-detection",
       "title": "Anomaly Detection",
       "category": "Machine learning & AI",
