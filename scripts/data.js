@@ -17,6 +17,33 @@ const site = {
   ],
   "projects": [
     {
+      "name": "route-planner",
+      "title": "Route Planner",
+      "category": "Data & analytics",
+      "language": "Python",
+      "summary": "Shortest and fastest routes over a road network: Dijkstra, A* and bidirectional search sharing one implementation, with search statistics on every result.",
+      "highlights": ["The heuristic's admissibility is tested against the real network, not asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes the usual A* return a route 8% too long", "Inflating the heuristic by 1.2 expands MORE nodes than not inflating it: re-expansions cost more than the greed saves", "69 tests, a 1,600-intersection network CI regenerates byte for byte"],
+      "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"]
+    },
+    {
+      "name": "diffkit",
+      "title": "Diffkit",
+      "category": "Applications & services",
+      "language": "Go",
+      "summary": "Diff, patch and three-way merge from scratch: Myers' O(ND) algorithm, patience diff, unified output that matches GNU diff byte for byte.",
+      "highlights": ["Output is compared against GNU diff in the tests, not just against its own parser", "The textbook LCS table is 158x slower and takes 59x the memory of Myers for the same 11 edits", "Patience diff is never shorter than Myers, longer on 17.5% of random inputs, up to 2.67x the minimum", "148 tests under -race, 86-100% coverage"],
+      "topics": ["go", "diff", "merge", "myers-diff", "cli", "from-scratch"]
+    },
+    {
+      "name": "pebble-lang",
+      "title": "Pebble",
+      "category": "Applications & services",
+      "language": "Python",
+      "summary": "A small programming language built end to end: lexer, Pratt parser, static scope resolver and tree-walking interpreter, with closures and a REPL.",
+      "highlights": ["Running with --no-resolve reproduces the closure late-binding bug the resolver removes, so the difference is measured not claimed", "Each for-loop iteration gets its own binding: [0, 1, 2] where a shared binding gives [3, 3, 3]", "217 tests; the call-depth limit is set against a measured 7 host frames per guest call"],
+      "topics": ["python", "interpreter", "programming-language", "pratt-parser", "from-scratch"]
+    },
+    {
       "name": "text-search",
       "title": "Text Search",
       "category": "Data & analytics",
