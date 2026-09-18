@@ -308,6 +308,15 @@ const site = {
       ]
     },
     {
+      "name": "kv-store",
+      "title": "kv — a storage engine",
+      "category": "Applications & services",
+      "language": "Go",
+      "summary": "A log-structured key-value store: write-ahead log, memtable, SSTables with bloom filters, compaction and crash recovery.",
+      "highlights": ["Reading an absent key is 50x faster than a present one \u2014 the bloom filter answers 82% of lookups without a disk read", "A torn record after a crash is discarded; damage mid-file is reported rather than skipped", "56 tests, all passing under the race detector"],
+      "topics": ["go", "database", "lsm-tree", "storage-engine", "bloom-filter"]
+    },
+    {
       "name": "loadgun",
       "title": "loadgun",
       "category": "Applications & services",
