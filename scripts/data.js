@@ -398,7 +398,8 @@ const site = {
         "pwa",
         "crypto",
         "charts"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/coinvantage/"
     },
     {
       "name": "GD_PROJECT",
