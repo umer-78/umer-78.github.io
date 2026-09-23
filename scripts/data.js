@@ -23,7 +23,8 @@ const site = {
       "language": "Python",
       "summary": "A regular expression engine from scratch: parser, backtracking matcher, Thompson NFA and a lazy DFA, so catastrophic backtracking can be measured rather than described.",
       "highlights": ["Backtracking costs 2^(n+4) − (n+9) steps where the Thompson NFA costs 30n − 25 \u2014 measured at 16,777,194 against 592 for twenty characters", "Python's own re is a backtracking engine and takes 25 seconds on the same input at n=28", "A static check for the nested-quantifier and ambiguous-alternation shapes behind almost all reported ReDoS, with its limits stated by the tool", "217 tests; a differential test of 600 random patterns against Python's re found a real bug in the DFA"],
-      "topics": ["python", "regex", "nfa", "dfa", "redos", "security"]
+      "topics": ["python", "regex", "nfa", "dfa", "redos", "security"],
+      "demo": "https://umer-78.github.io/regex-engine/"
     },
     {
       "name": "route-planner",
@@ -32,7 +33,8 @@ const site = {
       "language": "Python",
       "summary": "Shortest and fastest routes over a road network: Dijkstra, A* and bidirectional search sharing one implementation, with search statistics on every result.",
       "highlights": ["The heuristic's admissibility is tested against the real network, not asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes the usual A* return a route 8% too long", "A heuristic weighted 1.2 expands more nodes than an unweighted one: re-expansions cost more than the greed saves", "69 tests; CI regenerates a 1,600-intersection network byte for byte"],
-      "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"]
+      "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"],
+      "demo": "https://umer-78.github.io/route-planner/"
     },
     {
       "name": "diffkit",
@@ -41,7 +43,8 @@ const site = {
       "language": "Go",
       "summary": "Diff, patch and three-way merge from scratch: Myers' O(ND) algorithm, patience diff, unified output that matches GNU diff byte for byte, and a diff3-style merge.",
       "highlights": ["Tests compare output against GNU diff, not just round-trip it through the parser", "The textbook LCS table is 158× slower and uses 59× the memory of Myers' algorithm for the same 11 edits", "Patience diff is never shorter than Myers, longer on 17.5% of random inputs, up to 2.67× the optimal edit length", "148 tests under -race, 86–100% coverage"],
-      "topics": ["go", "diff", "merge", "myers-diff", "cli", "from-scratch"]
+      "topics": ["go", "diff", "merge", "myers-diff", "cli", "from-scratch"],
+      "demo": "https://umer-78.github.io/diffkit/"
     },
     {
       "name": "pebble-lang",
@@ -50,7 +53,8 @@ const site = {
       "language": "Python",
       "summary": "A small programming language built end to end: lexer, Pratt parser, static scope resolver and tree-walking interpreter, with closures and a REPL.",
       "highlights": ["Running with --no-resolve reproduces the closure late-binding bug the resolver removes, so the difference is measured not just claimed", "Each for-loop iteration gets its own binding: [0, 1, 2] where a shared binding gives [3, 3, 3]", "217 tests; the call-depth limit is set against a measured 7 host frames per guest call"],
-      "topics": ["python", "interpreter", "programming-language", "pratt-parser", "from-scratch"]
+      "topics": ["python", "interpreter", "programming-language", "pratt-parser", "from-scratch"],
+      "demo": "https://umer-78.github.io/pebble-lang/"
     },
     {
       "name": "text-search",
@@ -59,7 +63,8 @@ const site = {
       "language": "Python",
       "summary": "A search engine built from the index up: positions, BM25, phrase and boolean queries, Porter stemming and typo tolerance, with no dependencies.",
       "highlights": ["Textbook BM25 idf measures -1.4351 on a term in 10 of 12 documents \u2014 the clamped form is used instead", "Phrase search carries the query's own stopword gaps, so \"state of the art\" matches the phrase and not \"state art\"", "115 tests, standard library only"],
-      "topics": ["python", "search-engine", "information-retrieval", "bm25", "inverted-index"]
+      "topics": ["python", "search-engine", "information-retrieval", "bm25", "inverted-index"],
+      "demo": "https://umer-78.github.io/text-search/"
     },
     {
       "name": "anomaly-detection",
@@ -68,7 +73,8 @@ const site = {
       "language": "Python",
       "summary": "Statistical detectors and an isolation forest for metrics, with scoring that shows how much point-adjusted F1 flatters a detector.",
       "highlights": ["Ships a random detector to prove the point: pure noise scores 0.46 on point-adjusted F1 while the real detector scores 0.08", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
-      "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"]
+      "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"],
+      "demo": "https://umer-78.github.io/anomaly-detection/"
     },
     {
       "name": "image-toolkit",
@@ -77,7 +83,8 @@ const site = {
       "language": "Python",
       "summary": "Image processing from scratch in NumPy: convolution, Gaussian and median filters, Otsu thresholding and Canny-style edges.",
       "highlights": ["True convolution and correlation kept apart \u2014 the Sobel sign difference is pinned by a test", "Separable Gaussian is 11x faster and matches the full 2D pass to 1e-13", "42 tests, three generated sample images"],
-      "topics": ["python", "computer-vision", "numpy", "convolution", "edge-detection"]
+      "topics": ["python", "computer-vision", "numpy", "convolution", "edge-detection"],
+      "demo": "https://umer-78.github.io/image-toolkit/"
     },
     {
       "name": "gradient-boosting",
@@ -86,7 +93,8 @@ const site = {
       "language": "Python",
       "summary": "Gradient boosting written from scratch: histogram trees, Newton leaf values, early stopping and honest feature importance.",
       "highlights": ["Every analytic gradient checked against finite differences", "Gain importance ranks a planted noise column third of six; permutation importance scores it zero", "38 tests, early stopping that refuses to run without a held-out set"],
-      "topics": ["python", "gradient-boosting", "machine-learning", "numpy", "from-scratch"]
+      "topics": ["python", "gradient-boosting", "machine-learning", "numpy", "from-scratch"],
+      "demo": "https://umer-78.github.io/gradient-boosting/"
     },
     {
       "name": "timeseries-forecasting",
@@ -95,7 +103,8 @@ const site = {
       "language": "Python",
       "summary": "Baselines, exponential smoothing, parameter search and rolling-origin backtesting with no dependencies.",
       "highlights": ["MASE scaled by the training window, so a hard test period cannot flatter a model", "A test proves no backtest fold ever sees data past its own origin", "50 tests; tuning is scored at the horizon actually forecast"],
-      "topics": ["python", "time-series", "forecasting", "holt-winters", "backtesting"]
+      "topics": ["python", "time-series", "forecasting", "holt-winters", "backtesting"],
+      "demo": "https://umer-78.github.io/timeseries-forecasting/"
     },
     {
       "name": "recommender-engine",
@@ -104,7 +113,8 @@ const site = {
       "language": "Python",
       "summary": "Popularity and random baselines, item-item CF, matrix factorisation and BPR, scored on a temporal split.",
       "highlights": ["Rating-trained factorisation ranks worse than random; the same model trained with a pairwise loss ranks 13× better", "Split is by time per user \u2014 a random split leaks the future", "32 tests; catalogue coverage reported next to ranking accuracy"],
-      "topics": ["python", "recommender-system", "collaborative-filtering", "bpr", "ranking"]
+      "topics": ["python", "recommender-system", "collaborative-filtering", "bpr", "ranking"],
+      "demo": "https://umer-78.github.io/recommender-engine/"
     },
     {
       "name": "password-strength-checker",
@@ -122,7 +132,8 @@ const site = {
         "security",
         "cli",
         "entropy"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/password-strength-checker/"
     },
     {
       "name": "log-sentinel",
@@ -140,7 +151,8 @@ const site = {
         "blue-team",
         "ssh",
         "intrusion-detection"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/log-sentinel/"
     },
     {
       "name": "file-integrity-monitor",
@@ -158,7 +170,8 @@ const site = {
         "integrity",
         "hashing",
         "monitoring"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/file-integrity-monitor/"
     },
     {
       "name": "security-headers-scanner",
@@ -176,7 +189,8 @@ const site = {
         "http",
         "headers",
         "csp"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/security-headers-scanner/"
     },
     {
       "name": "subnet-calculator",
@@ -213,7 +227,8 @@ const site = {
         "scikit-learn",
         "classification",
         "churn"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/customer-churn-prediction/"
     },
     {
       "name": "neural-network-from-scratch",
@@ -231,7 +246,8 @@ const site = {
         "numpy",
         "backpropagation",
         "deep-learning"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/neural-network-from-scratch/"
     },
     {
       "name": "sentiment-analyzer",
@@ -249,7 +265,8 @@ const site = {
         "nlp",
         "naive-bayes",
         "text-classification"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/sentiment-analyzer/"
     },
     {
       "name": "rag-document-qa",
@@ -268,7 +285,8 @@ const site = {
         "retrieval",
         "bm25",
         "nlp"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/rag-document-qa/"
     },
     {
       "name": "ml-model-serving-api",
@@ -286,7 +304,8 @@ const site = {
         "fastapi",
         "mlops",
         "rest-api"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/ml-model-serving-api/"
     },
     {
       "name": "mini-sql-engine",
@@ -295,7 +314,8 @@ const site = {
       "language": "Python",
       "summary": "A SQL engine written from scratch: tokenizer, recursive-descent parser and executor, running SELECT queries over CSV files.",
       "highlights": ["Joins, grouping, aggregates, ordering and three-valued NULL logic — no SQLite underneath", "Parse errors point at the character that caused them", "113 tests at 94% coverage, no dependencies"],
-      "topics": ["python", "sql", "parser", "query-engine", "interpreter"]
+      "topics": ["python", "sql", "parser", "query-engine", "interpreter"],
+      "demo": "https://umer-78.github.io/mini-sql-engine/"
     },
     {
       "name": "sales-insights",
@@ -314,7 +334,8 @@ const site = {
         "analytics",
         "cohort-analysis",
         "rfm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/sales-insights/"
     },
     {
       "name": "ta-indicators",
@@ -332,7 +353,8 @@ const site = {
         "technical-analysis",
         "trading",
         "indicators"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/ta-indicators/"
     },
     {
       "name": "bank-ledger-csharp",
@@ -350,7 +372,8 @@ const site = {
         "dotnet",
         "ledger",
         "xunit"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/bank-ledger-csharp/"
     },
     {
       "name": "kv-store",
@@ -359,7 +382,8 @@ const site = {
       "language": "Go",
       "summary": "A log-structured key-value store: write-ahead log, memtable, SSTables with bloom filters, compaction and crash recovery.",
       "highlights": ["Reading an absent key is 50x faster than a present one \u2014 the bloom filter eliminates 82% of negative lookups without a disk read", "A torn record after a crash is discarded; damage mid-file is reported rather than skipped", "56 tests, all passing under the race detector"],
-      "topics": ["go", "database", "lsm-tree", "storage-engine", "bloom-filter"]
+      "topics": ["go", "database", "lsm-tree", "storage-engine", "bloom-filter"],
+      "demo": "https://umer-78.github.io/kv-store/"
     },
     {
       "name": "loadgun",
@@ -368,7 +392,8 @@ const site = {
       "language": "Go",
       "summary": "HTTP load testing tool: worker pool, rate cap, latency percentiles and histogram, with a non-zero exit code for CI.",
       "highlights": ["Nearest-rank percentiles \u2014 p95 is a latency that actually happened", "Failed requests are counted, but kept out of the latency distribution", "48 tests at 88% coverage on the runner, all passing under the race detector"],
-      "topics": ["go", "load-testing", "performance", "concurrency", "cli"]
+      "topics": ["go", "load-testing", "performance", "concurrency", "cli"],
+      "demo": "https://umer-78.github.io/loadgun/"
     },
     {
       "name": "url-shortener-go",
@@ -386,7 +411,8 @@ const site = {
         "sqlite",
         "rest-api",
         "docker"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/url-shortener-go/"
     },
     {
       "name": "inventory-management-system",
@@ -404,7 +430,8 @@ const site = {
         "sqlite",
         "inventory",
         "erp"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/inventory-management-system/"
     },
     {
       "name": "project-tracker",
@@ -422,7 +449,8 @@ const site = {
         "kanban",
         "project-management",
         "dashboard"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/project-tracker/"
     },
     {
       "name": "task-board",
@@ -516,7 +544,8 @@ const site = {
         "csharp",
         "game-development",
         "3d"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/GD_PROJECT/"
     }
   ]
 };
