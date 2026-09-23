@@ -9,6 +9,17 @@ const empty = document.getElementById('empty');
 
 const state = { query: '', category: 'all' };
 
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Per-language accent used for the gradient language pills. */
+const LANG_COLORS = {
+  Python: '#3b82f6',
+  Go: '#0d9488',
+  JavaScript: '#b45309',
+  TypeScript: '#0284c7',
+  'C#': '#7c3aed',
+};
+
 /** Everything that reaches innerHTML goes through this first. */
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -33,6 +44,38 @@ function repoUrl(project) {
   return `https://github.com/${site.owner}/${project.name}`;
 }
 
+/** Eased count-up for the hero stat numbers. */
+function animateNumber(el, target, duration = 900) {
+  if (reduceMotion()) {
+    el.textContent = String(target);
+    return;
+  }
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = String(Math.round(target * eased));
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function countUpStats() {
+  document.querySelectorAll('#stats .stat-num').forEach((el, index) => {
+    const target = Number(el.dataset.count) || 0;
+    window.setTimeout(() => animateNumber(el, target), 250 + index * 140);
+  });
+}
+
+/** Runs a render inside a View Transition when the browser supports it. */
+function withTransition(fn) {
+  if (!reduceMotion() && typeof document.startViewTransition === 'function') {
+    document.startViewTransition(fn);
+  } else {
+    fn();
+  }
+}
+
 function renderHeader() {
   document.getElementById('site-name').textContent = site.name;
   document.getElementById('site-tagline').textContent = site.tagline;
@@ -41,14 +84,20 @@ function renderHeader() {
   const languages = languageCounts(site.projects);
   const live = site.projects.filter((p) => p.demo).length;
   const stats = [
-    ['Projects', String(site.projects.length)],
-    ['Languages', languages.map((l) => l.name).join(' · ')],
-    ['Live demos', String(live)],
+    { label: 'Projects', value: site.projects.length },
+    { label: 'Languages', value: languages.length, sub: languages.map((l) => l.name).join(' · ') },
+    { label: 'Live demos', value: live },
   ];
 
   document.getElementById('stats').innerHTML = stats
-    .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+    .map(({ label, value, sub }) => `<div class="stat">
+  <dt>${escapeHtml(label)}</dt>
+  <dd><span class="stat-num" data-count="${value}">0</span></dd>
+  ${sub ? `<dd class="stat-sub">${escapeHtml(sub)}</dd>` : ''}
+</div>`)
     .join('');
+
+  countUpStats();
 }
 
 function renderChips() {
@@ -64,7 +113,7 @@ function renderChips() {
     .join('');
 }
 
-function cardHtml(project) {
+function cardHtml(project, index) {
   const points = (project.highlights || [])
     .map((point) => `<li>${highlight(point, state.query)}</li>`)
     .join('');
@@ -74,11 +123,12 @@ function cardHtml(project) {
   const demo = project.demo
     ? `<a class="btn primary" href="${escapeHtml(project.demo)}">Live demo</a>`
     : '';
+  const langColor = LANG_COLORS[project.language] || 'var(--accent)';
 
-  return `<li class="card">
+  return `<li class="card" style="--i:${Math.min(index, 14)}">
   <header>
     <h2>${highlight(project.title, state.query)}</h2>
-    <span class="lang">${escapeHtml(project.language)}</span>
+    <span class="lang" style="--lang-color:${langColor}">${escapeHtml(project.language)}</span>
   </header>
   <p class="summary">${highlight(project.summary, state.query)}</p>
   <ul class="points">${points}</ul>
@@ -93,7 +143,7 @@ function cardHtml(project) {
 function render() {
   const shown = selectProjects(site.projects, state);
 
-  cards.innerHTML = shown.map(cardHtml).join('');
+  cards.innerHTML = shown.map((project, index) => cardHtml(project, index)).join('');
   empty.hidden = shown.length > 0;
 
   const total = site.projects.length;
@@ -129,7 +179,7 @@ chipsBox.addEventListener('click', (event) => {
   const chip = event.target.closest('.chip');
   if (!chip) return;
   state.category = chip.dataset.category;
-  render();
+  withTransition(render);
 });
 
 search.addEventListener('input', () => {
@@ -142,7 +192,7 @@ document.getElementById('clear').addEventListener('click', () => {
   state.category = 'all';
   search.value = '';
   search.focus();
-  render();
+  withTransition(render);
 });
 
 // "/" focuses the search box, the way most code-browsing sites behave.
