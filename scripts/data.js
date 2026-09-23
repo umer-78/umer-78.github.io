@@ -22,7 +22,7 @@ const site = {
       "category": "Security & networking",
       "language": "Python",
       "summary": "A regular expression engine from scratch: parser, backtracking matcher, Thompson NFA and a lazy DFA, so catastrophic backtracking can be measured rather than described.",
-      "highlights": ["Backtracking takes exactly 2^(n+4) steps where the automaton takes 30n \u2014 16.7 million against 592 at twenty characters", "Python's own re is a backtracking engine and blows up on the same input: 25 seconds at n=28", "A static check for the shapes behind almost all reported ReDoS, with its limits stated by the tool", "217 tests; 600 random patterns checked against Python's re found a real bug in the DFA"],
+      "highlights": ["Backtracking costs 2^(n+4) − (n+9) steps where the Thompson NFA costs 30n − 25 \u2014 measured at 16,777,194 against 592 for twenty characters", "Python's own re is a backtracking engine and takes 25 seconds on the same input at n=28", "A static check for the nested-quantifier and ambiguous-alternation shapes behind almost all reported ReDoS, with its limits stated by the tool", "217 tests; a differential test of 600 random patterns against Python's re found a real bug in the DFA"],
       "topics": ["python", "regex", "nfa", "dfa", "redos", "security"]
     },
     {
@@ -31,7 +31,7 @@ const site = {
       "category": "Data & analytics",
       "language": "Python",
       "summary": "Shortest and fastest routes over a road network: Dijkstra, A* and bidirectional search sharing one implementation, with search statistics on every result.",
-      "highlights": ["The heuristic's admissibility is tested against the real network, not asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes the usual A* return a route 8% too long", "Inflating the heuristic by 1.2 expands MORE nodes than not inflating it: re-expansions cost more than the greed saves", "69 tests, a 1,600-intersection network CI regenerates byte for byte"],
+      "highlights": ["The heuristic's admissibility is tested against the real network, not asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes the usual A* return a route 8% too long", "A heuristic weighted 1.2 expands more nodes than an unweighted one: re-expansions cost more than the greed saves", "69 tests; CI regenerates a 1,600-intersection network byte for byte"],
       "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"]
     },
     {
@@ -39,8 +39,8 @@ const site = {
       "title": "Diffkit",
       "category": "Applications & services",
       "language": "Go",
-      "summary": "Diff, patch and three-way merge from scratch: Myers' O(ND) algorithm, patience diff, unified output that matches GNU diff byte for byte.",
-      "highlights": ["Output is compared against GNU diff in the tests, not just against its own parser", "The textbook LCS table is 158x slower and takes 59x the memory of Myers for the same 11 edits", "Patience diff is never shorter than Myers, longer on 17.5% of random inputs, up to 2.67x the minimum", "148 tests under -race, 86-100% coverage"],
+      "summary": "Diff, patch and three-way merge from scratch: Myers' O(ND) algorithm, patience diff, unified output that matches GNU diff byte for byte, and a diff3-style merge.",
+      "highlights": ["Tests compare output against GNU diff, not just round-trip it through the parser", "The textbook LCS table is 158× slower and uses 59× the memory of Myers' algorithm for the same 11 edits", "Patience diff is never shorter than Myers, longer on 17.5% of random inputs, up to 2.67× the optimal edit length", "148 tests under -race, 86–100% coverage"],
       "topics": ["go", "diff", "merge", "myers-diff", "cli", "from-scratch"]
     },
     {
@@ -49,7 +49,7 @@ const site = {
       "category": "Applications & services",
       "language": "Python",
       "summary": "A small programming language built end to end: lexer, Pratt parser, static scope resolver and tree-walking interpreter, with closures and a REPL.",
-      "highlights": ["Running with --no-resolve reproduces the closure late-binding bug the resolver removes, so the difference is measured not claimed", "Each for-loop iteration gets its own binding: [0, 1, 2] where a shared binding gives [3, 3, 3]", "217 tests; the call-depth limit is set against a measured 7 host frames per guest call"],
+      "highlights": ["Running with --no-resolve reproduces the closure late-binding bug the resolver removes, so the difference is measured not just claimed", "Each for-loop iteration gets its own binding: [0, 1, 2] where a shared binding gives [3, 3, 3]", "217 tests; the call-depth limit is set against a measured 7 host frames per guest call"],
       "topics": ["python", "interpreter", "programming-language", "pratt-parser", "from-scratch"]
     },
     {
@@ -57,7 +57,7 @@ const site = {
       "title": "Text Search",
       "category": "Data & analytics",
       "language": "Python",
-      "summary": "A search engine from the index up: positions, BM25, phrase and boolean queries, Porter stemming and typo tolerance, with no dependencies.",
+      "summary": "A search engine built from the index up: positions, BM25, phrase and boolean queries, Porter stemming and typo tolerance, with no dependencies.",
       "highlights": ["Textbook BM25 idf measures -1.4351 on a term in 10 of 12 documents \u2014 the clamped form is used instead", "Phrase search carries the query's own stopword gaps, so \"state of the art\" matches the phrase and not \"state art\"", "115 tests, standard library only"],
       "topics": ["python", "search-engine", "information-retrieval", "bm25", "inverted-index"]
     },
@@ -67,7 +67,7 @@ const site = {
       "category": "Machine learning & AI",
       "language": "Python",
       "summary": "Statistical detectors and an isolation forest for metrics, with scoring that shows how much point-adjusted F1 flatters a detector.",
-      "highlights": ["Ships a random detector to prove the point: pure noise scores 0.46 on point-adjusted F1 against a real 0.08", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
+      "highlights": ["Ships a random detector to prove the point: pure noise scores 0.46 on point-adjusted F1 while the real detector scores 0.08", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
       "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"]
     },
     {
@@ -103,7 +103,7 @@ const site = {
       "category": "Machine learning & AI",
       "language": "Python",
       "summary": "Popularity and random baselines, item-item CF, matrix factorisation and BPR, scored on a temporal split.",
-      "highlights": ["Rating-trained factorisation ranks worse than random; the same model on a pairwise loss is 13x better", "Split is by time per user \u2014 a random split leaks the future", "32 tests; coverage reported next to accuracy"],
+      "highlights": ["Rating-trained factorisation ranks worse than random; the same model trained with a pairwise loss ranks 13× better", "Split is by time per user \u2014 a random split leaks the future", "32 tests; catalogue coverage reported next to ranking accuracy"],
       "topics": ["python", "recommender-system", "collaborative-filtering", "bpr", "ranking"]
     },
     {
@@ -204,7 +204,7 @@ const site = {
       "language": "Python",
       "summary": "End-to-end churn prediction: reproducible dataset, feature pipeline, four models compared honestly.",
       "highlights": [
-        "Four models compared on the same split, with the baseline shown too",
+        "Four models compared on the same split, with the majority-class baseline shown too",
         "Threshold chosen from the cost of a false negative, not from accuracy",
         "Feature importance and calibration plots generated by the pipeline"
       ],
@@ -223,7 +223,7 @@ const site = {
       "summary": "Feed-forward network in pure NumPy: hand-derived backprop verified by numerical gradient checking.",
       "highlights": [
         "Every gradient is checked against a numerical estimate — the test fails if the maths is wrong",
-        "ReLU, sigmoid, softmax, cross-entropy and L2, all written out",
+        "ReLU, sigmoid, softmax, cross-entropy and L2 all implemented from scratch",
         "Trains on real data and reports the confusion matrix"
       ],
       "topics": [
@@ -242,7 +242,7 @@ const site = {
       "highlights": [
         "From-scratch model scored beside scikit-learn's on the same data",
         "Handles negation scope, so \"not good\" is not read as \"good\"",
-        "Per-prediction explanation showing the words that decided it"
+        "Per-prediction explanation listing the words that decided each classification"
       ],
       "topics": [
         "python",
@@ -305,7 +305,7 @@ const site = {
       "summary": "Sales analysis in pandas: cleaning with an audit trail, cohort retention, RFM segmentation, seasonality.",
       "highlights": [
         "Cleaning writes an audit trail: every row dropped is counted and explained",
-        "Cohort retention and RFM segmentation",
+        "Cohort retention curves and RFM segments exported to CSV",
         "Generates a chart pack from the committed dataset"
       ],
       "topics": [
@@ -323,7 +323,7 @@ const site = {
       "language": "TypeScript",
       "summary": "Dependency-free technical analysis indicators in strict TypeScript: SMA, EMA, RSI, MACD, Bollinger and more.",
       "highlights": [
-        "Values checked against published worked examples, not against itself",
+        "Values checked against published worked examples, not against the implementation's own output",
         "Streaming-friendly: feed one candle at a time",
         "No dependencies, works in Node and the browser"
       ],
@@ -343,7 +343,7 @@ const site = {
       "highlights": [
         "Money is decimal with a currency guard — the test that 0.1 + 0.2 is 0.3 fails the day someone uses double",
         "Entries are never edited; a reversal is its own entry",
-        "audit replays every entry from zero to prove the balance still agrees"
+        "The audit command replays every entry from zero to prove each balance still agrees with its entries"
       ],
       "topics": [
         "csharp",
@@ -358,7 +358,7 @@ const site = {
       "category": "Applications & services",
       "language": "Go",
       "summary": "A log-structured key-value store: write-ahead log, memtable, SSTables with bloom filters, compaction and crash recovery.",
-      "highlights": ["Reading an absent key is 50x faster than a present one \u2014 the bloom filter answers 82% of lookups without a disk read", "A torn record after a crash is discarded; damage mid-file is reported rather than skipped", "56 tests, all passing under the race detector"],
+      "highlights": ["Reading an absent key is 50x faster than a present one \u2014 the bloom filter eliminates 82% of negative lookups without a disk read", "A torn record after a crash is discarded; damage mid-file is reported rather than skipped", "56 tests, all passing under the race detector"],
       "topics": ["go", "database", "lsm-tree", "storage-engine", "bloom-filter"]
     },
     {
@@ -367,7 +367,7 @@ const site = {
       "category": "Applications & services",
       "language": "Go",
       "summary": "HTTP load testing tool: worker pool, rate cap, latency percentiles and histogram, with a non-zero exit code for CI.",
-      "highlights": ["Nearest-rank percentiles \u2014 p95 is a latency that actually happened", "Failed requests are counted, but kept out of the latency distribution", "48 tests at 94% coverage on the runner, all passing under the race detector"],
+      "highlights": ["Nearest-rank percentiles \u2014 p95 is a latency that actually happened", "Failed requests are counted, but kept out of the latency distribution", "48 tests at 88% coverage on the runner, all passing under the race detector"],
       "topics": ["go", "load-testing", "performance", "concurrency", "cli"]
     },
     {
