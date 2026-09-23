@@ -6,6 +6,8 @@
 <title>Umer Hashmi — Projects</title>
 <meta name="description" content="Projects by Umer Hashmi: security tooling, machine learning, data analysis and applications. Every project has tests, CI and a README with real output.">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0c10" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Umer Hashmi — Projects">
 <meta property="og:description" content="Security tooling, machine learning and applications that hold up under test.">
 <meta property="og:type" content="website">
@@ -13,10 +15,17 @@
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <a class="skip" href="#projects">Skip to projects</a>
 
 <header class="hero">
-  <div class="wrap">
+  <div class="mesh" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <span class="blob b4"></span>
+  </div>
+  <div class="wrap hero-inner">
     <p class="eyebrow">Portfolio</p>
     <h1 id="site-name">Umer Hashmi</h1>
     <p class="tagline" id="site-tagline"></p>
@@ -33,7 +42,10 @@
   <section class="controls" aria-label="Filter projects">
     <div class="search">
       <label for="q">Search</label>
-      <input id="q" type="search" placeholder="Try &quot;python&quot;, &quot;retrieval&quot;, &quot;kanban&quot;" autocomplete="off" spellcheck="false">
+      <div class="search-field">
+        <input id="q" type="search" placeholder="Try &quot;python&quot;, &quot;retrieval&quot;, &quot;kanban&quot;" autocomplete="off" spellcheck="false">
+        <kbd class="kbd" aria-hidden="true">/</kbd>
+      </div>
     </div>
     <div class="chips" id="chips" role="group" aria-label="Category"></div>
   </section>
