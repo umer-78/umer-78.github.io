@@ -197,10 +197,11 @@ const site = {
       "title": "IPv4 Subnet Calculator",
       "category": "Security & networking",
       "language": "JavaScript",
-      "summary": "Subnet, equal-split, and VLSM calculator in the browser. No framework, tested core.",
+      "summary": "Subnet, equal-split, VLSM and route-summarization calculator in the browser. No framework, tested core.",
       "highlights": [
         "VLSM allocation fits the largest requirement first",
         "Equal-split mode with usable-host counts",
+        "Route summarization merges networks into the fewest CIDRs",
         "The maths module has no DOM in it, so it's unit tested"
       ],
       "topics": [
@@ -480,7 +481,8 @@ const site = {
       "highlights": [
         "No API key, so it runs anywhere",
         "Hourly strip starts at the current hour, not at midnight",
-        "Geocoding search with keyboard navigation"
+        "Geocoding search with keyboard navigation",
+        "Dew point with a comfort level next to humidity"
       ],
       "topics": [
         "javascript",
