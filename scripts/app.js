@@ -1,5 +1,6 @@
 import site from './data.js';
 import { selectProjects, categoryCounts, languageCounts, terms } from './filters.js';
+import { loadRepoStats, timeAgo, ciBadgeUrl } from './github.js';
 
 const cards = document.getElementById('cards');
 const chipsBox = document.getElementById('chips');
@@ -8,6 +9,7 @@ const countLine = document.getElementById('count');
 const empty = document.getElementById('empty');
 
 const state = { query: '', category: 'all' };
+let repoStats = null; // filled from GitHub after first paint; cards render fine without it
 
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -113,6 +115,19 @@ function renderChips() {
     .join('');
 }
 
+/** Stars and last update (when GitHub answered), plus the live CI badge. */
+function metaInner(project) {
+  const s = repoStats?.[project.name];
+  const bits = [];
+  if (s) {
+    if (s.stars > 0) bits.push(`<span title="GitHub stars">★ ${s.stars}</span>`); // a row of zeros says nothing
+    if (s.pushedAt) bits.push(`<span title="${escapeHtml(new Date(s.pushedAt).toLocaleString())}">updated ${escapeHtml(timeAgo(s.pushedAt))}</span>`);
+    if (s.archived) bits.push('<span>archived</span>');
+  }
+  const badge = `<img class="ci" src="${escapeHtml(ciBadgeUrl(site.owner, project.name))}" alt="CI status for ${escapeHtml(project.name)}" height="20" loading="lazy" onerror="this.remove()">`;
+  return bits.join('<span aria-hidden="true">·</span>') + badge;
+}
+
 function cardHtml(project, index) {
   const points = (project.highlights || [])
     .map((point) => `<li>${highlight(point, state.query)}</li>`)
@@ -133,6 +148,7 @@ function cardHtml(project, index) {
   <p class="summary">${highlight(project.summary, state.query)}</p>
   <ul class="points">${points}</ul>
   <ul class="tags">${tags}</ul>
+  <p class="meta" data-repo="${escapeHtml(project.name)}">${metaInner(project)}</p>
   <div class="actions">
     ${demo}
     <a class="btn" href="${escapeHtml(repoUrl(project))}">Code</a>
@@ -213,3 +229,13 @@ readUrl();
 renderHeader();
 renderChips();
 render();
+
+loadRepoStats(site.owner).then((stats) => {
+  if (!stats) return;
+  repoStats = stats;
+  const byName = new Map(site.projects.map((p) => [p.name, p]));
+  for (const el of cards.querySelectorAll('.meta[data-repo]')) {
+    const project = byName.get(el.dataset.repo);
+    if (project) el.innerHTML = metaInner(project);
+  }
+});

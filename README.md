@@ -25,7 +25,7 @@ Same functions in the browser and in the tests.
 ```bash
 git clone https://github.com/umer-78/umer-78.github.io.git
 cd umer-78.github.io
-npm test              # 13 tests, no dependencies to install
+npm test              # 17 tests, no dependencies to install
 npm run serve         # http://localhost:8080
 ```
 
@@ -34,8 +34,8 @@ npm run serve         # http://localhost:8080
 
 ```
 $ npm test
-# tests 13
-# pass 13
+# tests 17
+# pass 17
 # fail 0
 ```
 
@@ -51,6 +51,7 @@ goes wrong on a page like this:
 - an empty query selects everything; a nonsense query selects nothing
 - multiple search words are **and**, not **or** — "python security" is narrower than "python"
 - category counts add up to the project total, and appear in the declared order
+- live GitHub facts are parsed safely, and a failed or rate-limited request shows nothing rather than zeros
 
 ## Features
 
@@ -58,6 +59,8 @@ goes wrong on a page like this:
 - Category chips with live counts
 - Filters are mirrored into the URL, so a filtered view can be linked to and reloaded
 - `/` focuses the search box, `Escape` clears it
+- Live facts on every card: last update and stars from one cached GitHub API call
+  ([`scripts/github.js`](scripts/github.js), refreshed hourly), and each repo's CI badge
 - Light and dark themes from the system setting
 - Keyboard-reachable throughout, with a skip link and visible focus rings
 - Works down to 360px wide with no horizontal scrolling
