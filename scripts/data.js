@@ -22,7 +22,7 @@ const site = {
       "category": "Security & networking",
       "language": "Python",
       "summary": "A regex engine I wrote from scratch: a parser, a backtracking matcher, Thompson's NFA and a lazy DFA over one pattern. Catastrophic backtracking becomes something you can measure, not just read about.",
-      "highlights": ["On twenty characters, backtracking burns through 16,777,194 steps while the Thompson NFA needs only 592 — reproduce the gap yourself with the slider above", "Python's re module is a backtracking engine too: it takes 25 seconds on the same input at n=28", "The safety checker flags nested quantifiers and ambiguous alternations — the two patterns behind almost every reported ReDoS — and is honest about when it might be wrong", "217 tests, including a differential run of 600 random patterns against Python's re that caught a real bug in the DFA"],
+      "highlights": ["On twenty characters, backtracking burns through 16,777,194 steps while the Thompson NFA needs only 592 — reproduce the gap yourself in the live demo", "Python's re module is a backtracking engine too: it takes 25 seconds on the same input at n=28", "The safety checker flags nested quantifiers and ambiguous alternations — the two patterns behind almost every reported ReDoS — and is honest about when it might be wrong", "217 tests, including a differential run of 600 random patterns against Python's re that caught a real bug in the DFA"],
       "topics": ["python", "regex", "nfa", "dfa", "redos", "security"],
       "demo": "https://umer-78.github.io/regex-engine/"
     },
@@ -313,8 +313,8 @@ const site = {
       "title": "minisql — a SQL engine",
       "category": "Data & analytics",
       "language": "Python",
-      "summary": "A SQL engine written from scratch (tokenizer, recursive-descent parser, executor) that runs SELECT queries over CSV files.",
-      "highlights": ["Joins, grouping, aggregates, ordering, and three-valued NULL logic — no SQLite underneath", "Parse errors point at the exact character that caused them", "113 tests at 94% coverage, zero dependencies"],
+      "summary": "A SQL engine written from scratch (tokenizer, recursive-descent parser, executor) that runs queries over CSV files and edits them with INSERT, UPDATE and DELETE.",
+      "highlights": ["Joins, grouping, aggregates, UNION, CASE and three-valued NULL logic — no SQLite underneath", "Writes are type-checked and all-or-nothing, and only reach the CSV files when you save", "Parse errors point at the exact character that caused them", "139 tests at 95% coverage, zero dependencies"],
       "topics": ["python", "sql", "parser", "query-engine", "interpreter"],
       "demo": "https://umer-78.github.io/mini-sql-engine/"
     },
@@ -520,6 +520,7 @@ const site = {
       "highlights": [
         "Works offline as an installed app (service worker, manifest)",
         "Falls back to a second exchange when the first is unreachable",
+        "Tools page: coin/currency converter, a DCA backtest on real daily closes and a stop-loss position sizer",
         "No API keys, no trading, no wallet access"
       ],
       "topics": [
