@@ -94,7 +94,9 @@ assets/favicon.svg
 scripts/data.js       the project list
 scripts/filters.js    search and category selection, no DOM
 scripts/app.js        rendering and events
+scripts/github.js     live stars, last update and CI badge (one cached API call)
 test/filters.test.js  13 tests
+test/github.test.js   4 tests
 ```
 
 ## Licence
