@@ -72,7 +72,7 @@ const site = {
       "category": "Machine learning & AI",
       "language": "Python",
       "summary": "Statistical detectors and an isolation forest for metric data, with scoring built to show how much point-adjusted F1 flatters a detector.",
-      "highlights": ["A random detector is shipped alongside the real ones: pure noise scores 0.46 on point-adjusted F1 while the real detector scores 0.08", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
+      "highlights": ["A random detector is shipped alongside the real ones: pure noise reaches 0.46 on point-adjusted F1, beating the isolation forest's honest 0.42", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
       "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"],
       "demo": "https://umer-78.github.io/anomaly-detection/"
     },
