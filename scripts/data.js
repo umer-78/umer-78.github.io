@@ -461,6 +461,7 @@ const site = {
       "summary": "Kanban board in React and TypeScript with keyboard moves as well as drag and drop, plus inline tags and filtering.",
       "highlights": [
         "Every drag has a keyboard equivalent, so the board works without a mouse",
+        "Cards glide between columns with Motion, and reduced-motion settings are respected",
         "Strict TypeScript, no any",
         "Tested with Vitest and Testing Library"
       ],
