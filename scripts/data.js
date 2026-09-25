@@ -82,7 +82,7 @@ const site = {
       "category": "Machine learning & AI",
       "language": "Python",
       "summary": "Image processing from scratch in NumPy: true convolution kept distinct from correlation, Gaussian and median filters, Otsu thresholding and Canny-style edge detection.",
-      "highlights": ["Convolution and correlation are kept genuinely separate — a test pins down the Sobel sign difference", "The separable Gaussian runs 11× faster and matches the full 2D pass to within 1e-13", "42 tests, three generated sample images"],
+      "highlights": ["Convolution and correlation are kept genuinely separate — a test pins down the Sobel sign difference", "The separable Gaussian does 50 multiplies per pixel instead of 625 — 14.5× faster in the README benchmark — and matches the full 2D pass to within 1e-13", "42 tests, three generated sample images"],
       "topics": ["python", "computer-vision", "numpy", "convolution", "edge-detection"],
       "demo": "https://umer-78.github.io/image-toolkit/"
     },
