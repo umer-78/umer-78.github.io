@@ -521,7 +521,7 @@ const site = {
         "Works offline as an installed app (service worker, manifest)",
         "Falls back to a second exchange when the first is unreachable",
         "Tools page: coin/currency converter, a DCA backtest on real daily closes and a stop-loss position sizer",
-        "No API keys, no trading, no wallet access"
+        "No API keys, never places a trade, and wallet connection is read-only (no signatures)"
       ],
       "topics": [
         "javascript",
