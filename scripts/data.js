@@ -550,6 +550,48 @@ const site = {
         "3d"
       ],
       "demo": "https://umer-78.github.io/GD_PROJECT/"
+    },
+    {
+      "name": "ui-lab",
+      "title": "UI Lab",
+      "category": "Applications & services",
+      "language": "TypeScript",
+      "summary": "Six animation patterns for React with Motion: shared layout, enter and exit, drag, springs, animating to height auto and scroll progress. Each pattern lives in one file.",
+      "highlights": [
+        "Every pattern has a keyboard route and supports reduced motion",
+        "React 19, Motion 13, Tailwind 4 and Vite",
+        "15 tests, run in CI on every push"
+      ],
+      "topics": [
+        "react",
+        "motion",
+        "animation",
+        "typescript",
+        "accessibility",
+        "tailwind"
+      ],
+      "demo": "https://umer-78.github.io/ui-lab/"
+    },
+    {
+      "name": "umer-78-llm-gateway",
+      "title": "LLM Gateway",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "A self-healing gateway in front of several LLM providers: one OpenAI-compatible endpoint with circuit breakers, failover, hedged requests and a queue that waits out outages, with every dollar attributed to a tenant and a feature.",
+      "highlights": [
+        "Through four minutes of scripted provider outages it answered 92.2% of interactive requests, against 74.4% when calling one provider directly, and finished 100% of the deferrable work",
+        "Breaker state lives in Redis, so replicas agree: a hard outage opened one in 1.8 s, and half-open probes closed it 6.2 s after the provider recovered",
+        "The first version's benchmark exposed four design flaws, including hedges that hid a slow provider from its breaker; the README shows each fix and what it changed",
+        "Prometheus metrics, a provisioned Grafana board and a chaos endpoint; CI reruns the outage benchmark on every push"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "fastapi",
+        "redis",
+        "circuit-breaker",
+        "observability"
+      ]
     }
   ]
 };
