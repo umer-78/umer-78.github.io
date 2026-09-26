@@ -571,27 +571,6 @@ const site = {
       "demo": "https://umer-78.github.io/GD_PROJECT/"
     },
     {
-      "name": "ui-lab",
-      "title": "UI Lab",
-      "category": "Applications & services",
-      "language": "TypeScript",
-      "summary": "Six animation patterns for React with Motion: shared layout, enter and exit, drag, springs, animating to height auto and scroll progress. Each pattern lives in one file.",
-      "highlights": [
-        "Every pattern has a keyboard route and supports reduced motion",
-        "React 19, Motion 13, Tailwind 4 and Vite",
-        "15 tests, run in CI on every push"
-      ],
-      "topics": [
-        "react",
-        "motion",
-        "animation",
-        "typescript",
-        "accessibility",
-        "tailwind"
-      ],
-      "demo": "https://umer-78.github.io/ui-lab/"
-    },
-    {
       "name": "umer-78-llm-gateway",
       "title": "LLM Gateway",
       "category": "Machine learning & AI",
