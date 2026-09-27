@@ -654,3 +654,8 @@ mark {
 .orbit-cats button[aria-pressed="true"] { border-color: var(--c); color: var(--text); background: color-mix(in srgb, var(--c) 16%, var(--surface)); }
 @media (prefers-reduced-motion: reduce) { .hero-3d, .orbit-tip, .orbit-key { transition: none; } }
 @media print { .hero-3d, .orbit-tip, .orbit-key { display: none; } }
+
+/* the result count, with a way back to the full list when filtered */
+.count-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.count-row .count { margin-bottom: 0; }
+.count-row { margin-bottom: 14px; }
