@@ -279,7 +279,7 @@ document.addEventListener('portfolio:focus', (event) => {
 document.addEventListener('portfolio:category', (event) => {
   const category = event.detail?.category;
   state.category = site.categories.includes(category) ? category : 'all';
-  withTransition(render);
+  render(); // no view transition: the list is off screen until the scroll below, and capturing the page first only delays it
   document.querySelector('.controls')?.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
 });
 
