@@ -1,6 +1,7 @@
 import site from './data.js';
 import { selectProjects, categoryCounts, languageCounts, terms } from './filters.js';
 import { loadRepoStats, timeAgo, ciBadgeUrl } from './github.js';
+import { categoryVars } from './palette.js';
 
 const cards = document.getElementById('cards');
 const chipsBox = document.getElementById('chips');
@@ -40,6 +41,11 @@ function highlight(text, query) {
 
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** Each card's element id, which is also the link to it: index.html#project-<name>. */
+function cardId(name) {
+  return `project-${name}`;
 }
 
 function repoUrl(project) {
@@ -110,7 +116,8 @@ function renderChips() {
     .map((entry) => {
       const label = entry.name === 'all' ? 'All' : entry.name;
       const pressed = state.category === entry.name;
-      return `<button class="chip" type="button" data-category="${escapeHtml(entry.name)}" aria-pressed="${pressed}">${escapeHtml(label)} <span class="n">${entry.count}</span></button>`;
+      const dot = entry.name === 'all' ? '' : `<i class="dot" style="${categoryVars(entry.name)}" aria-hidden="true"></i>`;
+      return `<button class="chip" type="button" data-category="${escapeHtml(entry.name)}" aria-pressed="${pressed}">${dot}${escapeHtml(label)} <span class="n">${entry.count}</span></button>`;
     })
     .join('');
 }
@@ -144,8 +151,9 @@ function cardHtml(project, index) {
     ? `<a class="shot" href="${escapeHtml(project.demo || repoUrl(project))}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="640" height="260"></a>`
     : '';
 
-  return `<li class="card${project.preview ? ' has-shot' : ''}" style="--i:${Math.min(index, 14)}">
+  return `<li class="card${project.preview ? ' has-shot' : ''}" id="${escapeHtml(cardId(project.name))}" style="--i:${Math.min(index, 14)};${categoryVars(project.category)}">
   ${shot}
+  <p class="cat">${escapeHtml(project.category)}</p>
   <header>
     <h2>${highlight(project.title, state.query)}</h2>
     <span class="lang" style="--lang-color:${langColor}">${escapeHtml(project.language)}</span>
@@ -177,6 +185,8 @@ function render() {
   }
 
   writeUrl();
+  // the hero's 3D scene dims the lights of projects the filters hide
+  document.dispatchEvent(new CustomEvent('portfolio:shown', { detail: { names: shown.map((p) => p.name), category: state.category } }));
 }
 
 /** Keeps the filters in the address bar so a filtered view can be linked to. */
@@ -185,7 +195,7 @@ function writeUrl() {
   if (state.query) params.set('q', state.query);
   if (state.category !== 'all') params.set('c', state.category);
   const query = params.toString();
-  history.replaceState(null, '', query ? `?${query}` : location.pathname);
+  history.replaceState(null, '', (query ? `?${query}` : location.pathname) + location.hash);
 }
 
 function readUrl() {
@@ -230,10 +240,50 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+/** Scrolls a card into view and rings it once in its category's colour. */
+function spotlight(card) {
+  card.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
+  if (reduceMotion() || typeof card.animate !== 'function') return;
+  const color = getComputedStyle(card).getPropertyValue('--cat').trim() || 'rgb(37 99 235)';
+  card.animate([
+    { boxShadow: '0 0 0 0 transparent' },
+    { boxShadow: `0 0 0 3px ${color}, 0 18px 48px color-mix(in srgb, ${color} 35%, transparent)`, offset: 0.25 },
+    { boxShadow: '0 0 0 0 transparent' },
+  ], { duration: 2200, delay: 300, easing: 'ease-out' });
+}
+
+// A light in the hero's 3D scene was clicked: show that project's card, even if a filter hid it.
+document.addEventListener('portfolio:focus', (event) => {
+  const name = event.detail?.name;
+  if (!site.projects.some((p) => p.name === name)) return;
+  if (!document.getElementById(cardId(name))) {
+    state.query = '';
+    state.category = 'all';
+    search.value = '';
+    render();
+  }
+  history.replaceState(null, '', `${location.pathname}${location.search}#${cardId(name)}`);
+  spotlight(document.getElementById(cardId(name)));
+});
+
+// A category in the key under the 3D scene was picked: filter by it and bring the list into view.
+document.addEventListener('portfolio:category', (event) => {
+  const category = event.detail?.category;
+  state.category = site.categories.includes(category) ? category : 'all';
+  withTransition(render);
+  document.querySelector('.controls')?.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
+});
+
 readUrl();
 renderHeader();
 renderChips();
 render();
+
+// A link to one project (index.html#project-<name>) lands on its card once the cards exist.
+if (location.hash.startsWith('#project-')) {
+  const card = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (card) requestAnimationFrame(() => spotlight(card));
+}
 
 loadRepoStats(site.owner).then((stats) => {
   if (!stats) return;

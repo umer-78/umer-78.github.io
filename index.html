@@ -97,77 +97,8 @@ html.mk-pre header.top, html.mk-pre main section, html.mk-pre section.card, html
 </footer>
 
 <script type="module" src="scripts/app.js"></script>
-<!-- three-3d:start v1 -->
-<style>
-  .hero-3d { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
-  .hero-3d.on { opacity: 0.9; }
-  .hero-3d canvas { width: 100% !important; height: 100% !important; display: block; }
-  @media (max-width: 640px) { .hero-3d.on { opacity: 0.45; } }
-</style>
-<script type="module">
-  // Hero background in 3D (three.js): a slowly turning globe of points joined
-  // to their nearest neighbours — one node per skill the projects cover. It
-  // leans toward the pointer, pauses when scrolled away, and holds still for
-  // anyone who asked for reduced motion.
-  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js';
-  const hero = document.querySelector('header.hero');
-  if (hero) {
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let renderer;
-    try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' }); } catch { renderer = null; }
-    if (renderer) {
-      const box = document.createElement('div'); box.className = 'hero-3d'; box.setAttribute('aria-hidden', 'true');
-      box.appendChild(renderer.domElement);
-      hero.insertBefore(box, hero.querySelector('.hero-inner'));
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50); camera.position.z = 6;
-      const accent = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2563eb');
-      const violet = new THREE.Color('#7c3aed');
-      // Fibonacci sphere: evenly spread points
-      const N = 150, R = 2.3, pts = [];
-      for (let i = 0; i < N; i++) {
-        const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), a = i * Math.PI * (3 - Math.sqrt(5));
-        pts.push(new THREE.Vector3(Math.cos(a) * r * R, y * R, Math.sin(a) * r * R));
-      }
-      const pg = new THREE.BufferGeometry().setFromPoints(pts);
-      const colors = new Float32Array(N * 3);
-      pts.forEach((p, i) => { const c = accent.clone().lerp(violet, (p.y / R + 1) / 2); colors.set([c.r, c.g, c.b], i * 3); });
-      pg.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      const globe = new THREE.Group();
-      globe.add(new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.07, vertexColors: true, transparent: true, opacity: 0.95 })));
-      const seg = [];
-      for (let i = 0; i < N; i++) {
-        const near = pts.map((p, j) => [p.distanceTo(pts[i]), j]).filter(([, j]) => j > i).sort((a, b) => a[0] - b[0]).slice(0, 3);
-        for (const [, j] of near) seg.push(pts[i], pts[j]);
-      }
-      globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(seg), new THREE.LineBasicMaterial({ color: accent, transparent: true, opacity: 0.22 })));
-      globe.position.x = 2.2;
-      scene.add(globe);
-      const fit = () => {
-        const w = hero.clientWidth, h = hero.clientHeight; if (!w || !h) return;
-        renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-        globe.position.x = w < 720 ? 0 : 2.9; globe.scale.setScalar(w < 720 ? 0.8 : 0.92);
-      };
-      new ResizeObserver(fit).observe(hero); fit();
-      const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
-      addEventListener('pointermove', (e) => { tilt.tx = (e.clientY / innerHeight - 0.5) * 0.4; tilt.ty = (e.clientX / innerWidth - 0.5) * 0.6; }, { passive: true });
-      let raf = 0, visible = true;
-      function frame() {
-        raf = 0;
-        if (!visible || document.hidden) return;
-        if (!reduce) raf = requestAnimationFrame(frame);
-        tilt.x += (tilt.tx - tilt.x) * 0.05; tilt.y += (tilt.ty - tilt.y) * 0.05;
-        globe.rotation.y += reduce ? 0 : 0.0016;
-        globe.rotation.x = tilt.x; globe.rotation.z = tilt.y * 0.3;
-        renderer.render(scene, camera);
-      }
-      new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !raf) raf = requestAnimationFrame(frame); }).observe(hero);
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && visible && !raf) raf = requestAnimationFrame(frame); });
-      raf = requestAnimationFrame(() => { frame(); box.classList.add('on'); });
-    }
-  }
-</script>
+<!-- three-3d:start v2 -->
+<script type="module" src="scripts/orbit.js"></script>
 <!-- three-3d:end -->
 <!-- motion-kit:body v1 -->
 <script src="https://cdn.jsdelivr.net/npm/motion@13.4.4/dist/motion.js" defer crossorigin="anonymous"></script>
