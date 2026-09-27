@@ -501,7 +501,8 @@ const site = {
         "vite",
         "kanban"
       ],
-      "demo": "https://umer-78.github.io/task-board/"
+      "demo": "https://umer-78.github.io/task-board/",
+      "preview": "assets/previews/task-board.webp"
     },
     {
       "name": "ui-lab",
@@ -520,7 +521,8 @@ const site = {
         "motion",
         "animation"
       ],
-      "demo": "https://umer-78.github.io/ui-lab/"
+      "demo": "https://umer-78.github.io/ui-lab/",
+      "preview": "assets/previews/ui-lab.webp"
     },
     {
       "name": "weather-now",
