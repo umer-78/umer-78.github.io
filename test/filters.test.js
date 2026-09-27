@@ -92,3 +92,10 @@ test('matchesQuery reads the summary, not only the name', () => {
   assert.ok(matchesQuery(ledger, 'Bank Ledger'));
   assert.ok(!matchesQuery(ledger, 'kubernetes'));
 });
+
+test('preview images exist for every project that names one', async () => {
+  const { existsSync } = await import('node:fs');
+  for (const project of site.projects.filter((p) => p.preview)) {
+    assert.ok(existsSync(new URL(`../${project.preview}`, import.meta.url)), `${project.name} preview file`);
+  }
+});

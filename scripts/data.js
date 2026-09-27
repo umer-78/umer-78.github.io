@@ -25,7 +25,8 @@ const site = {
       "summary": "A regex engine I wrote from scratch: a parser, a backtracking matcher, Thompson's NFA and a lazy DFA over one pattern. Catastrophic backtracking becomes something you can measure, not just read about.",
       "highlights": ["On twenty characters, backtracking burns through 16,777,194 steps while the Thompson NFA needs only 592 — reproduce the gap yourself in the live demo", "Python's re module is a backtracking engine too: it takes 25 seconds on the same input at n=28", "The safety checker flags nested quantifiers and ambiguous alternations — the two patterns behind almost every reported ReDoS — and is honest about when it might be wrong", "217 tests, including a differential run of 600 random patterns against Python's re that caught a real bug in the DFA"],
       "topics": ["python", "regex", "nfa", "dfa", "redos", "security"],
-      "demo": "https://umer-78.github.io/regex-engine/"
+      "demo": "https://umer-78.github.io/regex-engine/",
+      "preview": "assets/previews/regex-engine.jpg"
     },
     {
       "name": "route-planner",
@@ -35,7 +36,8 @@ const site = {
       "summary": "Shortest and fastest routes across a real road network. Dijkstra, A* and bidirectional search share one implementation, and every result comes with search statistics so you can see what the algorithm actually did.",
       "highlights": ["The heuristic's admissibility is tested against the actual network — not just asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes plain A* return a route 8% too long", "Weighting the heuristic 1.2 expands more nodes than not weighting it at all: re-expansions cost more than the greed saves", "69 tests; CI regenerates a 1,600-intersection network byte for byte"],
       "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"],
-      "demo": "https://umer-78.github.io/route-planner/"
+      "demo": "https://umer-78.github.io/route-planner/",
+      "preview": "assets/previews/route-planner.jpg"
     },
     {
       "name": "diffkit",
@@ -45,7 +47,8 @@ const site = {
       "summary": "Diff, patch and three-way merge written from scratch in Go. Myers' O(ND) algorithm, patience diff, unified output that matches GNU diff byte for byte, and a diff3-style merge — zero dependencies.",
       "highlights": ["Tests compare output directly against GNU diff, not just round-trip it through our own parser", "The textbook LCS table is 158× slower and uses 59× the memory of Myers' algorithm for the same 11 edits", "Patience diff is never shorter than Myers, but it runs longer on 17.5% of random inputs — up to 2.67× the optimal edit length", "148 tests under -race, 86–100% coverage"],
       "topics": ["go", "diff", "merge", "myers-diff", "cli", "from-scratch"],
-      "demo": "https://umer-78.github.io/diffkit/"
+      "demo": "https://umer-78.github.io/diffkit/",
+      "preview": "assets/previews/diffkit.jpg"
     },
     {
       "name": "pebble-lang",
@@ -55,7 +58,8 @@ const site = {
       "summary": "A small programming language built end to end: lexer, Pratt parser, static scope resolver and tree-walking interpreter, with closures and an interactive REPL.",
       "highlights": ["Run with --no-resolve and you reproduce the closure late-binding bug the resolver fixes — so the difference is measured, not claimed", "Each for-loop iteration gets its own binding: you get [0, 1, 2], not [3, 3, 3]", "217 tests; the call-depth limit is calibrated against a measured 7 host frames per guest call"],
       "topics": ["python", "interpreter", "programming-language", "pratt-parser", "from-scratch"],
-      "demo": "https://umer-78.github.io/pebble-lang/"
+      "demo": "https://umer-78.github.io/pebble-lang/",
+      "preview": "assets/previews/pebble-lang.jpg"
     },
     {
       "name": "text-search",
@@ -65,7 +69,8 @@ const site = {
       "summary": "A search engine built from the index up: positional postings, BM25 ranking, phrase and boolean queries, Porter stemming and typo tolerance. Standard library only, no dependencies.",
       "highlights": ["Textbook BM25 idf goes negative (-1.4351) on a term in 10 of 12 documents, so we use the clamped form instead", "Phrase search keeps the query's own stopword gaps intact — \"state of the art\" matches the full phrase, not just \"state art\"", "115 tests, standard library only"],
       "topics": ["python", "search-engine", "information-retrieval", "bm25", "inverted-index"],
-      "demo": "https://umer-78.github.io/text-search/"
+      "demo": "https://umer-78.github.io/text-search/",
+      "preview": "assets/previews/text-search.jpg"
     },
     {
       "name": "anomaly-detection",
@@ -75,7 +80,8 @@ const site = {
       "summary": "Statistical detectors and an isolation forest for metric data, with scoring built to show how much point-adjusted F1 flatters a detector.",
       "highlights": ["A random detector is shipped alongside the real ones: pure noise reaches 0.46 on point-adjusted F1, beating the isolation forest's honest 0.42", "Thresholds come from training scores, never from the labels being scored", "27 tests, 2,688 labelled hours with four kinds of injected fault"],
       "topics": ["python", "anomaly-detection", "monitoring", "isolation-forest", "time-series"],
-      "demo": "https://umer-78.github.io/anomaly-detection/"
+      "demo": "https://umer-78.github.io/anomaly-detection/",
+      "preview": "assets/previews/anomaly-detection.jpg"
     },
     {
       "name": "image-toolkit",
@@ -85,7 +91,8 @@ const site = {
       "summary": "Image processing from scratch in NumPy: true convolution kept distinct from correlation, Gaussian and median filters, Otsu thresholding and Canny-style edge detection.",
       "highlights": ["Convolution and correlation are kept genuinely separate — a test pins down the Sobel sign difference", "The separable Gaussian does 50 multiplies per pixel instead of 625 — 14.5× faster in the README benchmark — and matches the full 2D pass to within 1e-13", "42 tests, three generated sample images"],
       "topics": ["python", "computer-vision", "numpy", "convolution", "edge-detection"],
-      "demo": "https://umer-78.github.io/image-toolkit/"
+      "demo": "https://umer-78.github.io/image-toolkit/",
+      "preview": "assets/previews/image-toolkit.jpg"
     },
     {
       "name": "gradient-boosting",
@@ -95,7 +102,8 @@ const site = {
       "summary": "Gradient boosting written from scratch: histogram-based trees, Newton leaf values, early stopping and feature importance that doesn't flatter itself.",
       "highlights": ["Every analytic gradient is checked against finite differences", "Gain importance ranks a planted noise column third out of six; permutation importance scores it zero", "38 tests, and early stopping refuses to run without a held-out set"],
       "topics": ["python", "gradient-boosting", "machine-learning", "numpy", "from-scratch"],
-      "demo": "https://umer-78.github.io/gradient-boosting/"
+      "demo": "https://umer-78.github.io/gradient-boosting/",
+      "preview": "assets/previews/gradient-boosting.jpg"
     },
     {
       "name": "timeseries-forecasting",
@@ -105,7 +113,8 @@ const site = {
       "summary": "Baselines, exponential smoothing, parameter search and rolling-origin backtesting. No dependencies, no black boxes.",
       "highlights": ["MASE is scaled by the training window, so a hard test period can't quietly flatter a model", "A test proves no backtest fold ever sees data past its own origin", "50 tests; tuning is scored at the horizon actually being forecast"],
       "topics": ["python", "time-series", "forecasting", "holt-winters", "backtesting"],
-      "demo": "https://umer-78.github.io/timeseries-forecasting/"
+      "demo": "https://umer-78.github.io/timeseries-forecasting/",
+      "preview": "assets/previews/timeseries-forecasting.jpg"
     },
     {
       "name": "recommender-engine",
@@ -115,7 +124,8 @@ const site = {
       "summary": "Popularity and random baselines, item-item collaborative filtering, matrix factorisation and BPR, all scored on a temporal split.",
       "highlights": ["Rating-trained factorisation ranks worse than random; the same model trained with a pairwise loss ranks 13× better", "Split is by time per user — a random split would leak the future", "32 tests; catalogue coverage reported next to ranking accuracy"],
       "topics": ["python", "recommender-system", "collaborative-filtering", "bpr", "ranking"],
-      "demo": "https://umer-78.github.io/recommender-engine/"
+      "demo": "https://umer-78.github.io/recommender-engine/",
+      "preview": "assets/previews/recommender-engine.jpg"
     },
     {
       "name": "password-strength-checker",
@@ -134,7 +144,8 @@ const site = {
         "cli",
         "entropy"
       ],
-      "demo": "https://umer-78.github.io/password-strength-checker/"
+      "demo": "https://umer-78.github.io/password-strength-checker/",
+      "preview": "assets/previews/password-strength-checker.jpg"
     },
     {
       "name": "log-sentinel",
@@ -153,7 +164,8 @@ const site = {
         "ssh",
         "intrusion-detection"
       ],
-      "demo": "https://umer-78.github.io/log-sentinel/"
+      "demo": "https://umer-78.github.io/log-sentinel/",
+      "preview": "assets/previews/log-sentinel.jpg"
     },
     {
       "name": "file-integrity-monitor",
@@ -172,7 +184,8 @@ const site = {
         "hashing",
         "monitoring"
       ],
-      "demo": "https://umer-78.github.io/file-integrity-monitor/"
+      "demo": "https://umer-78.github.io/file-integrity-monitor/",
+      "preview": "assets/previews/file-integrity-monitor.jpg"
     },
     {
       "name": "security-headers-scanner",
@@ -191,7 +204,8 @@ const site = {
         "headers",
         "csp"
       ],
-      "demo": "https://umer-78.github.io/security-headers-scanner/"
+      "demo": "https://umer-78.github.io/security-headers-scanner/",
+      "preview": "assets/previews/security-headers-scanner.jpg"
     },
     {
       "name": "subnet-calculator",
@@ -211,7 +225,8 @@ const site = {
         "ipv4",
         "vlsm"
       ],
-      "demo": "https://umer-78.github.io/subnet-calculator/"
+      "demo": "https://umer-78.github.io/subnet-calculator/",
+      "preview": "assets/previews/subnet-calculator.jpg"
     },
     {
       "name": "customer-churn-prediction",
@@ -230,7 +245,8 @@ const site = {
         "classification",
         "churn"
       ],
-      "demo": "https://umer-78.github.io/customer-churn-prediction/"
+      "demo": "https://umer-78.github.io/customer-churn-prediction/",
+      "preview": "assets/previews/customer-churn-prediction.jpg"
     },
     {
       "name": "neural-network-from-scratch",
@@ -249,7 +265,8 @@ const site = {
         "backpropagation",
         "deep-learning"
       ],
-      "demo": "https://umer-78.github.io/neural-network-from-scratch/"
+      "demo": "https://umer-78.github.io/neural-network-from-scratch/",
+      "preview": "assets/previews/neural-network-from-scratch.jpg"
     },
     {
       "name": "sentiment-analyzer",
@@ -268,7 +285,8 @@ const site = {
         "naive-bayes",
         "text-classification"
       ],
-      "demo": "https://umer-78.github.io/sentiment-analyzer/"
+      "demo": "https://umer-78.github.io/sentiment-analyzer/",
+      "preview": "assets/previews/sentiment-analyzer.jpg"
     },
     {
       "name": "rag-document-qa",
@@ -288,7 +306,8 @@ const site = {
         "bm25",
         "nlp"
       ],
-      "demo": "https://umer-78.github.io/rag-document-qa/"
+      "demo": "https://umer-78.github.io/rag-document-qa/",
+      "preview": "assets/previews/rag-document-qa.jpg"
     },
     {
       "name": "ml-model-serving-api",
@@ -307,7 +326,8 @@ const site = {
         "mlops",
         "rest-api"
       ],
-      "demo": "https://umer-78.github.io/ml-model-serving-api/"
+      "demo": "https://umer-78.github.io/ml-model-serving-api/",
+      "preview": "assets/previews/ml-model-serving-api.jpg"
     },
     {
       "name": "mini-sql-engine",
@@ -317,7 +337,8 @@ const site = {
       "summary": "A SQL engine written from scratch (tokenizer, recursive-descent parser, executor) that runs queries over CSV files and edits them with INSERT, UPDATE and DELETE.",
       "highlights": ["Joins, grouping, aggregates, UNION, CASE and three-valued NULL logic — no SQLite underneath", "Writes are type-checked and all-or-nothing, and only reach the CSV files when you save", "Parse errors point at the exact character that caused them", "139 tests at 95% coverage, zero dependencies"],
       "topics": ["python", "sql", "parser", "query-engine", "interpreter"],
-      "demo": "https://umer-78.github.io/mini-sql-engine/"
+      "demo": "https://umer-78.github.io/mini-sql-engine/",
+      "preview": "assets/previews/mini-sql-engine.jpg"
     },
     {
       "name": "sales-insights",
@@ -337,7 +358,8 @@ const site = {
         "cohort-analysis",
         "rfm"
       ],
-      "demo": "https://umer-78.github.io/sales-insights/"
+      "demo": "https://umer-78.github.io/sales-insights/",
+      "preview": "assets/previews/sales-insights.jpg"
     },
     {
       "name": "ta-indicators",
@@ -356,7 +378,8 @@ const site = {
         "trading",
         "indicators"
       ],
-      "demo": "https://umer-78.github.io/ta-indicators/"
+      "demo": "https://umer-78.github.io/ta-indicators/",
+      "preview": "assets/previews/ta-indicators.jpg"
     },
     {
       "name": "bank-ledger-csharp",
@@ -375,7 +398,8 @@ const site = {
         "ledger",
         "xunit"
       ],
-      "demo": "https://umer-78.github.io/bank-ledger-csharp/"
+      "demo": "https://umer-78.github.io/bank-ledger-csharp/",
+      "preview": "assets/previews/bank-ledger-csharp.jpg"
     },
     {
       "name": "kv-store",
@@ -385,7 +409,8 @@ const site = {
       "summary": "A log-structured key-value store with a write-ahead log, memtable, bloom-filtered SSTables, compaction and crash recovery.",
       "highlights": ["Reading an absent key is 50× faster than a present one — the bloom filter eliminates 82% of negative lookups without touching disk", "A torn record after a crash is discarded; damage mid-file is reported rather than skipped", "56 tests, all passing under the race detector"],
       "topics": ["go", "database", "lsm-tree", "storage-engine", "bloom-filter"],
-      "demo": "https://umer-78.github.io/kv-store/"
+      "demo": "https://umer-78.github.io/kv-store/",
+      "preview": "assets/previews/kv-store.jpg"
     },
     {
       "name": "loadgun",
@@ -395,7 +420,8 @@ const site = {
       "summary": "HTTP load testing tool with a worker pool, rate cap, latency percentiles and histogram, and a non-zero exit code for CI.",
       "highlights": ["Nearest-rank percentiles — p95 is a latency that actually happened, not an interpolation", "Failed requests are counted but kept out of the latency distribution", "48 tests at 88% coverage on the runner, all passing under the race detector"],
       "topics": ["go", "load-testing", "performance", "concurrency", "cli"],
-      "demo": "https://umer-78.github.io/loadgun/"
+      "demo": "https://umer-78.github.io/loadgun/",
+      "preview": "assets/previews/loadgun.jpg"
     },
     {
       "name": "url-shortener-go",
@@ -414,7 +440,8 @@ const site = {
         "rest-api",
         "docker"
       ],
-      "demo": "https://umer-78.github.io/url-shortener-go/"
+      "demo": "https://umer-78.github.io/url-shortener-go/",
+      "preview": "assets/previews/url-shortener-go.jpg"
     },
     {
       "name": "inventory-management-system",
@@ -433,7 +460,8 @@ const site = {
         "inventory",
         "erp"
       ],
-      "demo": "https://umer-78.github.io/inventory-management-system/"
+      "demo": "https://umer-78.github.io/inventory-management-system/",
+      "preview": "assets/previews/inventory-management-system.jpg"
     },
     {
       "name": "project-tracker",
@@ -452,7 +480,8 @@ const site = {
         "project-management",
         "dashboard"
       ],
-      "demo": "https://umer-78.github.io/project-tracker/"
+      "demo": "https://umer-78.github.io/project-tracker/",
+      "preview": "assets/previews/project-tracker.jpg"
     },
     {
       "name": "task-board",
@@ -511,7 +540,8 @@ const site = {
         "open-meteo",
         "dashboard"
       ],
-      "demo": "https://umer-78.github.io/weather-now/"
+      "demo": "https://umer-78.github.io/weather-now/",
+      "preview": "assets/previews/weather-now.jpg"
     },
     {
       "name": "snake-game",
@@ -530,7 +560,8 @@ const site = {
         "game",
         "unit-tested"
       ],
-      "demo": "https://umer-78.github.io/snake-game/"
+      "demo": "https://umer-78.github.io/snake-game/",
+      "preview": "assets/previews/snake-game.jpg"
     },
     {
       "name": "coinvantage",
@@ -572,7 +603,8 @@ const site = {
         "game-development",
         "3d"
       ],
-      "demo": "https://umer-78.github.io/GD_PROJECT/play/"
+      "demo": "https://umer-78.github.io/GD_PROJECT/play/",
+      "preview": "assets/previews/GD_PROJECT.jpg"
     },
     {
       "name": "umer-78-llm-gateway",
@@ -614,7 +646,8 @@ const site = {
         "bm25",
         "legal"
       ],
-      "demo": "https://umer-78.github.io/groundtruth/"
+      "demo": "https://umer-78.github.io/groundtruth/",
+      "preview": "assets/previews/groundtruth.jpg"
     },
     {
       "name": "doorman",
@@ -635,7 +668,8 @@ const site = {
         "guardrails",
         "agents"
       ],
-      "demo": "https://umer-78.github.io/doorman/"
+      "demo": "https://umer-78.github.io/doorman/",
+      "preview": "assets/previews/doorman.jpg"
     },
     {
       "name": "warmstart",
@@ -656,7 +690,8 @@ const site = {
         "onnx",
         "cost"
       ],
-      "demo": "https://umer-78.github.io/warmstart/"
+      "demo": "https://umer-78.github.io/warmstart/",
+      "preview": "assets/previews/warmstart.jpg"
     },
     {
       "name": "llm-cost-autopilot",
@@ -677,7 +712,8 @@ const site = {
         "scikit-learn",
         "helm"
       ],
-      "demo": "https://umer-78.github.io/llm-cost-autopilot/"
+      "demo": "https://umer-78.github.io/llm-cost-autopilot/",
+      "preview": "assets/previews/llm-cost-autopilot.jpg"
     },
     {
       "name": "llm-regression-detector",
@@ -698,7 +734,8 @@ const site = {
         "ci",
         "helm"
       ],
-      "demo": "https://umer-78.github.io/llm-regression-detector/"
+      "demo": "https://umer-78.github.io/llm-regression-detector/",
+      "preview": "assets/previews/llm-regression-detector.jpg"
     },
     {
       "name": "ai-feature-flags",
@@ -719,7 +756,8 @@ const site = {
         "statistics",
         "sequential-testing"
       ],
-      "demo": "https://umer-78.github.io/ai-feature-flags/"
+      "demo": "https://umer-78.github.io/ai-feature-flags/",
+      "preview": "assets/previews/ai-feature-flags.jpg"
     },
     {
       "name": "prompt-ab-platform",
@@ -740,7 +778,8 @@ const site = {
         "bandits",
         "statistics"
       ],
-      "demo": "https://umer-78.github.io/prompt-ab-platform/"
+      "demo": "https://umer-78.github.io/prompt-ab-platform/",
+      "preview": "assets/previews/prompt-ab-platform.jpg"
     },
     {
       "name": "llm-arbitration",
@@ -761,7 +800,8 @@ const site = {
         "calibration",
         "helm"
       ],
-      "demo": "https://umer-78.github.io/llm-arbitration/"
+      "demo": "https://umer-78.github.io/llm-arbitration/",
+      "preview": "assets/previews/llm-arbitration.jpg"
     },
     {
       "name": "judge-calibration",
@@ -782,7 +822,8 @@ const site = {
         "statistics",
         "helm"
       ],
-      "demo": "https://umer-78.github.io/judge-calibration/"
+      "demo": "https://umer-78.github.io/judge-calibration/",
+      "preview": "assets/previews/judge-calibration.jpg"
     },
     {
       "name": "distill",
@@ -803,7 +844,8 @@ const site = {
         "cost",
         "embeddings"
       ],
-      "demo": "https://umer-78.github.io/distill/"
+      "demo": "https://umer-78.github.io/distill/",
+      "preview": "assets/previews/distill.jpg"
     },
     {
       "name": "text-to-sql-guardrails",
@@ -824,7 +866,8 @@ const site = {
         "security",
         "sqlglot"
       ],
-      "demo": "https://umer-78.github.io/text-to-sql-guardrails/"
+      "demo": "https://umer-78.github.io/text-to-sql-guardrails/",
+      "preview": "assets/previews/text-to-sql-guardrails.jpg"
     },
     {
       "name": "pipeline-forensics",
@@ -845,7 +888,8 @@ const site = {
         "evaluation",
         "helm"
       ],
-      "demo": "https://umer-78.github.io/pipeline-forensics/"
+      "demo": "https://umer-78.github.io/pipeline-forensics/",
+      "preview": "assets/previews/pipeline-forensics.jpg"
     },
     {
       "name": "self-healing-docs",
@@ -866,7 +910,8 @@ const site = {
         "git",
         "ci"
       ],
-      "demo": "https://umer-78.github.io/self-healing-docs/"
+      "demo": "https://umer-78.github.io/self-healing-docs/",
+      "preview": "assets/previews/self-healing-docs.jpg"
     },
     {
       "name": "eval-dataset-generator",
@@ -887,7 +932,8 @@ const site = {
         "clustering",
         "pii"
       ],
-      "demo": "https://umer-78.github.io/eval-dataset-generator/"
+      "demo": "https://umer-78.github.io/eval-dataset-generator/",
+      "preview": "assets/previews/eval-dataset-generator.jpg"
     },
     {
       "name": "casefile",
@@ -908,7 +954,8 @@ const site = {
         "sqlite",
         "human-in-the-loop"
       ],
-      "demo": "https://umer-78.github.io/casefile/"
+      "demo": "https://umer-78.github.io/casefile/",
+      "preview": "assets/previews/casefile.jpg"
     },
     {
       "name": "graph-rag",
@@ -929,7 +976,8 @@ const site = {
         "embeddings",
         "llm"
       ],
-      "demo": "https://umer-78.github.io/graph-rag/"
+      "demo": "https://umer-78.github.io/graph-rag/",
+      "preview": "assets/previews/graph-rag.jpg"
     },
     {
       "name": "research-agents",
@@ -950,7 +998,8 @@ const site = {
         "tracing",
         "sqlite"
       ],
-      "demo": "https://umer-78.github.io/research-agents/"
+      "demo": "https://umer-78.github.io/research-agents/",
+      "preview": "assets/previews/research-agents.jpg"
     },
     {
       "name": "slotfill",
@@ -971,7 +1020,8 @@ const site = {
         "schema",
         "llm"
       ],
-      "demo": "https://umer-78.github.io/slotfill/"
+      "demo": "https://umer-78.github.io/slotfill/",
+      "preview": "assets/previews/slotfill.jpg"
     },
     {
       "name": "fieldnote",
@@ -992,7 +1042,8 @@ const site = {
         "retrieval",
         "llm"
       ],
-      "demo": "https://umer-78.github.io/fieldnote/"
+      "demo": "https://umer-78.github.io/fieldnote/",
+      "preview": "assets/previews/fieldnote.jpg"
     }
   ]
 };
