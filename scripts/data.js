@@ -676,7 +676,8 @@ const site = {
         "cost",
         "scikit-learn",
         "helm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/llm-cost-autopilot/"
     },
     {
       "name": "llm-regression-detector",
@@ -696,7 +697,8 @@ const site = {
         "statistics",
         "ci",
         "helm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/llm-regression-detector/"
     },
     {
       "name": "ai-feature-flags",
@@ -716,7 +718,8 @@ const site = {
         "canary",
         "statistics",
         "sequential-testing"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/ai-feature-flags/"
     },
     {
       "name": "prompt-ab-platform",
@@ -736,7 +739,8 @@ const site = {
         "ab-testing",
         "bandits",
         "statistics"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/prompt-ab-platform/"
     },
     {
       "name": "llm-arbitration",
@@ -756,7 +760,8 @@ const site = {
         "agents",
         "calibration",
         "helm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/llm-arbitration/"
     },
     {
       "name": "judge-calibration",
@@ -776,7 +781,8 @@ const site = {
         "evaluation",
         "statistics",
         "helm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/judge-calibration/"
     },
     {
       "name": "distill",
@@ -796,7 +802,8 @@ const site = {
         "onnx",
         "cost",
         "embeddings"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/distill/"
     },
     {
       "name": "text-to-sql-guardrails",
@@ -816,7 +823,8 @@ const site = {
         "sqlite",
         "security",
         "sqlglot"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/text-to-sql-guardrails/"
     },
     {
       "name": "pipeline-forensics",
@@ -836,7 +844,8 @@ const site = {
         "tracing",
         "evaluation",
         "helm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/pipeline-forensics/"
     },
     {
       "name": "self-healing-docs",
@@ -856,7 +865,8 @@ const site = {
         "ast",
         "git",
         "ci"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/self-healing-docs/"
     },
     {
       "name": "eval-dataset-generator",
@@ -876,7 +886,8 @@ const site = {
         "sampling",
         "clustering",
         "pii"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/eval-dataset-generator/"
     },
     {
       "name": "casefile",
@@ -896,7 +907,8 @@ const site = {
         "orchestration",
         "sqlite",
         "human-in-the-loop"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/casefile/"
     },
     {
       "name": "graph-rag",
@@ -916,7 +928,8 @@ const site = {
         "retrieval",
         "embeddings",
         "llm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/graph-rag/"
     },
     {
       "name": "research-agents",
@@ -927,7 +940,7 @@ const site = {
       "highlights": [
         "Answered 94% of sub-questions with 15% of tool calls failing, and reported the rest as gaps instead of guessing",
         "20 of 20 runs killed at a random step resumed from the store to the same report",
-        "Budgets held: median 4,741 tokens against a 20,000 ceiling, one send-back at most"
+        "Budgets held: median 4,706 tokens against a 20,000 ceiling, one send-back at most"
       ],
       "topics": [
         "python",
@@ -936,7 +949,8 @@ const site = {
         "research",
         "tracing",
         "sqlite"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/research-agents/"
     },
     {
       "name": "slotfill",
@@ -956,7 +970,8 @@ const site = {
         "scikit-learn",
         "schema",
         "llm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/slotfill/"
     },
     {
       "name": "fieldnote",
@@ -976,7 +991,8 @@ const site = {
         "ocr",
         "retrieval",
         "llm"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/fieldnote/"
     }
   ]
 };
