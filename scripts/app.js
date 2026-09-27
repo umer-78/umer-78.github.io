@@ -148,7 +148,7 @@ function cardHtml(project, index) {
   const langColor = LANG_COLORS[project.language] || 'var(--accent)';
   // a still of the demo's 3D header; decorative, since the title and summary say the same
   const shot = project.preview
-    ? `<a class="shot" href="${escapeHtml(project.demo || repoUrl(project))}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="640" height="260"></a>`
+    ? `<a class="shot" href="${escapeHtml(project.demo || repoUrl(project))}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="1280" height="520"></a>`
     : '';
 
   return `<li class="card${project.preview ? ' has-shot' : ''}" id="${escapeHtml(cardId(project.name))}" style="--i:${Math.min(index, 14)};${categoryVars(project.category)}">
