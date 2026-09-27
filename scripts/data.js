@@ -6,11 +6,12 @@
 const site = {
   "owner": "umer-78",
   "name": "Umer Hashmi",
-  "tagline": "I build security tools, machine learning systems and applications that hold up when you put them through real tests.",
+  "tagline": "I build security tools, machine learning and LLM systems, and applications that hold up when you put them through real tests.",
   "intro": "Every project below runs today. You'll find real output in the README, a test suite that catches regressions, and CI that proves it builds on a clean machine. Click through to the code.",
   "categories": [
     "Security & networking",
     "Machine learning & AI",
+    "LLM engineering",
     "Data & analytics",
     "Applications & services",
     "Games & interactive"
@@ -553,27 +554,30 @@ const site = {
     },
     {
       "name": "GD_PROJECT",
-      "title": "3D Maze Game",
+      "title": "Treasure Hunt",
       "category": "Games & interactive",
-      "language": "C#",
-      "summary": "Unity 3D maze game: five hand-built levels, NavMesh guards that check line of sight before firing, moving obstacles, and coins that unlock the exit door. Playable in the browser.",
+      "language": "JavaScript",
+      "summary": "A 3D maze game: five temple levels of seeded mazes, sentries whose line of sight is drawn on the floor and cut off by walls, telegraphed spike traps, and coins that open the exit. Built in Unity with C#, and ported to three.js so it plays in any browser.",
       "highlights": [
-        "Five hand-built levels, each with moving or rotating obstacles that damage the player on contact",
-        "Enemies check line of sight before firing",
-        "Per-scene game manager: levels reset cleanly instead of leaking state"
+        "Sentries turn red when they see you, charge for 0.75 s, then fire a slow orb; every hit is named on screen with an arrow to where it came from",
+        "A third-person camera that always stays above the wall tops, so it never ends up inside a wall; the explorer shows through walls as a silhouette",
+        "Keyboard, touch or gamepad, a map that fills in as you explore, and about 220 KB to download",
+        "11 of its tests drive the real game in a headless browser"
       ],
       "topics": [
+        "threejs",
+        "javascript",
         "unity",
         "csharp",
         "game-development",
         "3d"
       ],
-      "demo": "https://umer-78.github.io/GD_PROJECT/"
+      "demo": "https://umer-78.github.io/GD_PROJECT/play/"
     },
     {
       "name": "umer-78-llm-gateway",
       "title": "LLM Gateway",
-      "category": "Machine learning & AI",
+      "category": "LLM engineering",
       "language": "Python",
       "summary": "A self-healing gateway in front of several LLM providers: one OpenAI-compatible endpoint with circuit breakers, failover, hedged requests and a queue that waits out outages, with every dollar attributed to a tenant and a feature.",
       "highlights": [
@@ -589,6 +593,389 @@ const site = {
         "redis",
         "circuit-breaker",
         "observability"
+      ]
+    },
+    {
+      "name": "groundtruth",
+      "title": "Groundtruth",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A retrieval evaluation harness for a legal research assistant: 100 questions over 510 real contracts (CUAD), each answered by passages lawyers labelled, so a retrieval change is measured instead of argued.",
+      "highlights": [
+        "The configuration it recommends puts the labelled passage in the top 10 for 70.0% of questions, against 36.8% for plain BM25",
+        "Chunking, hybrid retrieval, a reranker and contract expansion compared on recall, MRR, nDCG and latency on the same questions",
+        "CI fails any change that costs more than a point of recall"
+      ],
+      "topics": [
+        "python",
+        "rag",
+        "retrieval",
+        "evaluation",
+        "bm25",
+        "legal"
+      ],
+      "demo": "https://umer-78.github.io/groundtruth/"
+    },
+    {
+      "name": "doorman",
+      "title": "Doorman",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Prompt-injection defences for an AI recruiting agent that reads applicants' resumes and pages, measured against 60 red-team attacks and 303 injections written by other people, with a model that obeys any instruction it can read.",
+      "highlights": [
+        "Isolating what the agent reads from what it may do stopped 60 of 60 suite attacks and 303 of 303 held-out ones, with no benign application flagged",
+        "Input filtering alone still let 15% of the held-out injections through; hidden-text stripping alone stopped half the suite and none of the held-out set",
+        "The live demo opens each attack's PDF and shows what every defence did"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "security",
+        "prompt-injection",
+        "guardrails",
+        "agents"
+      ],
+      "demo": "https://umer-78.github.io/doorman/"
+    },
+    {
+      "name": "warmstart",
+      "title": "Warmstart",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A semantic cache for a bank's LLM support assistant at 400,000 questions a month: exact and paraphrase hits, answers built from one customer's account kept away from everyone else, and invalidation when the prompt or fee schedule changes.",
+      "highlights": [
+        "Replayed on 10,000 real support questions it answered 29.4% from the cache and cut the cost per 1,000 questions from $6.72 to $2.61",
+        "4 wrong answers (0.65% of paraphrase hits) thanks to a neighbour-agreement check; a similarity threshold alone could not get under 1%",
+        "Leaked nothing across customers and served nothing stale after a change"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "caching",
+        "embeddings",
+        "onnx",
+        "cost"
+      ],
+      "demo": "https://umer-78.github.io/warmstart/"
+    },
+    {
+      "name": "llm-cost-autopilot",
+      "title": "LLM Cost Autopilot",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A router that sends each LLM request to the cheapest model likely to get it right, trained and measured on 4,551 questions whose answers from six models were recorded by HELM Lite.",
+      "highlights": [
+        "Matched GPT-4o's accuracy (77.8% against 77.6%) at 23% of the cost with US-hosted models, and at 10.5% when DeepSeek-V3 is allowed",
+        "Beats a cascade and a fixed task-to-model map on the same held-out questions",
+        "CI fails if the router drops more than a point below GPT-4o or loses its saving"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "routing",
+        "cost",
+        "scikit-learn",
+        "helm"
+      ]
+    },
+    {
+      "name": "llm-regression-detector",
+      "title": "LLM Regression Detector",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Catches the tasks a model upgrade breaks before it ships: every question is compared across the old and new version, McNemar's exact test with Holm's correction decides per task, and CI fails on a regression of 2+ points.",
+      "highlights": [
+        "On Llama 3 → 3.1 70B, overall accuracy moved 0.7 points while legal questions fell from 69.2% to 58.3%; the detector flags it, an average would not",
+        "Six real upgrades replayed from HELM Lite's recorded answers, with the broken questions shown for each regression",
+        "A demo branch shows the CI gate failing on that upgrade"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "evaluation",
+        "statistics",
+        "ci",
+        "helm"
+      ]
+    },
+    {
+      "name": "ai-feature-flags",
+      "title": "AI Feature Flags",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Feature flags for AI features: roll a new model or prompt out to 1, 5, 25 and 50% of users, compare it with the current one while the rollout runs, and roll back automatically when it is measurably worse, overall or in any segment.",
+      "highlights": [
+        "Rolled back the three clearly worse model upgrades in 100 of 100 replays, after 5 to 42 extra wrong answers, against 563 to 6,574 for switching everyone at once",
+        "An always-valid sequential test: with an identical candidate it rolled back 3.8% of rollouts, where re-running an ordinary test every 50 requests rolled back 45.9%",
+        "Per-segment guardrails caught Llama 3.1's legal regression in 100 of 100 replays; the overall score alone caught it once"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "feature-flags",
+        "canary",
+        "statistics",
+        "sequential-testing"
+      ]
+    },
+    {
+      "name": "prompt-ab-platform",
+      "title": "Prompt A/B Platform",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A/B/n testing for prompts: versioned templates, uniform or Thompson-sampling allocation, and an always-valid test that drops losing prompts while the experiment runs. Measured on HELM's recorded prompt ablations.",
+      "highlights": [
+        "The prompt format alone moved accuracy by up to 63.8 points (GPT-J 6B on toxicity: 12.4% to 76.2%)",
+        "A uniform split chose a prompt within a point of the best in 99.0% of replays; Thompson sampling lost a third as much on the way but never isolated one winner",
+        "With identical prompts, 1.3% of runs wrongly dropped one, under the 5% bound"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "prompts",
+        "ab-testing",
+        "bandits",
+        "statistics"
+      ]
+    },
+    {
+      "name": "llm-arbitration",
+      "title": "LLM Arbitration",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A second opinion on LLM answers: a panel of critics checks each answer in parallel, disagreements are flagged, and an adjudicator weighs each critic by its record to return a calibrated verdict, with an audit log.",
+      "highlights": [
+        "Verdicts separate right from wrong answers with an AUROC of 0.79 to 0.96, and their probabilities are calibrated (error 0.04 to 0.08)",
+        "Weighing critics beats counting them: 57% of Llama 3.1 70B's wrong answers caught, against 43% for a majority vote, at the same precision",
+        "When the panel splits, the answer is right only 43 to 64% of the time: disagreement is the signal"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "evaluation",
+        "agents",
+        "calibration",
+        "helm"
+      ]
+    },
+    {
+      "name": "judge-calibration",
+      "title": "Judge Calibration",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "How far can an LLM judge be trusted? GPT-4 as a judge against two pools of human raters on 1,399 real outputs: weighted kappa, length and self-preference bias, and a calibration tested on raters it never saw.",
+      "highlights": [
+        "The judge agrees with each human pool about as well as the pools agree with each other",
+        "On completeness it favours its own model family by 0.38 points beyond what humans do; its apparent preference on helpfulness disappears once human noise is accounted for",
+        "Quantile mapping onto the human scale raised helpfulness kappa from 0.36 to 0.44"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "llm-as-judge",
+        "evaluation",
+        "statistics",
+        "helm"
+      ]
+    },
+    {
+      "name": "distill",
+      "title": "Distill",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Distils a frontier model's labels into a small model that runs on a CPU, and finds the request volume above which owning it beats renting the teacher.",
+      "highlights": [
+        "The bge-small student reaches 94.9% on held-out movie reviews, against 95.3% for GPT-3.5 Turbo, and agrees with it 93% of the time",
+        "Owning is cheaper above 16,865 requests a month, labelling cost included",
+        "The same student trained on human labels scores 94.4%: distillation gave nothing up here"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "distillation",
+        "onnx",
+        "cost",
+        "embeddings"
+      ]
+    },
+    {
+      "name": "text-to-sql-guardrails",
+      "title": "Text-to-SQL Guardrails",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Two layers between LLM-written SQL and a database: a guard that parses every query and blocks writes, admin statements, invented tables and columns, withheld columns and expensive plans, and a sandbox where the database itself refuses.",
+      "highlights": [
+        "Together they stopped 40 of 40 attacks, and all 20 ordinary analytics queries ran",
+        "No Spider gold query was blocked wrongly, and 308 of 308 planted hallucinated columns were caught before running",
+        "The sandbox alone stops 38 of the 40 attacks, so either layer can miss without harm"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "sql",
+        "sqlite",
+        "security",
+        "sqlglot"
+      ]
+    },
+    {
+      "name": "pipeline-forensics",
+      "title": "Pipeline Forensics",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Traces multi-step AI pipelines span by span and blames the step a bad answer came from, with failures fed back into an evaluation set.",
+      "highlights": [
+        "Gemini 1.5 Flash 002's 46-point maths 'regression': 98% of the broken questions were cut off by a stop sequence added between benchmark releases",
+        "32 to 40% of two Gemini versions' failures were the harness extracting the wrong number from a right answer",
+        "Faults injected on purpose into real traces are blamed on the right step every time"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "observability",
+        "tracing",
+        "evaluation",
+        "helm"
+      ]
+    },
+    {
+      "name": "self-healing-docs",
+      "title": "Self-Healing Docs",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A GitHub Action that fails a pull request whose API changes leave documentation wrong, says which sections and why, and patches renames.",
+      "highlights": [
+        "Replayed over httpx's whole history: of 38 breaking changes the docs used, 13 were documented in the same commit and 33 sections went stale, for a median of 52 days",
+        "Found two sections still wrong in httpx's docs today; its 3 false alarms are listed in the README",
+        "Its rename fix matched the maintainers' own edit in 8 of 11 cases"
+      ],
+      "topics": [
+        "python",
+        "github-actions",
+        "documentation",
+        "ast",
+        "git",
+        "ci"
+      ]
+    },
+    {
+      "name": "eval-dataset-generator",
+      "title": "Eval Dataset Generator",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Turns production LLM logs into an evaluation set worth labelling: redaction, near-duplicate collapsing, clustering into request types, and sampling that finds failures while still estimating quality without bias.",
+      "highlights": [
+        "Boosting toward low-confidence answers captured 25.6 of the model's failures per 200 labelled cases, against 14.8 for a uniform sample",
+        "Weighted by inclusion probability the estimate stays unbiased (-0.16 points); averaging the same set naively is off by 5.5",
+        "Outliers fail three times as often as clustered traffic (12.6% against 4.3%)"
+      ],
+      "topics": [
+        "python",
+        "llm",
+        "evaluation",
+        "sampling",
+        "clustering",
+        "pii"
+      ]
+    },
+    {
+      "name": "casefile",
+      "title": "Casefile",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Multi-agent claims triage that stays bounded: a supervisor over extractor, investigator and reviewer agents, typed handoffs, a snapshot per step, cost ceilings enforced in code, and a human gate on every payout.",
+      "highlights": [
+        "Across 900 claims every run stopped, the longest after 9 of 10 allowed steps, and no claim crossed its cost ceiling",
+        "A claim resumed from a stored snapshot reached the same end state; the reviewer sent 290 claims back and they still finished",
+        "Planted problems caught 89 to 100% with no false flags; the claims are synthetic because real ones are private"
+      ],
+      "topics": [
+        "python",
+        "agents",
+        "llm",
+        "orchestration",
+        "sqlite",
+        "human-in-the-loop"
+      ]
+    },
+    {
+      "name": "graph-rag",
+      "title": "Graph RAG",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Knowledge-graph and vector retrieval over the same chunks with a router, for questions that need hops the question never names. Built on the top 500 Python packages' PyPI records.",
+      "highlights": [
+        "Vector search found 38.3% of what hop questions need; routed retrieval found 99.7%",
+        "Entity resolution (PEP 503 names, aliases) links 1,112 of 1,231 dependency mentions, against 1,042 taken as written",
+        "Idempotent upserts, and every graph answer cites the chunk behind its edge"
+      ],
+      "topics": [
+        "python",
+        "rag",
+        "knowledge-graph",
+        "retrieval",
+        "embeddings",
+        "llm"
+      ]
+    },
+    {
+      "name": "research-agents",
+      "title": "Research Agents",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "A multi-agent research assistant built around durable state, budgets enforced in the graph and step-level tracing, with every finding carrying its source, snippet and retrieval time.",
+      "highlights": [
+        "Answered 94% of sub-questions with 15% of tool calls failing, and reported the rest as gaps instead of guessing",
+        "20 of 20 runs killed at a random step resumed from the store to the same report",
+        "Budgets held: median 4,741 tokens against a 20,000 ceiling, one send-back at most"
+      ],
+      "topics": [
+        "python",
+        "agents",
+        "llm",
+        "research",
+        "tracing",
+        "sqlite"
+      ]
+    },
+    {
+      "name": "slotfill",
+      "title": "Slotfill",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Strict-schema extraction from noisy scanned documents: a small trained extractor against hand-written rules, with schema validity, field accuracy, latency and cost on 200 held-out receipts.",
+      "highlights": [
+        "98.5% of outputs validate against the schema, against 83.5% for the rules; totals right 94% of the time and dates 98%",
+        "Under 4 ms per receipt on a CPU; company and address are capped by OCR errors, and the README measures that ceiling",
+        "Joining OCR boxes into printed rows took total accuracy from 43% to 94%"
+      ],
+      "topics": [
+        "python",
+        "extraction",
+        "ocr",
+        "scikit-learn",
+        "schema",
+        "llm"
+      ]
+    },
+    {
+      "name": "fieldnote",
+      "title": "Fieldnote",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Answers whose evidence exists only inside a picture: page images indexed through their own encoder (OCR run locally), retrieval across modalities, and every answer returned with a crop of where it came from.",
+      "highlights": [
+        "The right scanned receipt comes first for 87.5% of total questions and is in the top 5 for 99%",
+        "63.5% of totals read correctly end to end, against 69% with a perfect transcription",
+        "Every answer is cited with its row's crop; p95 query latency 2.3 ms at k = 20"
+      ],
+      "topics": [
+        "python",
+        "rag",
+        "multimodal",
+        "ocr",
+        "retrieval",
+        "llm"
       ]
     }
   ]
