@@ -7,8 +7,9 @@ search, category filters and links to the code and the live demos.
 
 **Live: https://umer-78.github.io/**
 
-No framework, no build step, no dependencies. It is three files of HTML, CSS and
-ES modules, and it loads in one request plus three static assets.
+No framework, no build step, nothing to install. It is HTML, CSS and ES modules.
+The 3D header loads three.js from a CDN; without it, or without WebGL, the page is
+the same list on a plain gradient.
 
 ## Why it is built this way
 
@@ -27,7 +28,7 @@ Same functions in the browser and in the tests.
 ```bash
 git clone https://github.com/umer-78/umer-78.github.io.git
 cd umer-78.github.io
-npm test              # 17 tests, no dependencies to install
+npm test              # 21 tests, no dependencies to install
 npm run serve         # http://localhost:8080
 ```
 
@@ -36,8 +37,8 @@ npm run serve         # http://localhost:8080
 
 ```
 $ npm test
-# tests 17
-# pass 17
+# tests 21
+# pass 21
 # fail 0
 ```
 
@@ -53,10 +54,18 @@ goes wrong on a page like this:
 - an empty query selects everything; a nonsense query selects nothing
 - multiple search words are **and**, not **or** — "python security" is narrower than "python"
 - category counts add up to the project total, and appear in the declared order
+- every category has a colour for each theme with at least 3:1 contrast on the page, and a short label for the 3D key
+- every preview image a project names exists
 - live GitHub facts are parsed safely, and a failed or rate-limited request shows nothing rather than zeros
 
 ## Features
 
+- A 3D header (three.js, [`scripts/orbit.js`](scripts/orbit.js)): a glowing core with
+  one orbit per category and one light per project. Hover a light to name the
+  project, click it to jump to its card; the key under it filters by category, and
+  lights dim when the search or a filter hides their project. It pauses off screen,
+  holds still for reduced motion, and sits above the text on phones
+- Every card links to itself (`#project-<name>`), and shows a still of that project's live demo
 - Search across titles, summaries, topics and highlights, with matches highlighted
 - Category chips with live counts
 - Filters are mirrored into the URL, so a filtered view can be linked to and reloaded
@@ -97,8 +106,12 @@ scripts/data.js       the project list
 scripts/filters.js    search and category selection, no DOM
 scripts/app.js        rendering and events
 scripts/github.js     live stars, last update and CI badge (one cached API call)
-test/filters.test.js  13 tests
+scripts/palette.js    one colour per category, for the 3D scene, chips and cards
+scripts/orbit.js      the 3D header
+assets/previews/      a still of each live demo
+test/filters.test.js  14 tests
 test/github.test.js   4 tests
+test/palette.test.js  3 tests
 ```
 
 ## Licence
