@@ -179,6 +179,8 @@ function render() {
   countLine.textContent = shown.length === total
     ? `${total} projects`
     : `${shown.length} of ${total} projects`;
+  // a way back to the full list whenever a search or a category narrows it
+  document.getElementById('showAll').hidden = !state.query && state.category === 'all';
 
   for (const chip of chipsBox.querySelectorAll('.chip')) {
     chip.setAttribute('aria-pressed', String(chip.dataset.category === state.category));
@@ -216,6 +218,13 @@ chipsBox.addEventListener('click', (event) => {
 search.addEventListener('input', () => {
   state.query = search.value;
   render();
+});
+
+document.getElementById('showAll').addEventListener('click', () => {
+  state.query = '';
+  state.category = 'all';
+  search.value = '';
+  withTransition(render);
 });
 
 document.getElementById('clear').addEventListener('click', () => {
