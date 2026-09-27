@@ -1,5 +1,7 @@
 # umer-78.github.io
 
+[![CI](https://github.com/umer-78/umer-78.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/umer-78/umer-78.github.io/actions/workflows/ci.yml)
+
 My project portfolio — a single page listing everything I have published, with
 search, category filters and links to the code and the live demos.
 
