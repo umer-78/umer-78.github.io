@@ -139,8 +139,13 @@ function cardHtml(project, index) {
     ? `<a class="btn primary" href="${escapeHtml(project.demo)}">Live demo</a>`
     : '';
   const langColor = LANG_COLORS[project.language] || 'var(--accent)';
+  // a still of the demo's 3D header; decorative, since the title and summary say the same
+  const shot = project.preview
+    ? `<a class="shot" href="${escapeHtml(project.demo || repoUrl(project))}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="640" height="260"></a>`
+    : '';
 
-  return `<li class="card" style="--i:${Math.min(index, 14)}">
+  return `<li class="card${project.preview ? ' has-shot' : ''}" style="--i:${Math.min(index, 14)}">
+  ${shot}
   <header>
     <h2>${highlight(project.title, state.query)}</h2>
     <span class="lang" style="--lang-color:${langColor}">${escapeHtml(project.language)}</span>
