@@ -627,7 +627,9 @@ const site = {
         "redis",
         "circuit-breaker",
         "observability"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/umer-78-llm-gateway/",
+      "preview": "assets/previews/umer-78-llm-gateway.webp"
     },
     {
       "name": "groundtruth",
