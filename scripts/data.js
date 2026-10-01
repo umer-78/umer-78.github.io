@@ -1046,6 +1046,48 @@ const site = {
       ],
       "demo": "https://umer-78.github.io/fieldnote/",
       "preview": "assets/previews/fieldnote.webp"
+    },
+    {
+      "name": "stocksense",
+      "title": "StockSense",
+      "category": "Data & analytics",
+      "language": "TypeScript",
+      "summary": "Inventory forecasting for Shopify, built as a replacement for Stocky after it shut down in August 2026. It reads a store's real sales history, projects days-to-stockout per variant, and suggests reorder quantities \u2014 with the arithmetic shown behind every number.",
+      "highlights": [
+        "Explainable forecasts: average daily sales, lead-time demand, safety stock, reorder point and suggested order quantity are each shown, not a black-box prediction",
+        "Seasonality is simple day-of-week index math; plan limits, billing and the three mandated GDPR webhooks are all enforced server-side",
+        "90 tests across the forecasting, billing and import logic (velocity, stockout, reorder, seasonality, plans, GDPR, CSV import)",
+        "A Remix + Shopify App Bridge embedded app with Polaris UI and a Prisma data layer"
+      ],
+      "topics": [
+        "typescript",
+        "shopify",
+        "remix",
+        "forecasting",
+        "inventory",
+        "prisma"
+      ]
+    },
+    {
+      "name": "leadflow",
+      "title": "LeadFlow AI",
+      "category": "Applications & services",
+      "language": "TypeScript",
+      "summary": "An autonomous lead-intake system for high-value service clinics: a 24/7 AI receptionist bounded by each clinic's verified guidelines, explainable intent scoring, and multi-day follow-up that halts the moment a lead replies, books or opts out.",
+      "highlights": [
+        "The AI receptionist is held to verified clinic guidelines \u2014 it never invents pricing and refuses medical diagnoses",
+        "Deterministic lead scoring sorts inquiries into HIGH, MEDIUM and LOW intent with a transparent rationale, not an opaque number",
+        "Multi-tenant by construction: each practice's leads, calendar and knowledge base are isolated, checked by an in-app test runner",
+        "Express + Google Gemini on the server, a React and Vite dashboard on the client, Postgres via Drizzle"
+      ],
+      "topics": [
+        "typescript",
+        "llm",
+        "gemini",
+        "automation",
+        "react",
+        "saas"
+      ]
     }
   ]
 };
