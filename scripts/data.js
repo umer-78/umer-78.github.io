@@ -1089,7 +1089,9 @@ const site = {
         "automation",
         "react",
         "saas"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/leadflow/",
+      "preview": "assets/previews/leadflow.webp"
     }
   ]
 };
