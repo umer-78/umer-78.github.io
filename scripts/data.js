@@ -1066,7 +1066,9 @@ const site = {
         "forecasting",
         "inventory",
         "prisma"
-      ]
+      ],
+      "demo": "https://umer-78.github.io/stocksense/",
+      "preview": "assets/previews/stocksense.webp"
     },
     {
       "name": "leadflow",
