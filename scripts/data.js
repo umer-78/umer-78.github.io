@@ -249,6 +249,27 @@ const site = {
       "preview": "assets/previews/customer-churn-prediction.webp"
     },
     {
+      "name": "customer-segmentation-clustering",
+      "title": "Customer Segmentation",
+      "category": "Machine learning & AI",
+      "language": "Python",
+      "summary": "Unsupervised customer segmentation with Ward hierarchical clustering: standardised behavioural features, a dendrogram cut into segments, and three cluster-quality scores — all recomputed live in the browser as you change the number of segments.",
+      "highlights": [
+        "Ward clustering and the silhouette, Davies-Bouldin and Calinski-Harabasz scores run in the browser, matching scikit-learn / SciPy exactly",
+        "A slider re-cuts the dendrogram into 2–8 segments and the scores update live, so the trade-off in choosing k is visible",
+        "Each segment's average customer is shown, turning the clustering into something a business can act on"
+      ],
+      "topics": [
+        "python",
+        "scikit-learn",
+        "clustering",
+        "unsupervised",
+        "segmentation"
+      ],
+      "demo": "https://umer-78.github.io/customer-segmentation-clustering/",
+      "preview": "assets/previews/customer-segmentation-clustering.webp"
+    },
+    {
       "name": "neural-network-from-scratch",
       "title": "Neural Network From Scratch",
       "category": "Machine learning & AI",
