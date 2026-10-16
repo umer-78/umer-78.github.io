@@ -10,20 +10,39 @@
   <meta property="og:description" content="Page not found. Browse projects by Umer Hashmi on the portfolio home.">
   <meta property="og:url" content="https://umer-78.github.io/404.html">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0a0c10" media="(prefers-color-scheme: dark)">
-  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#070708">
+  <meta name="color-scheme" content="dark">
   <meta name="robots" content="noindex">
   <link rel="icon" href="/assets/favicon.svg">
   <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    .lost {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-content: center;
+      gap: 26px;
+      padding: 40px var(--gutter);
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(214, 180, 108, 0.16), transparent 38%),
+        repeating-radial-gradient(circle at 50% 42%, rgba(214, 180, 108, 0.06) 0 1px, transparent 1px 56px),
+        var(--bg);
+    }
+    .lost .display { font-size: clamp(5rem, 20vw, 12rem); line-height: 0.8; margin: 0; }
+    .lost p { margin: 0; color: var(--muted); }
+    .lost .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  </style>
 </head>
 <body>
-  <main id="main" class="wrap" style="max-width:40rem;margin:10vh auto;padding:0 1.25rem">
-    <p class="eyebrow">404</p>
-    <h1>Page not found</h1>
-    <p class="tagline">That link doesn't point at a project page.</p>
-    <p><a class="btn primary" href="/">Back to projects</a>
-       <a class="btn" href="https://github.com/umer-78">GitHub</a></p>
+  <main id="main" class="lost">
+    <p class="kicker">Page not found</p>
+    <h1 class="display"><em>404</em></h1>
+    <p>That link does not lead to a project.</p>
+    <div class="actions">
+      <a class="btn gold" href="/">Back to the gallery</a>
+      <a class="btn ghost" href="https://github.com/umer-78">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
   </main>
 </body>
 </html>

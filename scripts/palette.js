@@ -1,20 +1,24 @@
 /**
- * One colour per category, shared by the hero's 3D orbits, the filter chips and
- * the cards. `light` is the deeper shade that holds contrast on the light theme,
- * `dark` the brighter one for the dark theme. `short` labels the key under the
- * 3D scene, where the full names do not fit.
+ * One gemstone per category, shared by the gallery's monoliths, each project's
+ * environment, the index and the filter chips. The page is a single dark theme,
+ * so each category needs one colour, and it has to hold up as small text on the
+ * page background as well as glow in 3D. `short` labels the key under the
+ * gallery, where the full names do not fit.
  */
+export const PAGE_BACKGROUND = '#070708';
+export const GOLD = '#d6b46c';
+
 export const CATEGORY_STYLE = {
-  'Security & networking': { short: 'Security', light: '#e11d48', dark: '#fb7185' },
-  'Machine learning & AI': { short: 'ML & AI', light: '#7c3aed', dark: '#a78bfa' },
-  'LLM engineering': { short: 'LLM', light: '#0284c7', dark: '#38bdf8' },
-  'Data & analytics': { short: 'Data', light: '#c2410c', dark: '#fbbf24' },
-  'Applications & services': { short: 'Apps', light: '#047857', dark: '#34d399' },
-  'Games & interactive': { short: 'Games', light: '#be185d', dark: '#f472b6' },
+  'Security & networking': { short: 'Security', gem: 'Ruby', color: '#e0566f' },
+  'Machine learning & AI': { short: 'ML & AI', gem: 'Amethyst', color: '#a98be9' },
+  'LLM engineering': { short: 'LLM', gem: 'Sapphire', color: '#6ea6f2' },
+  'Data & analytics': { short: 'Data', gem: 'Topaz', color: '#e9a84c' },
+  'Applications & services': { short: 'Apps', gem: 'Emerald', color: '#4fc897' },
+  'Games & interactive': { short: 'Games', gem: 'Rose quartz', color: '#ee93c0' },
 };
 
-/** Inline custom properties that give an element its category's two shades. */
-export function categoryVars(category) {
+/** Inline custom property that gives an element its category's gem colour. */
+export function gemVars(category) {
   const style = CATEGORY_STYLE[category];
-  return style ? `--c-l:${style.light};--c-d:${style.dark}` : '';
+  return style ? `--gem:${style.color}` : '';
 }
