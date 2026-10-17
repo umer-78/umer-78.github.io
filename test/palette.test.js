@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import site from '../scripts/data.js';
-import { CATEGORY_STYLE, categoryVars } from '../scripts/palette.js';
+import { CATEGORY_STYLE, PAGE_BACKGROUND, GOLD, gemVars } from '../scripts/palette.js';
 
 /** WCAG relative luminance of a #rrggbb colour. */
 function luminance(hex) {
@@ -17,27 +17,30 @@ function contrast(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-test('every category has a colour for each theme and a short, unique label for the 3D key', () => {
+test('every category has a gem, a colour and a short, unique label for the gallery key', () => {
   for (const category of site.categories) {
     const style = CATEGORY_STYLE[category];
-    assert.ok(style, `${category} has no colour`);
-    assert.match(style.light, /^#[0-9a-f]{6}$/);
-    assert.match(style.dark, /^#[0-9a-f]{6}$/);
+    assert.ok(style, `${category} has no style`);
+    assert.match(style.color, /^#[0-9a-f]{6}$/);
+    assert.ok(style.gem, `${category} has no gem`);
     assert.ok(style.short.length <= 8, `${category}: "${style.short}" is too long for the key`);
   }
   const shorts = site.categories.map((c) => CATEGORY_STYLE[c].short);
+  const gems = site.categories.map((c) => CATEGORY_STYLE[c].gem);
   assert.equal(new Set(shorts).size, shorts.length);
+  assert.equal(new Set(gems).size, gems.length);
 });
 
-test('category colours keep at least 3:1 contrast on the page background in both themes', () => {
-  // WCAG 1.4.11 asks 3:1 for graphics that carry meaning, such as these dots and orbits
+test('gem colours and the gold accent are readable as small text on the page background', () => {
+  // the colours label categories in the index, so they are held to the 4.5:1 text ratio, not just 3:1 for graphics
   for (const [category, style] of Object.entries(CATEGORY_STYLE)) {
-    assert.ok(contrast(style.light, '#fafbfc') >= 3, `${category} light ${contrast(style.light, '#fafbfc').toFixed(2)}`);
-    assert.ok(contrast(style.dark, '#0a0c10') >= 3, `${category} dark ${contrast(style.dark, '#0a0c10').toFixed(2)}`);
+    const ratio = contrast(style.color, PAGE_BACKGROUND);
+    assert.ok(ratio >= 4.5, `${category} ${ratio.toFixed(2)}`);
   }
+  assert.ok(contrast(GOLD, PAGE_BACKGROUND) >= 4.5);
 });
 
-test('categoryVars gives both shades, and nothing for an unknown category', () => {
-  assert.equal(categoryVars('LLM engineering'), '--c-l:#0284c7;--c-d:#38bdf8');
-  assert.equal(categoryVars('Nope'), '');
+test('gemVars gives the gem colour, and nothing for an unknown category', () => {
+  assert.equal(gemVars('LLM engineering'), '--gem:#6ea6f2');
+  assert.equal(gemVars('Nope'), '');
 });
