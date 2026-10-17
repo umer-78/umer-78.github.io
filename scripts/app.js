@@ -287,9 +287,12 @@ function envHtml(project, index) {
     .map((point, i) => `<li><span class="num" aria-hidden="true">${romanNumeral(i + 1)}</span><span>${escapeHtml(point)}</span></li>`)
     .join('');
   const tags = (project.topics || []).map((tag) => `<li>${escapeHtml(tag)}</li>`).join('');
-  const shot = project.preview
-    ? `<a class="env-shot" href="${escapeHtml(project.demo || repoUrl(project))}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="1280" height="520"></a>`
-    : '';
+  const target = project.demo || (project.private ? '' : repoUrl(project));
+  const img = project.preview ? `<img src="${escapeHtml(project.preview)}" alt="" loading="lazy" decoding="async" width="1280" height="520">` : '';
+  // the picture links to the demo, or the code; a private project without a demo has neither to offer
+  const shot = !img ? '' : target
+    ? `<a class="env-shot" href="${escapeHtml(target)}" tabindex="-1" aria-hidden="true">${img}</a>`
+    : `<div class="env-shot" aria-hidden="true">${img}</div>`;
   return `<p class="env-kicker"><i class="gem-dot" aria-hidden="true"></i>${escapeHtml(style.gem || '')} · ${escapeHtml(project.category)} · ${escapeHtml(project.language)}</p>
 <h2 class="env-title" id="env-title" tabindex="-1">${escapeHtml(project.title)}</h2>
 <p class="env-world"><em>${escapeHtml(env.title)}</em> — ${escapeHtml(env.line)}</p>
