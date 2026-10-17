@@ -7,7 +7,7 @@ const site = {
   "owner": "umer-78",
   "name": "Umer Hashmi",
   "tagline": "I build security tools, machine learning and LLM systems, and applications that hold up when you put them through real tests.",
-  "intro": "Every project below runs today. You'll find real output in the README, a test suite that catches regressions, and CI that proves it builds on a clean machine. Click through to the code.",
+  "intro": "Every project below runs today, and every public one comes with real output in its README, a test suite that catches regressions, and CI that proves it builds on a clean machine. Click through to the code.",
   "categories": [
     "Security & networking",
     "Machine learning & AI",
@@ -271,7 +271,6 @@ const site = {
         "unsupervised",
         "segmentation"
       ],
-      "demo": "https://umer-78.github.io/customer-segmentation-clustering/",
       "preview": "assets/previews/customer-segmentation-clustering.webp"
     },
     {
