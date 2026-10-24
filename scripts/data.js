@@ -517,12 +517,14 @@ const site = {
       "title": "Weather Now",
       "category": "Applications & services",
       "language": "JavaScript",
-      "summary": "Weather dashboard on the keyless Open-Meteo API: current conditions, hourly strip, seven-day outlook.",
-      "highlights": ["No API key, so it runs anywhere", "Hourly strip starts at the current hour, not at midnight", "Geocoding search with keyboard navigation", "Dew point with a comfort level next to humidity", "19 tests with Node's built-in test runner"],
+      "summary": "Live weather over a 3D sky of the weather itself, with a 10-day forecast, air quality and a globe that zooms down to street level, on the keyless Open-Meteo API.",
+      "highlights": ["A three.js sky drawn from the forecast: sun on its arc, the moon in its real phase, clouds by cover drifting with the real wind, rain, snow, lightning and mist", "A globe that hands over to an OpenStreetMap street map past its last zoom, down to single houses", "Rain check: when rain or snow is next likely in the coming 24 hours", "Air quality, UV, wind with gusts, pressure trend, visibility and moon phase, each with what it means", "No API key, so it runs anywhere", "38 tests with Node's built-in test runner"],
       "topics": [
         "javascript",
         "weather",
         "open-meteo",
+        "threejs",
+        "maps",
         "dashboard"
       ],
       "demo": "https://umer-78.github.io/weather-now/",
