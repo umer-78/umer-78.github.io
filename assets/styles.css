@@ -923,6 +923,7 @@ html:not(.webgl) .env-hint { display: none; }
   .stat { min-width: 0; }
   .hero-key { position: static; grid-row: 3; max-width: none; text-align: left; }
   .gallery-key { justify-content: flex-start; }
+  .scroll-cue { display: none; } /* the key sits at the foot of the hero here, where the cue would cross it */
   .feat { grid-template-columns: minmax(0, 1fr); }
   .feat:nth-child(even) .feat-media { order: 0; }
   .pillars { grid-template-columns: minmax(0, 1fr); }
