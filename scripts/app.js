@@ -474,8 +474,11 @@ if (peek && matchMedia('(hover: hover) and (pointer: fine)').matches) {
     }
     if (img.getAttribute('src') !== project.preview) img.src = project.preview;
     peek.style.setProperty('--gem', CATEGORY_STYLE[project.category]?.color || '');
-    pos.tx = e.clientX + 28;
-    pos.ty = e.clientY - 90;
+    // beside the pointer, flipping to its left near the right edge, never off screen
+    const pw = peek.offsetWidth || 320;
+    const ph = peek.offsetHeight || 180;
+    pos.tx = e.clientX + 28 + pw > innerWidth - 12 ? e.clientX - 28 - pw : e.clientX + 28;
+    pos.ty = Math.min(Math.max(e.clientY - 90, 12), innerHeight - ph - 12);
     if (!peek.classList.contains('on')) {
       pos.x = pos.tx;
       pos.y = pos.ty;
