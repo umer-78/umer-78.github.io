@@ -26,8 +26,10 @@ is the same index on a still background.
   star chart whose shortest path lights up for route planning, a grove of decision
   trees for gradient boosting, a wall of tiles rewritten one window at a time for
   image processing. The project's name seeds everything inside its world (how many
-  dials, which path, how the skyline is laid out), so no two are alike. Drag to look
-  around, scroll to zoom, ← → to travel to the next project, Escape to go back.
+  dials, which path, how the skyline is laid out, its own shade of the category's
+  gem and the angle the camera comes in from), and the name itself is engraved in a
+  ring of gold round it, so no two are alike. Drag to look around, scroll to zoom,
+  ← → to travel to the next project, Escape to go back.
 - **The collection.** The newest work, each with a still of its live demo.
 - **The index.** Every project, searchable across titles, summaries, topics and
   highlights, with category chips, live counts, and a still of the demo that

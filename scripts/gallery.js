@@ -397,8 +397,10 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
   function placeTip() {
     if (!hovered || !label) return;
     tipAt.set(Math.sin(hovered.angle) * RADIUS, PLINTH + hovered.height + 0.55, Math.cos(hovered.angle) * RADIUS).project(camera);
-    const x = (tipAt.x * 0.5 + 0.5) * width;
-    const y = (-tipAt.y * 0.5 + 0.5) * height;
+    const w = tip.offsetWidth || 200;
+    const h = tip.offsetHeight || 80;
+    const x = Math.min(Math.max((tipAt.x * 0.5 + 0.5) * width, w / 2 + 12), width - w / 2 - 12);
+    const y = Math.max((-tipAt.y * 0.5 + 0.5) * height, h + 86);
     tip.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
   }
 
@@ -412,9 +414,10 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
     orbit += dt * 0.03;
 
     const portrait = width / height < 0.9;
-    const dist = (portrait ? 31 : 25) + scrollP * 2;
-    const a = orbit + pointer.sx * 0.12;
-    camera.position.set(Math.sin(a) * dist, 8.2 + pointer.sy * 0.8 + scrollP * 3.5, Math.cos(a) * dist);
+    const arrive = 1 - Math.pow(1 - Math.min(1, t / 3.4), 3); // 0 → 1 over the first seconds
+    const dist = ((portrait ? 31 : 25) + scrollP * 2) * (1 + 0.55 * (1 - arrive));
+    const a = orbit + pointer.sx * 0.12 - 0.9 * (1 - arrive);
+    camera.position.set(Math.sin(a) * dist, 8.2 + pointer.sy * 0.8 + scrollP * 3.5 + 7 * (1 - arrive), Math.cos(a) * dist);
     target.set(0, 1.1 - scrollP * 0.8, 0);
     if (fly) {
       if (fly.t0 === null) fly.t0 = t;

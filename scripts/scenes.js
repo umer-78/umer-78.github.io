@@ -35,7 +35,16 @@ const HAIR = /* glsl */ `
 float hair(float v, float w) { float d = abs(fract(v + 0.5) - 0.5); return 1.0 - smoothstep(0.0, fwidth(v) * w, d); }`;
 
 export function createEnvironment({ envMap, quality, pixelRatio }, project, env, color) {
+  // every project gets its own shade of its category's gem, and its own vantage point (below)
+  const own = mulberry32(env.seed ^ 0x5bd1e995);
   const gem = new THREE.Color(color);
+  const hsl = {};
+  gem.getHSL(hsl);
+  gem.setHSL(
+    (hsl.h + (own() - 0.5) * 0.07 + 1) % 1,
+    Math.min(1, hsl.s * (0.9 + own() * 0.2)),
+    Math.min(0.8, Math.max(0.45, hsl.l + (own() - 0.5) * 0.1)),
+  );
   const scene = new THREE.Scene();
   const bg = new THREE.Color('#050506').lerp(gem, 0.05);
   scene.background = bg;
@@ -51,12 +60,30 @@ export function createEnvironment({ envMap, quality, pixelRatio }, project, env,
     maxPolar: Math.PI * 0.49, spin: 0.3, fog: [16, 54], dust: 1, floor: null, ...world.view,
   };
   camera.fov = view.fov;
-  camera.position.set(...view.position);
+  // turn the builder's viewpoint by up to 26° round the target, and raise or pull it back a little
+  const turn = (own() - 0.5) * 0.9;
+  const lift = 0.85 + own() * 0.3;
+  const reach = 0.92 + own() * 0.16;
+  const [tx, ty, tz] = view.target;
+  const dx = view.position[0] - tx;
+  const dz = view.position[2] - tz;
+  camera.position.set(
+    tx + (dx * Math.cos(turn) - dz * Math.sin(turn)) * reach,
+    ty + (view.position[1] - ty) * lift * reach,
+    tz + (dx * Math.sin(turn) + dz * Math.cos(turn)) * reach,
+  );
+  view.position = camera.position.toArray();
   camera.lookAt(...view.target);
   scene.fog = new THREE.Fog(bg, view.fog[0], view.fog[1]);
   k.lights();
   if (view.floor) k.floor(view.floor);
   if (view.dust) k.dust(view.dust);
+  if (view.ring !== false) {
+    const ring = view.floor
+      ? { y: view.floor.y + 0.015, radius: Math.min(view.floor.radius * 0.45, 9.5) }
+      : { y: -3.8, radius: 8 };
+    k.inscription({ ...ring, ...(view.ring || {}), text: `${project.title} · ${env.title} · Nº ${String(env.edition).padStart(2, '0')}` });
+  }
 
   return {
     scene,
@@ -174,6 +201,66 @@ function makeKit(scene, gem, rng, q, time, bg, pr) {
       mesh.rotation.x = -Math.PI / 2;
       mesh.position.y = y;
       scene.add(mesh);
+    },
+    /** The project's name engraved in gold round its world, turning slowly. */
+    inscription({ y, radius, x = 0, z = 0, text, band = 0.5 }) {
+      const font = '600 56px Manrope, system-ui, sans-serif';
+      const label = [...`${text.toUpperCase()}   ·   `];
+      const measure = document.createElement('canvas').getContext('2d');
+      measure.font = font;
+      const widths = label.map((ch) => measure.measureText(ch).width + 12);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.ceil(widths.reduce((sum, w) => sum + w, 0));
+      canvas.height = 96;
+      const g = canvas.getContext('2d');
+      g.font = font;
+      g.fillStyle = '#fff';
+      g.textBaseline = 'middle';
+      let at = 0;
+      label.forEach((ch, i) => {
+        g.fillText(ch, at, 50);
+        at += widths[i];
+      });
+      const map = k.own(new THREE.CanvasTexture(canvas));
+      map.wrapS = THREE.RepeatWrapping;
+      const r0 = radius - band / 2;
+      const r1 = radius + band / 2;
+      const mat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+        uniforms: {
+          uMap: { value: map }, uR0: { value: r0 }, uR1: { value: r1 }, uGold: { value: k.gold },
+          uRepeats: { value: Math.max(1, Math.round((TAU * radius) / (band * (canvas.width / canvas.height)))) },
+        },
+        vertexShader: /* glsl */ `
+          varying vec2 vP;
+          void main() { vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        fragmentShader: /* glsl */ `
+          uniform sampler2D uMap; uniform float uR0; uniform float uR1; uniform float uRepeats; uniform vec3 uGold;
+          varying vec2 vP;
+          void main() {
+            float r = length(vP);
+            float k = uRepeats / 6.2831853;
+            float u = atan(vP.y, vP.x) * k;
+            float v = (uR1 - r) / (uR1 - uR0);
+            // gradients from whichever angle has no seam here, so the wrap leaves no line
+            float a1 = atan(vP.y, vP.x);
+            float a2 = atan(-vP.y, -vP.x);
+            vec2 g1 = vec2(dFdx(a1), dFdy(a1));
+            vec2 g2 = vec2(dFdx(a2), dFdy(a2));
+            vec2 gu = (dot(g1, g1) < dot(g2, g2) ? g1 : g2) * k;
+            vec2 gv = vec2(dFdx(v), dFdy(v));
+            float ink = textureGrad(uMap, vec2(u, v), vec2(gu.x, gv.x), vec2(gu.y, gv.y)).a;
+            float px = fwidth(r);
+            float edges = (1.0 - smoothstep(0.0, px * 1.5, abs(r - uR0 - px))) + (1.0 - smoothstep(0.0, px * 1.5, abs(r - uR1 + px)));
+            float a = clamp(ink * 0.85 + edges * 0.5, 0.0, 1.0);
+            gl_FragColor = vec4(uGold * a * 1.25, a);
+          }`,
+      });
+      const mesh = new THREE.Mesh(new THREE.RingGeometry(r0, r1, 256, 1), mat);
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(x, y, z);
+      scene.add(mesh);
+      k.updaters.push((t) => { mesh.rotation.z = t * 0.02; });
     },
     /** Gold dust hanging in the air, turning slowly. */
     dust(amount = 1) {
@@ -779,7 +866,7 @@ const BUILDERS = {
     const z = -3;
 
     return {
-      view: { position: [0, 7.2, 15], target: [0, 1.2, 0], maxPolar: Math.PI * 0.47, dust: 0.6, spin: 0.2 },
+      view: { position: [0, 7.2, 15], target: [0, 1.2, 0], maxPolar: Math.PI * 0.47, dust: 0.6, spin: 0.2, ring: { y: 5.6, radius: 9.5 } },
       update(t) {
         const past = pastGeo.attributes.position;
         for (let i = 0; i <= split; i += 1) past.setXYZ(i, xAt(i), f(xAt(i), t), z);
@@ -1258,7 +1345,7 @@ const BUILDERS = {
     const p = new THREE.Vector3();
 
     return {
-      view: { position: [0, 2.6, 8.5], target: [0, 1.2, -6], maxPolar: Math.PI * 0.49, fog: [20, 60], dust: 0.5, spin: 0.15, maxDistance: 18 },
+      view: { position: [0, 2.6, 8.5], target: [0, 1.2, -6], maxPolar: Math.PI * 0.49, fog: [20, 60], dust: 0.5, spin: 0.15, maxDistance: 18, ring: { y: 0.02, radius: 5.6, z: -6 } },
       update(t) {
         for (let i = 0; i < len; i += 1) {
           head(t - i * 0.13, p);
@@ -1443,24 +1530,31 @@ const BUILDERS = {
     for (let i = 0; i < N * 4; i += 1) seeds[i] = k.rng();
     geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(N * 3), 3));
     geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 4));
-    const top = 5.4;
+    const top = k.rand(4.7, 6.1);
     const bottom = 0.65;
+    const rim = k.rand(5.4, 6.9);
+    const flare = k.rand(0.5, 1.5); // how fast the funnel narrows: a trumpet below 1, a bowl above
+    const arms = k.pick([0, 2, 3, 5]); // 0 is a loose swirl, otherwise the light gathers into that many arms
+    const spin = k.pick([1, -1]);
     const vortex = new THREE.Points(geo, new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       uniforms: {
         uTime: k.time, uPR: { value: k.pr }, uGold: { value: k.gold }, uGem: { value: k.gem },
         uTurns: { value: k.rand(2, 3.4) }, uTop: { value: top }, uBottom: { value: bottom },
+        uRim: { value: rim }, uFlare: { value: flare }, uArms: { value: arms }, uSpin: { value: spin },
       },
       vertexShader: /* glsl */ `
         attribute vec4 aSeed;
         uniform float uTime; uniform float uPR; uniform float uTurns; uniform float uTop; uniform float uBottom;
+        uniform float uRim; uniform float uFlare; uniform float uArms; uniform float uSpin;
         uniform vec3 uGold; uniform vec3 uGem;
         varying vec3 vColor; varying float vAlpha;
         void main() {
           float life = fract(uTime * (0.05 + aSeed.w * 0.07) + aSeed.x);
-          float r = mix(6.2, 0.5, pow(life, 0.8)) + (aSeed.z - 0.5) * 0.5 * (1.0 - life);
-          float y = mix(uTop, uBottom, pow(life, 1.4)) + (aSeed.y - 0.5) * 0.5 * (1.0 - life);
-          float ang = aSeed.y * 6.2832 + uTime * 0.22 + life * uTurns * 6.2832;
+          float r = mix(uRim, 0.5, pow(life, uFlare)) + (aSeed.z - 0.5) * 0.5 * (1.0 - life);
+          float y = mix(uTop, uBottom, pow(life, 1.4)) + (fract(aSeed.x * 13.7) - 0.5) * 0.5 * (1.0 - life);
+          float lane = uArms > 0.5 ? (floor(aSeed.y * uArms) + (fract(aSeed.y * uArms) - 0.5) * 0.35) / uArms : aSeed.y;
+          float ang = lane * 6.2832 + uSpin * (uTime * 0.22 + life * uTurns * 6.2832);
           vec4 mv = modelViewMatrix * vec4(cos(ang) * r, y, sin(ang) * r, 1.0);
           vColor = mix(uGold, uGem, smoothstep(0.2, 0.85, life)) * (1.0 + 1.5 * smoothstep(0.9, 1.0, life));
           vAlpha = smoothstep(0.0, 0.08, life) * smoothstep(1.0, 0.92, life);
@@ -1480,7 +1574,7 @@ const BUILDERS = {
     vortex.frustumCulled = false;
     k.add(vortex);
     const gold = k.goldMat();
-    const rimTop = new THREE.Mesh(new THREE.TorusGeometry(6.35, 0.035, 12, 260), gold);
+    const rimTop = new THREE.Mesh(new THREE.TorusGeometry(rim + 0.15, 0.035, 12, 260), gold);
     rimTop.rotation.x = Math.PI / 2;
     rimTop.position.y = top;
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.06, 16, 120), gold);
@@ -1490,6 +1584,15 @@ const BUILDERS = {
     const light = at(new THREE.PointLight(k.gem, 8, 0, 2), 0, bottom + 0.4, 0);
     k.add(rimTop, ring, heart, light);
     k.add(at(new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.5, 0.3, 64), k.obsidianMat()), 0, 0.15, 0));
+    // fine gold bands where the funnel passes through them, 0 to 2 of them
+    const bands = k.int(0, 2);
+    for (let i = 1; i <= bands; i += 1) {
+      const l = i / (bands + 1);
+      const band = new THREE.Mesh(new THREE.TorusGeometry(rim + (0.5 - rim) * Math.pow(l, flare) + 0.12, 0.022, 10, 200), gold);
+      band.rotation.x = Math.PI / 2;
+      band.position.y = top + (bottom - top) * Math.pow(l, 1.4);
+      k.add(band);
+    }
 
     return {
       view: { position: [0, 7.6, 11.5], target: [0, 2.4, 0], floor: { y: 0, radius: 20, rings: 28 }, spin: 0.2, maxPolar: Math.PI * 0.48 },
@@ -1505,23 +1608,30 @@ const BUILDERS = {
     const G = k.int(7, 11);
     const spacing = 2.6;
     const style = k.pick(['arch', 'ring', 'frame']);
+    const bend = k.pick([0, 1, -1]) * k.rand(0.005, 0.009); // the procession runs straight or curves away
+    const along = (z) => bend * z * z;
+    // round bars and a dimmer room: flat gold faces turned to the viewer mirror the studio's brightest panel as a glare
+    k.scene.environmentIntensity = 0.3;
     const gold = k.goldMat();
-    const pillar = new THREE.BoxGeometry(0.22, 3, 0.3);
+    const pillar = new THREE.CylinderGeometry(0.12, 0.12, 3, 24);
     const archTop = new THREE.TorusGeometry(1.6, 0.11, 12, 80, Math.PI);
     const ringGeo = new THREE.TorusGeometry(1.9, 0.08, 16, 140);
-    const bar = new THREE.BoxGeometry(3.6, 0.16, 0.24);
-    const post = new THREE.BoxGeometry(0.16, 4, 0.24);
+    const bar = new THREE.CylinderGeometry(0.09, 0.09, 3.44, 20).rotateZ(Math.PI / 2);
+    const post = new THREE.CylinderGeometry(0.09, 0.09, 4.02, 20);
+    const knot = new THREE.SphereGeometry(0.14, 24, 16);
     const gates = [];
     for (let i = 0; i < G; i += 1) {
       const z = -i * spacing;
       const gate = new THREE.Group();
-      gate.position.z = z;
+      gate.position.set(along(z), 0, z);
+      gate.rotation.y = Math.atan(2 * bend * z);
       if (style === 'arch') {
         gate.add(at(new THREE.Mesh(pillar, gold), -1.6, 1.5, 0), at(new THREE.Mesh(pillar, gold), 1.6, 1.5, 0), at(new THREE.Mesh(archTop, gold), 0, 3, 0));
       } else if (style === 'ring') {
         gate.add(at(new THREE.Mesh(ringGeo, gold), 0, 2.1, 0));
       } else {
         gate.add(at(new THREE.Mesh(bar, gold), 0, 4, 0), at(new THREE.Mesh(bar, gold), 0, 0.08, 0), at(new THREE.Mesh(post, gold), -1.72, 2, 0), at(new THREE.Mesh(post, gold), 1.72, 2, 0));
+        for (const [x, y] of [[-1.72, 4], [1.72, 4], [-1.72, 0.08], [1.72, 0.08]]) gate.add(at(new THREE.Mesh(knot, gold), x, y, 0));
       }
       const hit = { value: 0 };
       const veil = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 4.4), new THREE.ShaderMaterial({
@@ -1549,9 +1659,12 @@ const BUILDERS = {
       k.add(gate);
       gates.push({ z, hit });
     }
-    const runner = new THREE.Mesh(new THREE.PlaneGeometry(0.05, G * spacing + 6).rotateX(-Math.PI / 2), k.glowMat(k.gold, 1.2));
-    runner.position.set(0, 0.01, -((G - 1) * spacing) / 2);
-    k.add(runner);
+    const length = (G - 1) * spacing + 8.6;
+    const lane = new THREE.CatmullRomCurve3(Array.from({ length: 24 }, (_, i) => {
+      const z = 4.3 - (i / 23) * length;
+      return new THREE.Vector3(along(z), 0.02, z);
+    }));
+    k.add(new THREE.Mesh(new THREE.TubeGeometry(lane, 160, 0.025, 6, false), k.glowMat(k.gold, 1.2)));
 
     const R = k.q >= 1 ? 70 : 40;
     const start = 4;
@@ -1566,7 +1679,7 @@ const BUILDERS = {
     const warn = new THREE.Color('#ff6b72');
 
     return {
-      view: { position: [3.2, 2.6, 9.5], target: [0, 2, -6], floor: { y: 0, radius: 26, rings: 30 }, spin: 0.12, maxPolar: Math.PI * 0.5, maxDistance: 22 },
+      view: { position: [3.2, 2.6, 9.5], target: [0, 2, -6], floor: { y: 0, radius: 26, rings: 30 }, spin: 0.12, maxPolar: Math.PI * 0.5, maxDistance: 22, ring: { radius: 4.2, z: 2.6 } },
       update(t) {
         for (const g of gates) g.hit.value *= 0.9;
         reqs.forEach((r, i) => {
@@ -1581,7 +1694,8 @@ const BUILDERS = {
             fade = clamp01(1 - over / 2);
             if (over < 0.3) gates[r.stop].hit.value = Math.max(gates[r.stop].hit.value, 1);
           }
-          lights.position.set([r.x, r.y, z], i * 3);
+          const turn = Math.atan(2 * bend * z); // across the lane, square to the gates where it curves
+          lights.position.set([along(z) + r.x * Math.cos(turn), r.y, z - r.x * Math.sin(turn)], i * 3);
           _c.copy(blocked ? warn : k.gold).multiplyScalar(blocked ? 1.6 : 1.3).toArray(lights.colors, i * 3);
           lights.size[i] = (blocked ? 9 : 5) * fade;
         });

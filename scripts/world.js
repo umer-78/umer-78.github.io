@@ -86,6 +86,7 @@ function boot() {
 
   let stage = null; // the open project's environment, when there is one
   let controls = null;
+  let intro = null; // the camera's glide into a newly opened world
   let mode = 'gallery';
   let width = 1;
   let height = 1;
@@ -152,6 +153,7 @@ function boot() {
   }
 
   function dropStage() {
+    intro = null;
     controls?.dispose();
     controls = null;
     canvas.style.touchAction = '';
@@ -183,11 +185,23 @@ function boot() {
     controls.autoRotate = !motion.matches;
     controls.autoRotateSpeed = view.spin;
     controls.addEventListener('change', () => { needsRender = true; });
-    controls.addEventListener('start', () => emit('world:explored'));
+    controls.addEventListener('start', () => {
+      intro = null; // the visitor took over
+      emit('world:explored');
+    });
     controls.update();
     frameEnvironment();
+    intro = null;
+    if (!motion.matches) {
+      const to = stage.camera.position.clone();
+      const out = to.clone().sub(controls.target);
+      const from = controls.target.clone().addScaledVector(out, 1.6).add(new THREE.Vector3(0, out.length() * 0.25, 0));
+      stage.camera.position.copy(from);
+      intro = { from, to, start: null };
+    }
     try {
-      await renderer.compileAsync(stage.scene, stage.camera);
+      if (renderer.extensions.has('KHR_parallel_shader_compile')) await renderer.compileAsync(stage.scene, stage.camera);
+      else renderer.compile(stage.scene, stage.camera);
     } catch {
       /* compiles on first frame instead */
     }
@@ -199,7 +213,13 @@ function boot() {
 
   async function closeEnvironment() {
     const token = ++switchToken;
-    if (mode === 'gallery' && !stage) return;
+    if (mode === 'gallery' && !stage) {
+      // closed before the opening fade finished: nothing was built, but the canvas is still faded out
+      fade(false);
+      gallery.reset();
+      needsRender = true;
+      return;
+    }
     await fade(true);
     if (token !== switchToken) return;
     dropStage();
@@ -225,6 +245,13 @@ function boot() {
     if (mode === 'gallery' && !galleryVisible && !needsRender) return;
     if (reduced && !needsRender && !controls) return;
     if (!reduced) time += dt;
+    if (intro && stage) {
+      if (intro.start === null) intro.start = now;
+      const k = Math.min(1, (now - intro.start) / 2000);
+      const e = 1 - Math.pow(1 - k, 3);
+      stage.camera.position.lerpVectors(intro.from, intro.to, e);
+      if (k >= 1) intro = null;
+    }
     if (controls) controls.update(reduced ? 0 : dt);
     if (reduced && !needsRender) return;
     const changed = showing.update(reduced ? STILL : time, reduced ? 0 : dt);
