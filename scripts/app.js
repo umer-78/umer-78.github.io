@@ -26,6 +26,13 @@ let returnFocus = null;
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pad2 = (n) => String(n).padStart(2, '0');
 
+// A CI badge that fails to load is removed. This used to be an inline
+// inline onerror attribute, which the Content-Security-Policy now refuses to run;
+// `error` does not bubble, so one capture-phase listener covers every image.
+document.addEventListener('error', (e) => {
+  if (e.target instanceof HTMLImageElement && e.target.dataset.fallback === 'remove') e.target.remove();
+}, true);
+
 /** Everything that reaches innerHTML goes through this first. */
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (ch) => ({
@@ -62,7 +69,7 @@ function metaInner(project) {
     if (s.pushedAt) bits.push(`<span title="${escapeHtml(new Date(s.pushedAt).toLocaleString())}">updated ${escapeHtml(timeAgo(s.pushedAt))}</span>`);
     if (s.archived) bits.push('<span>archived</span>');
   }
-  const badge = project.private ? '' : `<img class="ci" src="${escapeHtml(ciBadgeUrl(site.owner, project.name))}" alt="CI status for ${escapeHtml(project.name)}" height="20" loading="lazy" onerror="this.remove()">`;
+  const badge = project.private ? '' : `<img class="ci" src="${escapeHtml(ciBadgeUrl(site.owner, project.name))}" alt="CI status for ${escapeHtml(project.name)}" height="20" loading="lazy" data-fallback="remove">`;
   return bits.join('<span aria-hidden="true">·</span>') + badge;
 }
 

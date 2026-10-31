@@ -42,7 +42,7 @@ const site = {
       "category": "Data & analytics",
       "language": "Python",
       "summary": "Shortest and fastest routes across a real road network. Dijkstra, A* and bidirectional search share one implementation, and every result comes with search statistics so you can see what the algorithm actually did.",
-      "highlights": ["The heuristic's admissibility is tested against the actual network — not just asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes plain A* return a route 8% too long", "Weighting the heuristic 1.2 expands more nodes than not weighting it at all: re-expansions cost more than the greed saves", "69 tests; CI regenerates a 1,600-intersection network byte for byte"],
+      "highlights": ["The heuristic's admissibility is tested against the actual network — not just asserted in a comment", "A four-node graph where an admissible but inconsistent heuristic makes plain A* return a route 8% too long", "Weighting the heuristic 1.2 expands more nodes than not weighting it at all: re-expansions cost more than the greed saves", "87 tests, including the edges (start equals goal, NaN costs, bad CSV rows); CI regenerates a 1,600-intersection network byte for byte"],
       "topics": ["python", "dijkstra", "a-star", "pathfinding", "graph-algorithms"],
       "demo": "https://umer-78.github.io/route-planner/",
       "preview": "assets/previews/route-planner.webp"
@@ -142,9 +142,10 @@ const site = {
       "language": "Python",
       "summary": "Offline password strength analyzer: entropy, leetspeak, keyboard walks, dates, passphrase scoring, and a --min-score gate you can wire into CI.",
       "highlights": [
-        "Catches common passwords, leetspeak substitutions, keyboard walks, sequences and years buried in the middle",
+        "Catches common passwords, both leetspeak readings, reversed words, decorated common passwords (Password123!), keyboard walks, sequences, repeats and dates",
         "Scores passphrases word by word, not just character by character",
-        "CLI with batch mode and --min-score for CI gates"
+        "Time to guess under four attacks, from a rate-limited login to a leaked fast hash, instead of one misleading number",
+        "CLI with batch mode and --min-score for CI gates; 47 tests, and the web demo runs the same rules"
       ],
       "topics": [
         "python",
@@ -344,7 +345,7 @@ const site = {
       "category": "Data & analytics",
       "language": "Python",
       "summary": "A SQL engine written from scratch (tokenizer, recursive-descent parser, executor) that runs queries over CSV files and edits them with INSERT, UPDATE and DELETE.",
-      "highlights": ["Joins, grouping, aggregates, UNION, CASE and three-valued NULL logic — no SQLite underneath", "Writes are type-checked and all-or-nothing, and only reach the CSV files when you save", "Parse errors point at the exact character that caused them", "139 tests at 95% coverage, zero dependencies"],
+      "highlights": ["Joins, grouping, aggregates, UNION, CASE, BETWEEN, scalar functions and three-valued NULL logic (x NOT IN (1, NULL) is never true) — no SQLite underneath", "Writes are type-checked and all-or-nothing, and only reach the CSV files when you save", "Parse errors point at the exact character that caused them", "160 tests at 95% coverage, zero dependencies"],
       "topics": ["python", "sql", "parser", "query-engine", "interpreter"],
       "demo": "https://umer-78.github.io/mini-sql-engine/",
       "preview": "assets/previews/mini-sql-engine.webp"
@@ -518,7 +519,7 @@ const site = {
       "category": "Applications & services",
       "language": "JavaScript",
       "summary": "Live weather over a 3D sky of the weather itself, with a 10-day forecast, air quality and a globe that zooms down to street level, on the keyless Open-Meteo API.",
-      "highlights": ["A three.js sky drawn from the forecast: sun on its arc, the moon in its real phase, clouds by cover drifting with the real wind, rain, snow, lightning and mist", "A globe that hands over to an OpenStreetMap street map past its last zoom, down to single houses", "Rain check: when rain or snow is next likely in the coming 24 hours", "Air quality, UV, wind with gusts, pressure trend, visibility and moon phase, each with what it means", "No API key, so it runs anywhere", "38 tests with Node's built-in test runner"],
+      "highlights": ["A three.js sky drawn from the forecast: sun on its arc, the moon in its real phase, clouds by cover drifting with the real wind, rain, snow, lightning and mist", "A globe that hands over to an OpenStreetMap street map past its last zoom, down to single houses", "Rain check: when rain or snow is next likely in the coming 24 hours", "Air quality, UV, wind with gusts, pressure trend, visibility and moon phase, each with what it means", "Works from the keyboard and a screen reader; a strict Content-Security-Policy and checked API answers", "No API key, so it runs anywhere", "47 tests with Node's built-in test runner"],
       "topics": [
         "javascript",
         "weather",
@@ -555,8 +556,8 @@ const site = {
       "title": "CoinVantage",
       "category": "Applications & services",
       "language": "JavaScript",
-      "summary": "Installable crypto markets site: live prices and charts, buy/sell signals, a multi-year history study and an AI forecast that runs on your own machine, with no paid API keys.",
-      "highlights": ["The forecast blends seven models, from chart-pattern matching to gradient-boosted trees and a neural network, each validated walk-forward and weighted by its edge over a coin flip", "It reports its own accuracy: after recalibration its 80% price band held 78.5% of outcomes over 1,440 tests, up from 71.7%", "An AI assistant runs a Qwen model on the visitor's own GPU through WebLLM: free, private, no API key", "Prices in 16 currencies, the same coin compared across 10 exchanges, and it never places a trade or asks for keys"],
+      "summary": "Installable crypto markets site: live prices and charts, indicator signals, a paper-trading simulator and a price-range forecast whose accuracy is measured and published, including where it does no better than a simple baseline. Educational, not financial advice.",
+      "highlights": ["The forecast blends seven models, from chart-pattern matching to gradient-boosted trees and a neural network, each validated walk-forward and weighted by its measured accuracy", "It publishes its own record: the 80% price range held 79–80.1% of the time across about 540,000 tests on 106 coins, while direction calls did not beat a simple baseline and are never shown as buy or sell", "An assistant answers from live data and the tested models, says what each answer was based on, and an optional on-device model only rewords it, checked for invented figures", "A paper-trading simulator that shows its walk-forward losses and when holding did better; it never places a trade or asks for keys"],
       "topics": [
         "javascript",
         "pwa",
@@ -1018,11 +1019,11 @@ const site = {
       "title": "StockSense",
       "category": "Data & analytics",
       "language": "TypeScript",
-      "summary": "Inventory forecasting for Shopify, built as a replacement for Stocky after it shut down in August 2026. It reads a store's real sales history, projects days-to-stockout per variant, and suggests reorder quantities \u2014 with the arithmetic shown behind every number.",
+      "summary": "Inventory forecasting for Shopify (shipped as Forelark), built as a replacement for Stocky after it shut down in August 2026. It reads a store's real sales history, projects days-to-stockout per variant, and suggests reorder quantities \u2014 with the arithmetic shown behind every number.",
       "highlights": [
         "Explainable forecasts: average daily sales, lead-time demand, safety stock, reorder point and suggested order quantity are each shown, not a black-box prediction",
         "Seasonality is simple day-of-week index math; plan limits, billing and the three mandated GDPR webhooks are all enforced server-side",
-        "90 tests across the forecasting, billing and import logic (velocity, stockout, reorder, seasonality, plans, GDPR, CSV import)",
+        "202 tests across forecasting, billing, import and the AI-assistant (MCP) endpoint, which stores keys only as scrypt hashes and is rate-limited",
         "A Remix + Shopify App Bridge embedded app with Polaris UI and a Prisma data layer"
       ],
       "topics": [
@@ -1041,17 +1042,17 @@ const site = {
       "title": "LeadFlow AI",
       "category": "Applications & services",
       "language": "TypeScript",
-      "summary": "An autonomous lead-intake system for high-value service clinics: a 24/7 AI receptionist bounded by each clinic's verified guidelines, explainable intent scoring, and multi-day follow-up that halts the moment a lead replies, books or opts out.",
+      "summary": "An AI receptionist and lead pipeline for dental clinics: it answers patients on the clinic's website 24/7 from the clinic's own knowledge base, books real open slots, spots emergencies, scores leads with the reason for every point, and follows up until the lead books, replies or opts out.",
       "highlights": [
         "The AI receptionist is held to verified clinic guidelines \u2014 it never invents pricing and refuses medical diagnoses",
-        "Deterministic lead scoring sorts inquiries into HIGH, MEDIUM and LOW intent with a transparent rationale, not an opaque number",
+        "Lead scores from 0 to 100 with the reason for every point (treatment value, booking, urgency), not an opaque number",
         "Multi-tenant by construction: each practice's leads, calendar and knowledge base are isolated, checked by an in-app test runner",
-        "Express + Google Gemini on the server, a React and Vite dashboard on the client, Postgres via Drizzle"
+        "The AI runs on the clinic's own server (localbrain, no third-party AI or API keys); Claude can optionally answer open questions, while emergencies, booking and prices stay with the built-in engine. Express, React, Postgres via Drizzle; strict CSP on the dashboard"
       ],
       "topics": [
         "typescript",
         "llm",
-        "gemini",
+        "claude",
         "automation",
         "react",
         "saas"
