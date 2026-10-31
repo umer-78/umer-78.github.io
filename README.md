@@ -61,7 +61,7 @@ world of its own. The 3D code only draws what those two modules say.
 ```bash
 git clone https://github.com/umer-78/umer-78.github.io.git
 cd umer-78.github.io
-npm test              # 29 tests, no dependencies to install
+npm test              # 32 tests, no dependencies to install
 npm run serve         # http://localhost:8080
 ```
 
@@ -79,6 +79,8 @@ npm run serve         # http://localhost:8080
 - every project is placed in a world by hand, the map names no project that is gone,
   no two projects share a world and a seed, and no kind of world holds more than five
 - featured projects exist; seeds are stable; GitHub facts are parsed safely
+- both pages carry a Content-Security-Policy that names the import map by its hash, and no
+  page or script uses an inline event handler (the policy would refuse to run it)
 
 ## Adding a project
 
