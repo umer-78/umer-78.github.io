@@ -6,7 +6,7 @@ Product ads, fashion reels and cinematic shots made with AI video generation and
 
 ## What's on the site
 
-- **3 finished spec ads:** Burger Commercial (30s), Buffalo Wings Ad (17s), Clothing Brand Reel (10s, vertical)
+- **6 finished spec ads:** Larchmoor Whisky Spot (14s), Halden Silver Ring Spot (13s), Ember & Crust Pizza Spot (10s), Burger Commercial (30s), Buffalo Wings Ad (17s), Clothing Brand Reel (10s, vertical)
 - **46 single AI shots** in 9 styles: food & drink, product, craft & industry, nature, places & interiors, people, cars & sport, tech & science, animation & logos
 - **A 41-second showreel** cut from the ads and the strongest shots
 
@@ -17,7 +17,7 @@ Each video is listed once, on the Work page, and has its own page.
 | Path | What it is |
 | --- | --- |
 | `index.html` | Home page with the showreel |
-| `work/` | Every video: the 3 ads, then the 46 shots with style filters and an in-page player |
+| `work/` | Every video: the 6 ads, then the 46 shots with style filters and an in-page player |
 | `work/<name>/` | One page per video, with its process, credits and specs |
 | `about/`, `services/`, `contact/` | About me, what I make, and how to hire me through Upwork |
 | `media/` | One web-ready MP4 and one poster image per video, plus the showreel |
@@ -40,8 +40,16 @@ Plain HTML, CSS and JavaScript, with Three.js for the 3D background and GSAP for
    per video, the showreel, and `tools/manifest.json`. Add `--sound-only` to redo just the sound.
 5. Regenerate the pages: `python3 tools/build.py .`
 
+## Making a spec ad from the shots
+
+The ads in `SPOTS` in `tools/data.py` are cut from the encoded shots by `tools/spots.py`. Each one lists its
+shots (shot id, start second, length in beats, speed and a slow push-in), its supers and its end card, timed
+in beats of its own music cue in `tools/music.py`, where every cut lands on a chord change. Run
+`python3 tools/spots.py . [slug]` to rebuild one, then `python3 tools/build.py .`. `encode.py` also rebuilds
+them after the shots. Titles are set in Playfair Display and Montserrat (`tools/fonts`, SIL Open Font License).
+
 Needs `ffmpeg`, `fluidsynth` with the FluidR3 GM soundfont (`apt install fluidsynth fluid-soundfont-gm`),
-and Python with `numpy`, `scipy`, `mido` and `pyloudnorm`.
+and Python with `numpy`, `scipy`, `mido`, `pyloudnorm` and `Pillow`.
 
 ## Hire me
 

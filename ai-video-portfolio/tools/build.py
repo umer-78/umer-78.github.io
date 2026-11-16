@@ -9,6 +9,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MAN = json.load(open(os.path.join(HERE, "manifest.json")))
 PROJECTS = all_projects()
 ADS = [p for p in PROJECTS if p["kind"] == "ad"]
+WORDS = {3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
 SHOTS = [p for p in PROJECTS if p["kind"] == "shot"]
 E = lambda s: html.escape(str(s), quote=True)
 YEAR = 2026
@@ -192,7 +193,7 @@ for p in SHOTS:
         </div></div>
       </div>""")
 work = f"""  <section class="section" id="work">
-    <div class="section__header"><div class="section__label">Finished work</div><h1 class="section__title">Three <em>Ads</em></h1><p class="section__desc">Spec ads made end to end with AI video: concept, shot list, generation and edit. Hover to preview, click for the full project.</p></div>
+    <div class="section__header"><div class="section__label">Finished work</div><h1 class="section__title">{WORDS.get(len(ADS), len(ADS))} <em>Ads</em></h1><p class="section__desc">Spec ads made end to end with AI video: concept, shot list, generation and edit. Hover to preview, click for the full project.</p></div>
     <div class="work-featured" style="margin-top:2.5rem">
 {chr(10).join(feat)}
     </div>
@@ -293,7 +294,7 @@ page("about/index.html", "About", "About — Umer Hashmi, AI Video",
      "Umer Hashmi makes AI video ads and cinematic shots, and builds AI software. Based in Lahore, Pakistan.", about)
 
 # ── Services ─────────────────────────────────────────────────────────────────
-svc = [(I_FILM, "AI Product Ads", "Short ads for food, drinks and products: close-ups, a hero shot and an end line. 15 to 30 seconds.", ["Food", "Product", "16:9 or 9:16"]),
+svc = [(I_FILM, "AI Product Ads", "Short ads for food, drinks and products: a hook, cuts on the beat, short supers and a brand end card. 10 to 30 seconds.", ["Food", "Product", "16:9 or 9:16"]),
        (I_PHONE, "Fashion & Lifestyle Reels", "Vertical reels with an AI model for clothing and lifestyle brands, made for Instagram and TikTok.", ["Fashion", "Reels", "9:16"]),
        (I_SPARK, "Cinematic Shots & Loops", "Single shots for websites, intros and presentations: nature, interiors, craft, tech and more.", ["Shots", "Loops", "Web"]),
        (I_CUT, "Editing & Versions", "Sequencing and pacing, end lines, and a version for every platform you post on.", ["Edit", "End lines", "Versions"])]

@@ -1,6 +1,6 @@
 """Encode every video for the web (one mp4 + one poster each) and cut the showreel.
 Shots get the natural-look pass (look.py: trimmed cuts, dissolves, film grade); ads keep
-their edit and only get the grade. Every video then gets its own sound (sound.py, music.py):
+their edit and only get the grade; the spec spots (spots.py) are then cut from the encoded shots. Every video then gets its own sound (sound.py, music.py):
 ambience for the scene, an original music bed and synced accents. The showreel is cut on the
 beat of its own score. Writes tools/manifest.json with the real size, length and sound of each video.
 
@@ -9,8 +9,8 @@ import json, os, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from data import ADS, SHOTS, SRC_ADS, SRC_CLIPS, EDITS, SHOWREEL, SOUND, all_projects, slugify
-import look, sound
+from data import ADS, SHOTS, SPOTS, SRC_ADS, SRC_CLIPS, EDITS, SHOWREEL, SOUND, all_projects, slugify
+import look, sound, spots
 
 ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
 OUT = ARGS[0] if ARGS else "."
@@ -92,6 +92,17 @@ def encode(p):
 
 
 MANIFEST = os.path.join(HERE, "manifest.json")
+CLIPS = [p for p in all_projects() if not p.get("spot")]  # the spec spots are cut from the encoded shots afterwards
+
+
+def build_spots(only=None):
+    for sp in SPOTS:
+        if only is None or slugify(sp["title"]) in only:
+            s, m = spots.build(sp, OUT)
+            manifest[s] = m
+            print("spot", s, m, flush=True)
+
+
 if REEL_ONLY:
     manifest = json.load(open(MANIFEST))
 elif SOUND_ONLY:
@@ -102,14 +113,17 @@ elif SOUND_ONLY:
         manifest[p["slug"]].update(audio=True, mb=round(os.path.getsize(f) / 1e6, 2))
         print("sound", p["slug"], flush=True)
     with ThreadPoolExecutor(max_workers=2) as ex:
-        list(ex.map(resound, all_projects()))
+        list(ex.map(resound, CLIPS))
+    build_spots()
 elif ONLY:
     manifest = json.load(open(MANIFEST))
     with ThreadPoolExecutor(max_workers=2) as ex:
-        manifest.update(dict(ex.map(encode, [p for p in all_projects() if p["slug"] in ONLY])))
+        manifest.update(dict(ex.map(encode, [p for p in CLIPS if p["slug"] in ONLY])))
+    build_spots(ONLY)
 else:
     with ThreadPoolExecutor(max_workers=2) as ex:
-        manifest = dict(ex.map(encode, all_projects()))
+        manifest = dict(ex.map(encode, CLIPS))
+    build_spots()
 
 # ---- Showreel: cut on the beat of its own 96 BPM score (one beat = 15 frames), ambience under the music ----
 BEAT, FPS = 60 / 96, 24

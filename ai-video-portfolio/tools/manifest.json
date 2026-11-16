@@ -346,5 +346,26 @@
   "dur": 37.5,
   "mb": 4.64,
   "audio": true
+ },
+ "ember-crust-pizza-spot": {
+  "w": 1280,
+  "h": 720,
+  "dur": 9.62,
+  "audio": true,
+  "mb": 2.6
+ },
+ "larchmoor-whisky-spot": {
+  "w": 1280,
+  "h": 720,
+  "dur": 14.21,
+  "audio": true,
+  "mb": 4.11
+ },
+ "halden-silver-ring-spot": {
+  "w": 1280,
+  "h": 720,
+  "dur": 12.88,
+  "audio": true,
+  "mb": 3.04
  }
 }

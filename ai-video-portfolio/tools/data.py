@@ -124,6 +124,11 @@ SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 23.0, 4), ("c15"
 
 def all_projects():
     out = []
+    for a in SPOTS:
+        s = slugify(a["title"])
+        out.append(dict(kind="ad", spot=True, slug=s, title=a["title"], cat="Ads", short=a["short"], desc=a["desc"],
+                        steps=a["steps"], tags=a["tags"], runtime=a["runtime"], orient="landscape", sound=True,
+                        video=f"media/ads/{s}.mp4", poster=f"media/posters/{s}.jpg"))
     for a in ADS:
         s = slugify(a["title"])
         out.append(dict(kind="ad", slug=s, title=a["title"], cat="Ads", short=a["short"], desc=a["desc"],
@@ -196,3 +201,60 @@ SOUND = {
     "buffalo-wings-ad": {"amb": [("room", -10), ("hum", -16), ("sizzle", -12)], "music": ("food", -3)},
     "clothing-brand-reel": {"amb": [("room", -18)], "music": ("pulse", -1)},
 }
+
+# Spec ads cut from the clean shots above (tools/spots.py). Each shot: (shot id, start second in the encoded
+# shot, length in beats, playback speed, slow push-in amount). Cuts land on the beat of the ad's own cue,
+# supers and the end card are timed in beats. The brands are made up for these spec ads.
+SPOTS = [
+    dict(title="Larchmoor Whisky Spot", cue="spot_jazz", bpm=76, runtime="14s", poster_beat=13.9,
+         shots=[("c30", 4.47, 3, 1.0, 0.03), ("c20", 4.2, 3, 1.0, 0.0), ("c24", 2.0, 2, 1.0, 0.04),
+                ("c24", 4.92, 3, 0.83, 0.0), ("c19", 4.76, 2, 1.0, 0.03), ("c24", 7.32, 5, 0.89, 0.05)],
+         style=dict(font="serif", color="#f3e9d8", accent="#e0c28c"),
+         supers=[(3.3, 5.8, "Some evenings"), (6.3, 10.8, "deserve a slower pour.")],
+         card=dict(beat=14.2, brand="LARCHMOOR", line="Small-batch single malt", small="PLEASE ENJOY RESPONSIBLY",
+                   blur=16, dim=0.45),
+         sound={"amb": [("room", -22), ("vinyl", -13, {"span": (2.2, 30)}), ("flame", -12, {"segs": [1]}),
+                        ("pour", -5, {"segs": [3]}), ("clinks", -15, {"segs": [4], "rate": 2.0})],
+                "music": ("spot_jazz", -2, 0.0), "record": True, "needle": 2.25},
+         short="A 14-second spec spot for a small-batch whisky: a record, a candle and a slow pour.",
+         desc="A 14-second spec commercial for Larchmoor, a made-up small-batch whisky. A needle drops, a candle is "
+              "lit and a slow pour over ice ends on the brand. The jazz trio starts with the record, and every cut "
+              "lands on a chord change.",
+         steps=[("Concept & copy", "One evening ritual in six shots, with the line “Some evenings deserve a slower pour.”"),
+                ("AI shots", "Record player, candle, glass, pour and ice generated with AI video, then graded to one warm night look."),
+                ("Edit, music & sound", "Cut to the beat of an original jazz cue, with the pour slowed down, vinyl crackle, "
+                 "pour and ice sounds, and a brand end card.")],
+         tags=["Drinks ad", "16:9", "Original music"]),
+    dict(title="Halden Silver Ring Spot", cue="spot_lux", bpm=84, runtime="13s", poster_beat=13.5,
+         shots=[("c44", 4.12, 3, 1.0, 0.03), ("c36", 0.3, 4, 1.0, 0.06), ("c36", 4.5, 3, 1.0, 0.0),
+                ("c44", 7.0, 3, 1.0, 0.03), ("c36", 7.8, 5, 0.84, 0.05)],
+         style=dict(font="serif", color="#f4f1ec", accent="#f4f1ec"),
+         supers=[(3.3, 6.8, "Hand-finished silver."), (10.3, 12.9, "Made to catch the light.")],
+         card=dict(beat=14.0, brand="HALDEN", line="Fine silver jewelry", small=None, blur=0, dim=0.3, low=True),
+         sound={"amb": [("room", -18, H), ("cloth", -8, {"segs": [2]})], "music": ("spot_lux", -2, 0.0),
+                "hits": [(("seg", 4, -0.05), "whoosh", -16)]},
+         short="A 13-second spec spot for a silver jewelry brand: light through a prism and a hand-finished ring.",
+         desc="A 13-second spec commercial for Halden, a made-up silver jewelry brand. Light splits through a prism, "
+              "a ring is polished and set down on black velvet, and the spot ends on the brand. Scored with an "
+              "original cue that changes chord on every cut.",
+         steps=[("Concept & copy", "Light and silver, with two short lines: “Hand-finished silver.” and “Made to catch the light.”"),
+                ("AI shots", "Prism, velvet and ring shots generated with AI video, with slow push-ins added in the edit."),
+                ("Edit, music & sound", "Cut on the beat of an original Rhodes cue, with cloth sounds on the polish and a brand end card.")],
+         tags=["Jewelry ad", "16:9", "Original music"]),
+    dict(title="Ember & Crust Pizza Spot", cue="spot_food", bpm=112, runtime="10s", poster_beat=1.6,
+         shots=[("c01", 4.82, 3, 1.0, 0.0), ("c01", 6.86, 3, 0.95, 0.0), ("c01", 8.70, 3, 1.0, 0.04),
+                ("c01", 0.3, 9, 0.85, 0.07)],
+         style=dict(font="sans", color="#ffffff", accent="#ffb15c"),
+         supers=[(3.2, 5.9, "HAND-STRETCHED DOUGH"), (6.2, 8.9, "FIRED OVER OAK")],
+         card=dict(beat=12.0, brand="EMBER & CRUST", line="WOOD-FIRED PIZZA  ·  ORDER TONIGHT", small=None,
+                   blur=5, dim=0.5),
+         sound={"amb": [("fire", -11), ("room", -20)], "music": ("spot_food", -2, 0.0),
+                "hits": [(("seg", 3, -0.05), "whoosh", -15)]},
+         short="A 10-second spec spot for a wood-fired pizzeria: cheese pull, crust, fire and the brand.",
+         desc="A 10-second spec commercial for Ember & Crust, a made-up wood-fired pizzeria. It opens on the cheese "
+              "pull, cuts on the beat through the crust and the oven, and ends on the brand with a call to order.",
+         steps=[("Concept & copy", "Hook in the first second with the cheese pull, then two short supers and a call to action."),
+                ("AI shots", "Pizza shots generated with AI video and graded with a warm film look."),
+                ("Edit, music & sound", "Hard cuts on the beat of an original upbeat cue, with fire crackle and a brand end card.")],
+         tags=["Food ad", "16:9", "Original music"]),
+]
