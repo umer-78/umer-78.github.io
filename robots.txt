@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://umer-78.github.io/sitemap.xml

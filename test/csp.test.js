@@ -10,6 +10,7 @@ for (const page of ['index.html', '404.html']) {
     for (const d of ["default-src 'self'", "object-src 'none'", "base-uri 'self'", "script-src-attr 'none'"]) assert.ok(csp.includes(d), d);
     assert.doesNotMatch(csp, /unsafe-eval|script-src[^;]*unsafe-inline/);
     for (const [, attrs, body] of html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/g)) {
+      if (/type="application\/ld\+json"/.test(attrs)) { JSON.parse(body); continue; } // structured data never runs
       const hash = createHash('sha256').update(body).digest('base64');
       assert.ok(csp.includes(`'sha256-${hash}'`), `inline script ${attrs.trim()} is allowed by its hash`);
     }
