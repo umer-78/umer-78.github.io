@@ -8,7 +8,7 @@ Product ads, fashion reels and cinematic shots made with AI video generation and
 
 - **6 finished spec ads:** Larchmoor Whisky Spot (14s), Halden Silver Ring Spot (13s), Ember & Crust Pizza Spot (10s), Burger Commercial (30s), Buffalo Wings Ad (17s), Clothing Brand Reel (10s, vertical)
 - **46 single AI shots** in 9 styles: food & drink, product, craft & industry, nature, places & interiors, people, cars & sport, tech & science, animation & logos
-- **A 41-second showreel** cut from the ads and the strongest shots
+- **A 38-second showreel** cut from the ads and the strongest shots
 
 Each video is listed once, on the Work page, and has its own page.
 
