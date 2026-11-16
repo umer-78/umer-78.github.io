@@ -8,10 +8,12 @@ import json, os, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from data import ADS, SHOTS, SRC_ADS, SRC_CLIPS, EDITS, SHOWREEL_SHOTS, all_projects, slugify
+from data import ADS, SHOTS, SRC_ADS, SRC_CLIPS, EDITS, SHOWREEL, all_projects, slugify
 import look
 
-OUT = sys.argv[1] if len(sys.argv) > 1 else "."
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+OUT = ARGS[0] if ARGS else "."
+REEL_ONLY = "--reel-only" in sys.argv  # rebuild just the showreel from the encoded videos
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 CUTS = json.load(open(os.path.join(HERE, "cuts.json")))
 for d in ("ads", "shots", "posters"):
@@ -59,25 +61,38 @@ def encode(p):
     return s, m
 
 
-with ThreadPoolExecutor(max_workers=2) as ex:
-    manifest = dict(ex.map(encode, all_projects()))
+MANIFEST = os.path.join(HERE, "manifest.json")
+if REEL_ONLY:
+    manifest = json.load(open(MANIFEST))
+else:
+    with ThreadPoolExecutor(max_workers=2) as ex:
+        manifest = dict(ex.map(encode, all_projects()))
 
-# ---- Showreel: ~40 s, 1280x720, silent, short dissolves between shots ----
-XS = 0.25
-segs = [(f"{OUT}/media/ads/{s}.mp4", st, ln) for s, st, ln in
-        [("burger-commercial", 3.0, 4.0), ("burger-commercial", 23.0, 4.5),
-         ("buffalo-wings-ad", 7.0, 3.5), ("clothing-brand-reel", 5.5, 3.0)]]
-for cid in SHOWREEL_SHOTS:
-    sl = slugify(next(t for c, t, *_ in SHOTS if c == cid))
-    segs.append((f"{OUT}/media/shots/{sl}.mp4", round(manifest[sl]["dur"] * 0.3, 2), 2.5))
+# ---- Showreel: ~40 s, 1280x720, silent, one clean shot per video, short dissolves ----
+XS, HOLD, LAST = 0.2, 3.0, 3.6
+POSTER = 2  # the showreel poster comes from this entry (the burger hero)
+segs = []  # (file, start, length)
+for n, (key, at) in enumerate(SHOWREEL):
+    ln = LAST if n == len(SHOWREEL) - 1 else HOLD
+    if key in ADINFO:
+        segs.append((f"{OUT}/media/ads/{key}.mp4", at, ln))
+        continue
+    sl = slugify(next(t for c, t, *_ in SHOTS if c == key))
+    c, e = CUTS[key], EDITS.get(key, {})
+    a, z = look.timeline(c["cuts"], c["dur"], e.get("drop", ()))[at]
+    a, z = a + look.XF + 0.05, min(z - look.XF - 0.05, manifest[sl]["dur"] - look.EDGE - 0.05)
+    ln = max(1.5, min(ln, z - a))  # a short shot gets a shorter hold rather than spill into the next
+    st = max(a, (a + z - ln) / 2)  # middle of the shot, clear of its dissolves and fades
+    segs.append((f"{OUT}/media/shots/{sl}.mp4", round(st, 2), round(ln, 2)))
 inputs, fc = [], []
 for i, (f, st, ln) in enumerate(segs):
     inputs += ["-ss", str(st), "-t", str(ln), "-i", f]
     fc.append(f"[{i}:v]split[x{i}][y{i}];[x{i}]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,"
               f"boxblur=28:4,eq=brightness=-0.08[bg{i}];[y{i}]scale=1280:720:force_original_aspect_ratio=decrease[fg{i}];"
               f"[bg{i}][fg{i}]overlay=(W-w)/2:(H-h)/2,fps=24,setsar=1,format=yuv420p,setpts=PTS-STARTPTS,settb=AVTB[v{i}]")
-lab, total = "v0", segs[0][2]
+lab, total, starts = "v0", segs[0][2], [0.0]
 for i in range(1, len(segs)):
+    starts.append(total - XS)
     fc.append(f"[{lab}][v{i}]xfade=transition=fade:duration={XS}:offset={total - XS:.3f}[c{i}]")
     lab, total = f"c{i}", total + segs[i][2] - XS
 fc.append(f"[{lab}]fade=t=in:st=0:d=0.6,fade=t=out:st={total - 0.8:.2f}:d=0.8,"
@@ -86,8 +101,8 @@ fc.append(f"[{lab}]fade=t=in:st=0:d=0.6,fade=t=out:st={total - 0.8:.2f}:d=0.8,"
 reel = f"{OUT}/media/showreel.mp4"
 if run([*inputs, "-filter_complex", ";".join(fc), "-map", "[out]", "-c:v", "libx264", "-preset", "veryfast",
         "-crf", "25", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", reel]):
-    run(["-ss", "24", "-i", reel, "-frames:v", "1", "-q:v", "3", f"{OUT}/media/posters/showreel.jpg"])
+    run(["-ss", f"{starts[POSTER] + segs[POSTER][2] / 2:.2f}", "-i", reel, "-frames:v", "1", "-q:v", "3", f"{OUT}/media/posters/showreel.jpg"])
     o = probe(reel)
     manifest["_showreel"] = dict(dur=round(o["dur"], 2), mb=round(os.path.getsize(reel) / 1e6, 2))
-json.dump(manifest, open(os.path.join(HERE, "manifest.json"), "w"), indent=1)
+json.dump(manifest, open(MANIFEST, "w"), indent=1)
 print("ALL DONE", len(manifest), flush=True)

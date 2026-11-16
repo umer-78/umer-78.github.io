@@ -114,8 +114,11 @@ EDITS = {
     "c43": {"pre": "crop=1190:680:77:0"},   # crop out a logo burned into the bottom-left corner
 }
 
-# Shots cut into the showreel (strongest, most varied). Each video is listed once on the site.
-SHOWREEL_SHOTS = ["c01", "c24", "c10", "c27", "c45", "c15", "c33", "c12", "c50", "c16", "c41", "c44"]
+# Showreel, in order: (shot id, which shot inside it, counted from 0) or (ad slug, start second).
+# Only the most true-to-life footage, one clean shot each, no garbled text.
+SHOWREEL = [("c24", 2), ("c01", 1), ("burger-commercial", 23.0), ("c15", 0), ("c18", 1),
+            ("buffalo-wings-ad", 7.0), ("c16", 1), ("c25", 0), ("clothing-brand-reel", 5.5), ("c45", 0),
+            ("c20", 0), ("c12", 2), ("c50", 0), ("c48", 0), ("c22", 0)]
 
 
 def all_projects():

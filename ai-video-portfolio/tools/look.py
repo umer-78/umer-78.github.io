@@ -47,6 +47,21 @@ def segments(cuts, dur, drop=(), min_len=1.0):
     return segs
 
 
+def timeline(cuts, dur, drop=()):
+    """Where each kept shot lands in the processed clip: {original index: (start, end)} in seconds."""
+    b = [0.0] + list(cuts) + [dur]
+    out, t = {}, 0.0
+    for i, (a, z) in enumerate(zip(b, b[1:])):
+        if i in drop:
+            continue
+        a, z = a + (TRIM if i else 0), z - (TRIM if i < len(b) - 2 else 0)
+        if z - a < 1.0:
+            continue
+        out[i] = (round(t, 3), round(t + z - a, 3))
+        t += z - a - XF
+    return out
+
+
 def process(src, out, cuts, dur, drop=(), soft=True, crf=25, keep_audio=True, pre="", scale=SCALE, abr="96k"):
     """Write the cleaned, graded clip to `out`. Returns (segments, length in seconds) or None."""
     segs = segments(cuts, dur, drop) if soft else [(0.0, dur)]
