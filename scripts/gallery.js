@@ -21,19 +21,70 @@ const PLINTH = 0.08;
 // The monolith's light: a seam down each broad face with pulses running up it,
 // and a gold hairline framing the face. Shared by the monoliths and their reflections.
 const SLAB_ATTRS = /* glsl */ `
-attribute vec3 aGem; attribute float aHover; attribute float aOn; attribute float aSeed; attribute float aHeight;`;
+attribute vec3 aGem; attribute float aHover; attribute float aOn; attribute float aSeed; attribute float aHeight; attribute float aPattern; attribute float aCell;`;
 const SLAB_VARYINGS = /* glsl */ `
-varying vec3 vGem; varying float vHover; varying float vOn; varying float vSeed; varying float vHeight; varying vec3 vObj; varying vec3 vObjN;`;
+varying vec3 vGem; varying float vHover; varying float vOn; varying float vSeed; varying float vHeight; varying float vPattern; varying float vCell; varying vec3 vObj; varying vec3 vObjN;`;
 const SLAB_PASS = /* glsl */ `
-vGem = aGem; vHover = aHover; vOn = aOn; vSeed = aSeed; vHeight = aHeight; vObj = position; vObjN = normal;`;
+vGem = aGem; vHover = aHover; vOn = aOn; vSeed = aSeed; vHeight = aHeight; vPattern = aPattern; vCell = aCell; vObj = position; vObjN = normal;`;
+const SLAB_UNIFORMS = /* glsl */ `
+uniform sampler2D uAtlas; uniform vec2 uGrid;`;
+// Every monolith carries its project's monogram near the top and one of eight patterns below it,
+// so no two read alike: a seam of pulses, a server rack, circuit traces, rings, a dot matrix,
+// hatching, a waveform or an equaliser.
 const SLAB_GLOW = /* glsl */ `
+float hash1(float n) { return fract(sin(n) * 43758.5453); }
+float facePattern(float p, float x, float y, float h, float time, float seed) {
+  float top = h - 0.78;
+  float inside = step(0.1, y) * (1.0 - smoothstep(top - 0.06, top, y)) * (1.0 - smoothstep(0.205, 0.22, abs(x)));
+  float v = 0.0;
+  if (p < 0.5) {
+    float pulse = 0.5 + 0.5 * sin(y * 3.1 - time * 1.7 + seed * 6.2832);
+    v = (1.0 - smoothstep(0.003, 0.016, abs(x))) * (0.3 + 0.7 * pulse);
+  } else if (p < 1.5) {
+    float b = fract(y / 0.22), idx = floor(y / 0.22);
+    float band = smoothstep(0.0, 0.03, b) * (1.0 - smoothstep(0.07, 0.1, b));
+    float led = (1.0 - smoothstep(0.012, 0.024, length(vec2(x - 0.15, (b - 0.55) * 0.22)))) * step(0.45, hash1(idx * 12.99 + seed * 78.2 + floor(time * 1.3 + idx * 0.7)));
+    v = band * 0.5 + led * 1.2;
+  } else if (p < 2.5) {
+    float l1 = 1.0 - smoothstep(0.004, 0.012, abs(x + 0.1));
+    float l2 = 1.0 - smoothstep(0.004, 0.012, abs(x - 0.12));
+    float hy = fract(y / 0.55 + seed);
+    float hz = (1.0 - smoothstep(0.0025, 0.007, abs(hy - 0.5) * 0.55)) * step(-0.1, x) * step(x, 0.12);
+    float sig = 0.35 + 0.65 * smoothstep(0.8, 1.0, fract(y * 0.5 - time * 0.45 + seed));
+    v = max(max(l1, l2), hz) * sig;
+  } else if (p < 3.5) {
+    float d = length(vec2(x, y - top + 0.3));
+    v = (1.0 - smoothstep(0.006, 0.016, abs(fract(d / 0.085 - time * 0.22) - 0.5) * 0.085)) * (1.0 - smoothstep(0.0, max(0.5, top * 0.85), d));
+  } else if (p < 4.5) {
+    vec2 c = vec2(x, y) / 0.068, id = floor(c);
+    float on = step(0.58, hash1(dot(id, vec2(12.99, 78.23)) + seed * 43.0 + floor(time * 0.7 + id.y * 0.37)));
+    v = (1.0 - smoothstep(0.16, 0.3, length(fract(c) - 0.5))) * (0.22 + 0.9 * on);
+  } else if (p < 5.5) {
+    v = (1.0 - smoothstep(0.035, 0.1, abs(fract((x + y) / 0.11 - time * 0.18) - 0.5))) * 0.55;
+  } else if (p < 6.5) {
+    float w = sin(y * 6.0 - time * 1.4 + seed * 6.0) * 0.12 * (0.6 + 0.4 * sin(y * 1.7 + seed * 3.0));
+    v = 1.0 - smoothstep(0.004, 0.016, abs(x - w));
+  } else {
+    float k = (x + 0.21) / 0.07, col = floor(k), f = fract(k) * 0.07;
+    float hgt = (0.3 + 0.32 * (1.0 + sin(time * (1.1 + col * 0.31) + col * 1.7 + seed * 9.0))) * top;
+    v = step(0.012, f) * step(f, 0.056) * step(y, hgt) * step(0.3, fract(y / 0.05)) * 0.85;
+  }
+  return v * inside;
+}
 vec3 slabGlow(float time) {
   float face = step(0.6, abs(vObjN.z));
   float lit = mix(0.12, 1.0, vOn);
   float y = (vObj.y + 0.5) * vHeight;
-  float pulse = 0.5 + 0.5 * sin(y * 3.1 - time * 1.7 + vSeed * 6.2832);
-  float seam = (1.0 - smoothstep(0.003, 0.016, abs(vObj.x))) * face;
-  vec3 col = vGem * seam * (0.3 + 0.7 * pulse) * (1.0 + 2.8 * vHover) * lit;
+  vec3 col = vGem * facePattern(vPattern, vObj.x, y, vHeight, time, vSeed) * face * (1.0 + 2.8 * vHover) * lit;
+  // the monogram, a square near the top of each broad face (read the right way round from either side)
+  float gs = 0.4;
+  vec2 gp = vec2(vObj.x / gs + 0.5, (y - (vHeight - 0.2 - gs)) / gs);
+  if (vObjN.z < 0.0) gp.x = 1.0 - gp.x;
+  if (face > 0.5 && gp.x > 0.0 && gp.x < 1.0 && gp.y > 0.0 && gp.y < 1.0) {
+    vec2 cell = vec2(mod(vCell, uGrid.x), floor(vCell / uGrid.x));
+    float g = texture2D(uAtlas, vec2((cell.x + gp.x) / uGrid.x, 1.0 - (cell.y + 1.0 - gp.y) / uGrid.y)).a;
+    col += mix(vGem, vec3(1.0, 0.92, 0.78), 0.25) * g * (0.9 + 2.2 * vHover) * lit;
+  }
   float ax = abs(vObj.x);
   float frameX = smoothstep(0.236, 0.243, ax) * (1.0 - smoothstep(0.249, 0.256, ax));
   float ey = abs(vObj.y) * vHeight;
@@ -75,12 +126,19 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
     const angle = ((cursor + 0.5) / slots) * Math.PI * 2;
     cursor += 1;
     const rng = mulberry32(hashString(project.name));
+    const height = 2.45 + rng() * 1.35;
+    const seed = rng();
+    // each project its own shade of its category's gem, its own build and its own face pattern
+    const color = new THREE.Color(styles[project.category]?.color || '#d6b46c').offsetHSL((rng() - 0.5) * 0.1, (rng() - 0.5) * 0.24, (rng() - 0.5) * 0.14);
     return {
       project,
       angle,
-      height: 2.45 + rng() * 1.35,
-      seed: rng(),
-      color: new THREE.Color(styles[project.category]?.color || '#d6b46c'),
+      height,
+      seed,
+      width: 0.86 + rng() * 0.32,
+      depth: 0.85 + rng() * 0.7,
+      pattern: Math.floor(rng() * 8),
+      color,
       hover: 0,
       hoverTo: 0,
       on: 1,
@@ -94,16 +152,23 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
   const aGem = new Float32Array(N * 3);
   const aSeed = new Float32Array(N);
   const aHeight = new Float32Array(N);
+  const aPattern = new Float32Array(N);
+  const aCell = new Float32Array(N);
   items.forEach((it, i) => {
     it.color.toArray(aGem, i * 3);
     aSeed[i] = it.seed;
     aHeight[i] = it.height;
+    aPattern[i] = it.pattern;
+    aCell[i] = i;
   });
+  const atlas = monogramAtlas(items.map((it) => it.project.title));
   const hoverAttr = new THREE.InstancedBufferAttribute(new Float32Array(N), 1).setUsage(THREE.DynamicDrawUsage);
   const onAttr = new THREE.InstancedBufferAttribute(new Float32Array(N).fill(1), 1).setUsage(THREE.DynamicDrawUsage);
   slabGeo.setAttribute('aGem', new THREE.InstancedBufferAttribute(aGem, 3));
   slabGeo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(aSeed, 1));
   slabGeo.setAttribute('aHeight', new THREE.InstancedBufferAttribute(aHeight, 1));
+  slabGeo.setAttribute('aPattern', new THREE.InstancedBufferAttribute(aPattern, 1));
+  slabGeo.setAttribute('aCell', new THREE.InstancedBufferAttribute(aCell, 1));
   slabGeo.setAttribute('aHover', hoverAttr);
   slabGeo.setAttribute('aOn', onAttr);
 
@@ -112,16 +177,18 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
   });
   slabMat.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = uTime;
+    shader.uniforms.uAtlas = atlas.uniform;
+    shader.uniforms.uGrid = atlas.grid;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>\n${SLAB_ATTRS}\n${SLAB_VARYINGS}`)
       .replace('#include <begin_vertex>', `#include <begin_vertex>\n${SLAB_PASS}`);
     shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', `#include <common>\nuniform float uTime;\n${SLAB_VARYINGS}\n${SLAB_GLOW}`)
+      .replace('#include <common>', `#include <common>\nuniform float uTime;\n${SLAB_UNIFORMS}\n${SLAB_VARYINGS}\n${SLAB_GLOW}`)
       .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += slabGlow(uTime);');
   };
 
   const mirrorMat = new THREE.ShaderMaterial({
-    uniforms: { uTime },
+    uniforms: { uTime, uAtlas: atlas.uniform, uGrid: atlas.grid },
     vertexShader: /* glsl */ `
       ${SLAB_ATTRS}
       ${SLAB_VARYINGS}
@@ -134,6 +201,7 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
       }`,
     fragmentShader: /* glsl */ `
       uniform float uTime;
+      ${SLAB_UNIFORMS}
       ${SLAB_VARYINGS}
       varying float vDepth;
       ${SLAB_GLOW}
@@ -166,13 +234,13 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
     const z = Math.cos(it.angle) * RADIUS;
     quat.setFromAxisAngle(UP, it.angle + Math.PI); // broad faces turned to the core
     pos.set(x, PLINTH + lift + it.height / 2, z);
-    scl.set(1, it.height, 1);
+    scl.set(it.width, it.height, it.depth);
     slabs.setMatrixAt(i, m4.compose(pos, quat, scl));
     pos.y = -pos.y;
     scl.y = -it.height;
     mirror.setMatrixAt(i, m4.compose(pos, quat, scl));
     pos.y = PLINTH / 2;
-    scl.set(1, 1, 1);
+    scl.set(it.width, 1, Math.max(1, it.depth));
     plinths.setMatrixAt(i, m4.compose(pos, quat, scl));
   }
   items.forEach((_, i) => place(i));
@@ -225,6 +293,8 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
   });
   coreMat.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = uTime;
+    shader.uniforms.uAtlas = atlas.uniform;
+    shader.uniforms.uGrid = atlas.grid;
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', `#include <common>
         uniform float uTime;
@@ -527,6 +597,41 @@ export function createGallery({ envMap, quality, pixelRatio }, { projects, categ
       setHover(null);
     },
   };
+}
+
+/** Two letters for a project: its capitals if it has two (CoinVantage → CV), else its words' initials, else its first two letters. */
+export function monogram(title) {
+  const caps = (title.match(/[A-Z0-9]/g) || []).join('');
+  if (caps.length >= 2) return caps.slice(0, 2);
+  const words = title.split(/[\s\-_.:·]+/).filter(Boolean);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (title.slice(0, 1).toUpperCase() + title.slice(1, 2).toLowerCase()) || '·';
+}
+
+/** Every project's monogram drawn once into one texture, eight to a row; redrawn when the display face has loaded. */
+function monogramAtlas(titles) {
+  const cols = 8, rows = Math.max(1, Math.ceil(titles.length / cols)), size = 128;
+  const canvas = document.createElement('canvas');
+  canvas.width = cols * size;
+  canvas.height = rows * size;
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.anisotropy = 4;
+  const draw = () => {
+    const g = canvas.getContext('2d');
+    g.clearRect(0, 0, canvas.width, canvas.height);
+    g.fillStyle = '#fff';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    titles.forEach((title, i) => {
+      const text = monogram(title);
+      g.font = `600 ${text.length > 1 ? 74 : 92}px "Cormorant Garamond", Georgia, serif`;
+      g.fillText(text, (i % cols) * size + size / 2, Math.floor(i / cols) * size + size / 2 + 4, size - 14);
+    });
+    texture.needsUpdate = true;
+  };
+  draw();
+  document.fonts?.load('600 74px "Cormorant Garamond"').then(draw, () => {});
+  return { uniform: { value: texture }, grid: { value: new THREE.Vector2(cols, rows) } };
 }
 
 /** The hover label's parts, made once; text goes in through textContent only. */
