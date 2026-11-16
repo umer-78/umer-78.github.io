@@ -26,26 +26,26 @@ ADS = [
                "on the grill, the build, and a hero shot that ends on the line “One bite. Endless craving.”"),
          steps=[("Concept & shot list", "Ingredients, grill, build, hero shot and end line, planned beat by beat."),
                 ("AI generation", "Each shot generated with AI video from a detailed prompt, keeping one consistent look."),
-                ("Edit & sound", "Shots cut to 30 seconds, with the end line and a sound bed.")],
+                ("Edit & sound", "Shots cut to 30 seconds with the end line, scored with original music and grill sizzle.")],
          tags=["Food ad", "16:9", "With sound"]),
     dict(title="Buffalo Wings Ad", src="Buffalo Wings Ad (17s).mp4", runtime="17s",
-         orient="landscape", poster_t=8.4, sound=False,
+         orient="landscape", poster_t=8.4, sound=True,
          short="A 17-second ad for buffalo wings, plated by a gloved chef in a clean restaurant kitchen.",
          desc=("A 17-second spec ad for buffalo wings. A chef in gloves plates glazed wings with celery and dip "
                "in a clean, steel restaurant kitchen. This version was remade to show proper kitchen hygiene, with gloved hands."),
          steps=[("Concept & shot list", "A plating sequence in a kitchen that looks clean and professional."),
                 ("AI generation", "Shots generated with AI video, then regenerated so food hygiene is shown correctly."),
-                ("Edit", "Cut into a 17-second sequence that ends on the finished plate.")],
-         tags=["Food ad", "16:9", "Silent"]),
+                ("Edit & sound", "Cut into a 17-second sequence that ends on the finished plate, with kitchen sound and an original music track.")],
+         tags=["Food ad", "16:9", "With sound"]),
     dict(title="Clothing Brand Reel", src="Clothing Brand Reel (10s vertical).mp4", runtime="10s",
-         orient="portrait", poster_t=8.1, sound=False,
+         orient="portrait", poster_t=8.1, sound=True,
          short="A 10-second vertical reel for a clothing brand, with an AI model in a clean studio.",
          desc=("A 10-second vertical (9:16) spec reel for a clothing brand. An AI model in a cream outfit with a "
                "charcoal shawl turns and poses in a clean studio, made for vertical feeds like Instagram and TikTok."),
          steps=[("Concept", "A short, clean studio reel that keeps the outfit as the hero."),
                 ("AI generation", "The model and her movement generated with AI video in a vertical frame."),
-                ("Edit", "Trimmed to a tight 10-second loop for social feeds.")],
-         tags=["Fashion reel", "9:16", "Vertical"]),
+                ("Edit & music", "Trimmed to a tight 10-second loop for social feeds, set to an original beat.")],
+         tags=["Fashion reel", "9:16", "With music"]),
 ]
 
 CATS = ["Food & Drink", "Product", "Craft & Industry", "Nature", "Places & Interiors",
@@ -103,7 +103,8 @@ SHOTS = [
 
 SHOT_STEPS = [("Shot design", "Subject, camera move, lens feel and lighting, described in a detailed prompt."),
               ("AI generation", "Generated with an AI video model from that prompt."),
-              ("Finish", "Graded with a film look and grain; cuts inside the clip trimmed of glitchy frames and softened.")]
+              ("Finish", "Graded with a film look and grain; cuts inside the clip trimmed of glitchy frames and softened."),
+              ("Sound", "Natural sound for the scene and an original music bed, mixed to an even level.")]
 
 # Per-shot fixes for the natural-look pass (tools/look.py). "drop" counts shots between cuts from 0.
 EDITS = {
@@ -114,11 +115,11 @@ EDITS = {
     "c43": {"pre": "crop=1190:680:77:0"},   # crop out a logo burned into the bottom-left corner
 }
 
-# Showreel, in order: (shot id, which shot inside it, counted from 0) or (ad slug, start second).
-# Only the most true-to-life footage, one clean shot each, no garbled text.
-SHOWREEL = [("c24", 2), ("c01", 1), ("burger-commercial", 23.0), ("c15", 0), ("c18", 1),
-            ("buffalo-wings-ad", 7.0), ("c16", 1), ("c25", 0), ("clothing-brand-reel", 5.5), ("c45", 0),
-            ("c20", 0), ("c12", 2), ("c50", 0), ("c48", 0), ("c22", 0)]
+# Showreel, in order: (shot id, which shot inside it counted from 0) or (ad slug, start second), then its
+# length in beats of the 96 BPM score. Cuts land on the beat; only the most true-to-life footage is used.
+SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 23.0, 4), ("c15", 0, 4), ("c18", 1, 2),
+            ("buffalo-wings-ad", 7.0, 4), ("c16", 1, 4), ("c25", 0, 4), ("clothing-brand-reel", 5.5, 4),
+            ("c45", 0, 4), ("c20", 0, 4), ("c12", 2, 4), ("c50", 0, 4), ("c22", 0, 4), ("c48", 0, 8)]
 
 
 def all_projects():
@@ -134,3 +135,64 @@ def all_projects():
                         steps=SHOT_STEPS, tags=[cat, "AI video"], orient="landscape", sound=True,
                         video=f"media/shots/{s}.mp4", poster=f"media/posters/{s}.jpg"))
     return out
+
+# Sound for each video (tools/sound.py): ambience layers (generator, dB, options), an original music cue
+# (music.py) with its level in dB, and synced accents. "segs" plays a layer only in those shots of the clip.
+H = {"hall": True, "reverb": (2.2, 0.4)}
+SOUND = {
+    "c01": {"amb": [("fire", 0), ("room", -14)], "music": ("food", -9)},
+    "c02": {"amb": [("room", -6, H), ("hum", -16), ("pour", -2, {"segs": [1]})], "music": ("lux", -3),
+            "hits": [(("seg", 2, 0.15), "whoosh", -6), (("seg", 2, 0.3), "impact", -4)]},
+    "c04": {"amb": [("trickle", -6, {"segs": [0, 1]}), ("room", -10, {"segs": [0, 1, 2]}), ("wind", -4, {"segs": [3]}),
+                    ("birds", -14, {"segs": [3]})], "music": ("warm", -7)},
+    "c05": {"amb": [("grinder", 0, {"segs": [0, 1]}), ("tunnel", -2, {"segs": [2], "reverb": (2.5, 0.4)}),
+                    ("wind", -10, {"segs": [2]})], "music": ("night", -12)},
+    "c06": {"amb": [("wind", 0), ("cloth", -12, {"segs": [1, 2]})], "music": ("warm", -6)},
+    "c07": {"amb": [("trickle", -10), ("birds", -14), ("room", -14)], "music": ("warm", -5)},
+    "c08": {"amb": [("hum", -8), ("room", -10), ("sizzle", -16, {"segs": [0]})], "music": ("night", -8)},
+    "c09": {"amb": [("room", -16)], "music": ("pulse", -1), "hits": [(6.0, "whoosh", -4), (6.25, "impact", -4)]},
+    "c10": {"amb": [("watch", -14), ("room", -18)], "music": ("lux_soft", -2)},
+    "c11": {"amb": [("lap", -2), ("crickets", -10)], "music": ("night", -6)},
+    "c12": {"amb": [("engine", -2), ("crickets", -16, {"segs": [2]}), ("wind", -10, {"segs": [0, 2]})], "music": ("night", -10)},
+    "c13": {"amb": [("crickets", -6), ("drips", -10), ("room", -16)], "music": ("night", -7)},
+    "c14": {"amb": [("wind", -14), ("crickets", -18)], "music": ("night", 0)},
+    "c15": {"amb": [("roar", -4), ("fire", -6), ("sizzle", -2, {"segs": [2]})], "music": ("warm", -12)},
+    "c16": {"amb": [("wind", -6), ("harvester", -3, {"segs": [1, 3]}), ("birds", -14, {"segs": [0, 2]})], "music": ("warm", -9)},
+    "c17": {"amb": [("lap", -3), ("drips", -12), ("waves", -10)], "music": ("warm", -14)},
+    "c18": {"amb": [("fire", 0), ("crickets", -12)], "music": ("warm", -13)},
+    "c19": {"amb": [("clinks", -2, {"rate": 4.0}), ("room", -16)], "music": ("lux_soft", -8)},
+    "c20": {"amb": [("flame", -6), ("room", -10)], "music": ("night", -7)},
+    "c21": {"amb": [("birds", -8), ("wind", -10)], "music": ("warm", -8)},
+    "c22": {"amb": [("waves", -2), ("wind", -8)], "music": ("night", -10)},
+    "c23": {"amb": [("room", -6, {"hall": True, "reverb": (2.8, 0.5)})], "music": ("warm", -3)},
+    "c24": {"amb": [("room", -12), ("pour", -1, {"segs": [1, 2]}), ("clinks", -8, {"segs": [1, 2], "rate": 2.0})],
+            "music": ("lux_soft", -8)},
+    "c25": {"amb": [("train", 0), ("wind", -10)], "music": ("warm", -12)},
+    "c26": {"amb": [("hum", -12), ("room", -10), ("beep", -10, {"segs": [0, 3]})], "music": ("night", -10)},
+    "c27": {"amb": [("room", -16)], "music": ("lux_soft", -2)},
+    "c29": {"amb": [("chisel", -6, {"segs": [0, 1, 2]}), ("room", -12)], "music": ("warm", -8)},
+    "c30": {"amb": [("vinyl", -8), ("room", -16)], "music": ("lux_soft", -2), "record": True},
+    "c31": {"amb": [("roar", -2), ("fire", -5)], "music": ("warm", -12)},
+    "c32": {"amb": [("motor", -6), ("room", -12)], "music": ("food", -5)},
+    "c33": {"amb": [("room", -10), ("clinks", -12, {"segs": [0], "rate": 1.5}), ("birds", -18, {"segs": [2]})], "music": ("warm", -6)},
+    "c34": {"amb": [("waves", 0), ("wind", -10)], "music": ("warm", -16)},
+    "c35": {"amb": [("bubbles", -10), ("hum", -16), ("room", -14)], "music": ("lux_soft", -3)},
+    "c36": {"amb": [("room", -16), ("cloth", -10, {"segs": [1]})], "music": ("lux_soft", -2)},
+    "c38": {"amb": [("room", -12), ("wind", -14), ("birds", -16)], "music": ("warm", -6)},
+    "c39": {"amb": [("room", -6, H)], "music": ("pulse", -4)},
+    "c40": {"amb": [("tick", -6), ("room", -10)], "music": ("warm", -9)},
+    "c41": {"amb": [("waves", -2), ("wind", -6)], "music": ("warm", -8)},
+    "c42": {"amb": [("room", -14)], "music": ("lux_soft", -2)},
+    "c43": {"amb": [("room", -12), ("birds", -20)], "music": ("warm", -6)},
+    "c44": {"amb": [("room", -14)], "music": ("lux_soft", -2)},
+    "c45": {"amb": [("roar", -2), ("bubbles", -6), ("fire", -10)], "music": ("night", -12)},
+    "c46": {"amb": [("drips", -8), ("room", -12, {"hall": True}), ("birds", -16)], "music": ("warm", -6)},
+    "c48": {"amb": [("wind", -4), ("birds", -18)], "music": ("warm", -4)},
+    "c49": {"amb": [], "music": ("lux", -2), "hits": [(2.0, "whoosh", -4), (2.05, "impact", -3)]},
+    "c50": {"amb": [("room", -14, {"hall": True, "reverb": (2.0, 0.4)})], "music": ("pulse", 0)},
+    # ads (the burger's original bed was only a hum and hiss, so it is fully rescored)
+    "burger-commercial": {"amb": [("sizzle", -4, {"segs": [1, 2]}), ("room", -18)], "music": ("food", -2),
+                          "hits": [(("seg", 3, 0.0), "whoosh", -10), (("seg", 4, 0.0), "impact", -6)]},
+    "buffalo-wings-ad": {"amb": [("room", -10), ("hum", -16), ("sizzle", -12)], "music": ("food", -3)},
+    "clothing-brand-reel": {"amb": [("room", -18)], "music": ("pulse", -1)},
+}

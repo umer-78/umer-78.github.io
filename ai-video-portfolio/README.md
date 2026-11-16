@@ -28,13 +28,20 @@ Plain HTML, CSS and JavaScript, with Three.js for the 3D background and GSAP for
 ## Adding a video
 
 1. Add its title, style and one-line description to `tools/data.py`.
-2. Find the cuts inside the new shot: `SRC_CLIPS=path/to/clips python3 tools/cuts.py` (writes `tools/cuts.json`).
+2. Find the cuts inside the new shot: `SRC_CLIPS=path/to/clips SRC_ADS=path/to/ads python3 tools/cuts.py` (writes `tools/cuts.json`).
    Per-shot fixes, such as dropping a weak shot or cropping out stray text, go in `EDITS` in `tools/data.py`.
-3. Encode the videos (needs `ffmpeg`): `SRC_CLIPS=path/to/clips SRC_ADS=path/to/ads python3 tools/encode.py .`
+3. Give it a sound recipe in `SOUND` in `tools/data.py`: the ambience layers for the scene (fire, waves,
+   wind, night crickets, a steam train, a pour and so on), a music cue and its level, and any accents.
+4. Encode the videos: `SRC_CLIPS=path/to/clips SRC_ADS=path/to/ads python3 tools/encode.py .`
    Every shot gets a natural-look pass (`tools/look.py`): glitchy frames at its cuts are trimmed, the cuts
-   become short dissolves, and a light film grade with grain is added. This writes one MP4 and one poster
-   per video, the showreel, and `tools/manifest.json`.
-4. Regenerate the pages: `python3 tools/build.py .`
+   become short dissolves, and a light film grade with grain is added. Every video then gets its own sound
+   (`tools/sound.py`): ambience synthesised for the scene and an original music bed (`tools/music.py`), mixed
+   to an even loudness. The showreel is cut on the beat of its own score. This writes one MP4 and one poster
+   per video, the showreel, and `tools/manifest.json`. Add `--sound-only` to redo just the sound.
+5. Regenerate the pages: `python3 tools/build.py .`
+
+Needs `ffmpeg`, `fluidsynth` with the FluidR3 GM soundfont (`apt install fluidsynth fluid-soundfont-gm`),
+and Python with `numpy`, `scipy`, `mido` and `pyloudnorm`.
 
 ## Hire me
 

@@ -44,5 +44,8 @@
  "c46": {"cuts": [5.08, 7.5, 10.08], "dur": 12.25},
  "c48": {"cuts": [], "dur": 8.0},
  "c49": {"cuts": [], "dur": 8.0},
- "c50": {"cuts": [], "dur": 8.0}
+ "c50": {"cuts": [], "dur": 8.0},
+ "burger-commercial": {"cuts": [4.0, 7.75, 10.0, 18.0, 20.0], "dur": 30.0},
+ "buffalo-wings-ad": {"cuts": [14.92], "dur": 17.42},
+ "clothing-brand-reel": {"cuts": [], "dur": 10.12}
 }

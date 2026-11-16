@@ -1,8 +1,8 @@
-"""Detect the internal cuts in each AI shot and write tools/cuts.json (used by encode.py)."""
+"""Detect the internal cuts in each AI shot and ad and write tools/cuts.json (used by encode.py)."""
 import json, os, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from data import SHOTS, SRC_CLIPS
+from data import ADS, SHOTS, SRC_ADS, SRC_CLIPS, slugify
 
 
 def cuts(f, thr=0.22):
@@ -15,6 +15,7 @@ def cuts(f, thr=0.22):
 
 
 out = {cid: cuts(f"{SRC_CLIPS}/{cid}.mp4") for cid, *_ in SHOTS}
+out.update({slugify(a["title"]): cuts(f"{SRC_ADS}/{a['src']}") for a in ADS})
 with open(os.path.join(HERE, "cuts.json"), "w") as fh:
     fh.write("{\n" + ",\n".join(f' "{k}": {json.dumps(v)}' for k, v in out.items()) + "\n}\n")
 print(len(out), "clips")

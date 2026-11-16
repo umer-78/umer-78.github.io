@@ -4,346 +4,347 @@
   "h": 768,
   "dur": 30.0,
   "audio": true,
-  "mb": 6.85
+  "mb": 6.87
  },
  "buffalo-wings-ad": {
   "w": 1344,
   "h": 768,
   "dur": 17.42,
-  "audio": false,
-  "mb": 3.41
+  "audio": true,
+  "mb": 3.7
  },
  "clothing-brand-reel": {
   "w": 768,
   "h": 1344,
   "dur": 10.12,
   "audio": true,
-  "mb": 2.56
+  "mb": 2.62
  },
  "wood-fired-pizza": {
   "w": 1280,
   "h": 720,
   "dur": 10.67,
-  "audio": false,
-  "mb": 1.62
+  "audio": true,
+  "mb": 1.8
  },
  "brewery-brand-spot": {
   "w": 1280,
   "h": 720,
   "dur": 11.17,
-  "audio": false,
-  "mb": 1.29
+  "audio": true,
+  "mb": 1.48
  },
  "handmade-paper": {
   "w": 1280,
   "h": 720,
   "dur": 10.62,
-  "audio": false,
-  "mb": 1.7
+  "audio": true,
+  "mb": 1.87
  },
  "sparks-steel": {
   "w": 1280,
   "h": 720,
   "dur": 11.21,
-  "audio": false,
-  "mb": 1.43
+  "audio": true,
+  "mb": 1.62
  },
  "desert-silk-caravan": {
   "w": 1280,
   "h": 720,
   "dur": 10.67,
-  "audio": false,
-  "mb": 1.47
+  "audio": true,
+  "mb": 1.64
  },
  "glass-pavilion": {
   "w": 1280,
   "h": 720,
   "dur": 10.67,
-  "audio": false,
-  "mb": 1.38
+  "audio": true,
+  "mb": 1.56
  },
  "electronics-repair": {
   "w": 1280,
   "h": 720,
   "dur": 11.17,
-  "audio": false,
-  "mb": 0.8
+  "audio": true,
+  "mb": 0.99
  },
  "denim-brand-spot": {
   "w": 1280,
   "h": 720,
   "dur": 8.0,
-  "audio": false,
-  "mb": 0.73
+  "audio": true,
+  "mb": 0.87
  },
  "luxury-watch": {
   "w": 1280,
   "h": 720,
   "dur": 7.75,
-  "audio": false,
-  "mb": 0.84
+  "audio": true,
+  "mb": 0.97
  },
  "paper-boat-at-night": {
   "w": 1280,
   "h": 720,
   "dur": 11.21,
-  "audio": false,
-  "mb": 1.66
+  "audio": true,
+  "mb": 1.84
  },
  "night-drive": {
   "w": 1280,
   "h": 720,
   "dur": 11.17,
-  "audio": false,
-  "mb": 0.77
+  "audio": true,
+  "mb": 0.96
  },
  "night-greenhouse": {
   "w": 1280,
   "h": 720,
   "dur": 10.67,
-  "audio": false,
-  "mb": 0.79
+  "audio": true,
+  "mb": 0.98
  },
  "paper-cut-moon": {
   "w": 1280,
   "h": 720,
   "dur": 12.25,
-  "audio": false,
-  "mb": 1.0
+  "audio": true,
+  "mb": 1.21
  },
  "forged-blade": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.38
+  "mb": 1.42
  },
  "wheat-harvest": {
   "w": 1280,
   "h": 732,
   "dur": 10.67,
   "audio": true,
-  "mb": 2.66
+  "mb": 2.71
  },
  "tide-pool": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 2.75
+  "mb": 2.79
  },
  "campfire": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 2.05
+  "mb": 2.1
  },
  "ice-glass": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.58
+  "mb": 1.62
  },
  "candle-light": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 0.67
+  "mb": 0.71
  },
  "fern-macro": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 2.63
+  "mb": 2.68
  },
  "lighthouse-at-dusk": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 1.26
+  "mb": 1.3
  },
  "opera-house": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.06
+  "mb": 1.1
  },
  "whiskey-pour": {
   "w": 1280,
   "h": 732,
   "dur": 11.21,
   "audio": true,
-  "mb": 2.21
+  "mb": 2.25
  },
  "mountain-steam-train": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 2.0
+  "mb": 2.04
  },
  "medical-tech": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 0.76
+  "mb": 0.8
  },
  "chocolate-break": {
   "w": 1280,
   "h": 732,
   "dur": 9.54,
   "audio": true,
-  "mb": 1.33
+  "mb": 1.37
  },
  "ice-sculpture": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 2.25
+  "mb": 2.29
  },
  "vinyl-evening": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 0.84
+  "mb": 0.88
  },
  "blacksmith-forge": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.21
+  "mb": 1.25
  },
  "cotton-candy": {
   "w": 1280,
   "h": 732,
   "dur": 10.67,
   "audio": true,
-  "mb": 1.43
+  "mb": 1.47
  },
  "stained-glass": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 1.41
+  "mb": 1.46
  },
  "driftwood": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 1.99
+  "mb": 2.04
  },
  "lava-lamp": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 0.67
+  "mb": 0.71
  },
  "silver-ring": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 1.2
+  "mb": 1.25
  },
  "soil-core": {
   "w": 1280,
   "h": 732,
   "dur": 10.67,
   "audio": true,
-  "mb": 1.74
+  "mb": 1.78
  },
  "basketball-court": {
   "w": 1280,
   "h": 732,
   "dur": 7.59,
   "audio": true,
-  "mb": 0.97
+  "mb": 1.0
  },
  "clock-room": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.02
+  "mb": 1.06
  },
  "coastline-aerial": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 3.36
+  "mb": 3.4
  },
  "striped-stone": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 1.38
+  "mb": 1.42
  },
  "incense-smoke": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 0.97
+  "mb": 1.01
  },
  "prism-light": {
   "w": 1280,
   "h": 732,
   "dur": 11.17,
   "audio": true,
-  "mb": 0.85
+  "mb": 0.9
  },
  "molten-metal": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 1.26
+  "mb": 1.3
  },
  "greenhouse-mist": {
   "w": 1280,
   "h": 732,
   "dur": 10.63,
   "audio": true,
-  "mb": 2.41
+  "mb": 2.45
  },
  "mountain-aerial": {
   "w": 1280,
   "h": 720,
   "dur": 8.0,
-  "audio": false,
-  "mb": 0.7
+  "audio": true,
+  "mb": 0.83
  },
  "logo-reveal": {
   "w": 1280,
   "h": 720,
   "dur": 8.0,
-  "audio": false,
-  "mb": 0.86
+  "audio": true,
+  "mb": 0.99
  },
  "stage-dancer": {
   "w": 1280,
   "h": 720,
   "dur": 8.0,
-  "audio": false,
-  "mb": 0.83
+  "audio": true,
+  "mb": 0.97
  },
  "_showreel": {
-  "dur": 39.42,
-  "mb": 4.6
+  "dur": 37.5,
+  "mb": 4.64,
+  "audio": true
  }
 }

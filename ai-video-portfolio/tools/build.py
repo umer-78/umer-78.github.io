@@ -144,7 +144,7 @@ home = f"""  <section class="hero" id="hero">
       <div class="cinema-feature__vignette"></div>
       <div class="cinema-feature__overlay"><div class="cinema-feature__meta"><span class="cinema-feature__badge">Showreel &middot; {SR_LABEL}</span><h3 class="cinema-feature__title">Ads &amp; AI shots</h3><a class="cinema-feature__link" href="work/index.html">Watch each one in full &rarr;</a></div></div>
       <div class="cinema-feature__grain"></div>
-      {player_ui(False)}
+      {player_ui(sr.get("audio", False))}
     </div>
   </section>
 
