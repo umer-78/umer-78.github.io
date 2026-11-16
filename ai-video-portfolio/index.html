@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Umer Hashmi — AI Video Portfolio</title>
+  <meta name="description" content="AI video portfolio of Umer Hashmi: product ads, fashion reels and cinematic shots made with AI video generation." />
+  <link rel="canonical" href="https://umer-78.github.io/ai-video-portfolio/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Umer Hashmi — AI Video Portfolio" />
+  <meta property="og:description" content="AI video portfolio of Umer Hashmi: product ads, fashion reels and cinematic shots made with AI video generation." />
+  <meta property="og:image" content="https://umer-78.github.io/ai-video-portfolio/media/posters/showreel.jpg" />
+  <meta name="theme-color" content="#050508" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050508'/%3E%3Ctext x='16' y='21' font-family='sans-serif' font-size='13' font-weight='700' text-anchor='middle' fill='%236366f1'%3EUH%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/site.css" />
+</head>
+<body class="page-home">
+<div class="preloader" id="preloader"><div class="preloader__inner"><div class="preloader__text">UMER</div><div class="preloader__bar"><div class="preloader__bar-fill"></div></div></div></div>
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+  <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
+  <nav class="nav" id="nav" aria-label="Main">
+    <div class="nav__left"><a href="index.html" class="nav__logo" aria-label="Umer Hashmi, home">UMER<span class="nav__logo-accent">HASHMI</span></a></div>
+    <div class="nav__links"><a href="work/index.html" class="nav__link">Work</a><a href="about/index.html" class="nav__link">About</a><a href="services/index.html" class="nav__link">Services</a><a href="contact/index.html" class="nav__link">Contact</a></div>
+    <div class="nav__right"><a class="nav__cta" href="https://www.upwork.com/freelancers/~01ddc1e59a4bd6f876" target="_blank" rel="noopener">Hire me</a></div>
+    <button class="nav__hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu"><a href="work/index.html" class="mobile-menu__link">Work</a><a href="about/index.html" class="mobile-menu__link">About</a><a href="services/index.html" class="mobile-menu__link">Services</a><a href="contact/index.html" class="mobile-menu__link">Contact</a><a class="mobile-menu__cta" href="https://www.upwork.com/freelancers/~01ddc1e59a4bd6f876" target="_blank" rel="noopener">Hire me on Upwork</a></div>
+<main>
+  <section class="hero" id="hero">
+    <div class="hero__content">
+      <div class="hero__badge"><span class="hero__badge-dot"></span>AI Video Portfolio</div>
+      <h1 class="hero__title">
+        <span class="hero__line hero__line--1"><span class="hero__word">CINEMATIC</span></span>
+        <span class="hero__line hero__line--2"><span class="hero__word">AI</span><span class="hero__word hero__word--outline">VIDEO</span></span>
+      </h1>
+      <p class="hero__subtitle">Product ads, fashion reels and cinematic shots, made with AI video generation and edited into finished spots by Umer Hashmi.</p>
+      <div class="hero__actions">
+        <a href="work/index.html" class="btn btn--primary"><span>See the work</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg></a>
+        <a href="https://www.upwork.com/freelancers/~01ddc1e59a4bd6f876" class="btn btn--ghost" target="_blank" rel="noopener"><span>Hire me on Upwork</span></a>
+      </div>
+    </div>
+    <div class="hero__stats">
+      <div class="hero__stat"><span class="hero__stat-number" data-count="3">3</span><span class="hero__stat-label">Finished ads</span></div>
+      <div class="hero__stat"><span class="hero__stat-number" data-count="46">46</span><span class="hero__stat-label">AI shots</span></div>
+      <div class="hero__stat"><span class="hero__stat-number" data-count="9">9</span><span class="hero__stat-label">Styles</span></div>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true"><span class="hero__scroll-mouse"><span class="hero__scroll-wheel"></span></span><span>Scroll</span></div>
+  </section>
+
+  <section class="section section--cinema" id="showreel">
+    <div class="section__header section__header--center"><div class="section__label">Showreel</div><h2 class="section__title">The <em>Reel</em></h2><p class="section__desc">41 seconds cut from the ads and the strongest shots. Every frame is AI-generated.</p></div>
+    <div class="cinema-feature" data-player>
+      <video class="cinema-feature__video" muted loop playsinline preload="none" poster="media/posters/showreel.jpg" data-src="media/showreel.mp4" aria-label="Showreel"></video>
+      <div class="cinema-feature__vignette"></div>
+      <div class="cinema-feature__overlay"><div class="cinema-feature__meta"><span class="cinema-feature__badge">Showreel &middot; 0:41</span><h3 class="cinema-feature__title">Ads &amp; AI shots</h3><a class="cinema-feature__link" href="work/index.html">Watch each one in full &rarr;</a></div></div>
+      <div class="cinema-feature__grain"></div>
+      <div class="player-ui"><button class="player-btn player-btn--play" type="button" data-play aria-label="Play video"></button></div>
+    </div>
+  </section>
+
+  <div class="marquee" id="marquee" aria-hidden="true"><div class="marquee__track"><span>AI VIDEO</span><span class="marquee__dot">&#9670;</span><span>PRODUCT ADS</span><span class="marquee__dot">&#9670;</span><span>FOOD ADS</span><span class="marquee__dot">&#9670;</span><span>FASHION REELS</span><span class="marquee__dot">&#9670;</span><span>CINEMATIC SHOTS</span><span class="marquee__dot">&#9670;</span><span>LOGO REVEALS</span><span class="marquee__dot">&#9670;</span><span>EDITING</span><span class="marquee__dot">&#9670;</span><span>AI VIDEO</span><span class="marquee__dot">&#9670;</span><span>PRODUCT ADS</span><span class="marquee__dot">&#9670;</span><span>FOOD ADS</span><span class="marquee__dot">&#9670;</span><span>FASHION REELS</span><span class="marquee__dot">&#9670;</span><span>CINEMATIC SHOTS</span><span class="marquee__dot">&#9670;</span><span>LOGO REVEALS</span><span class="marquee__dot">&#9670;</span><span>EDITING</span><span class="marquee__dot">&#9670;</span></div></div>
+
+  <section class="cta-banner" id="ctaBanner">
+    <div class="cta-banner__glow"></div>
+    <div class="cta-banner__content">
+      <h2 class="cta-banner__title">Need a video ad for your <em>product</em>?</h2>
+      <p class="cta-banner__subtitle">Tell me what you sell and where it will run. I'll plan the shots, generate them with AI and deliver a finished ad.</p>
+      <a href="https://www.upwork.com/freelancers/~01ddc1e59a4bd6f876" class="btn btn--primary btn--lg" target="_blank" rel="noopener"><span>Hire me on Upwork</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </section>
+</main>
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <div class="footer__logo">UMER<span class="footer__logo-accent">HASHMI</span></div>
+      <div class="footer__nav"><a href="work/index.html">Work</a><a href="about/index.html">About</a><a href="services/index.html">Services</a><a href="contact/index.html">Contact</a></div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2026 Umer Hashmi. Every video on this site is AI-generated.</span><span class="footer__made"><a href="https://github.com/umer-78" target="_blank" rel="noopener">GitHub</a> &middot; <a href="https://www.upwork.com/freelancers/~01ddc1e59a4bd6f876" target="_blank" rel="noopener">Upwork</a></span></div>
+  </footer>
+  <script src="vendor/three.min.js" defer></script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="js/three-scene.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

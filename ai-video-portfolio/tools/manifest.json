@@ -1,0 +1,349 @@
+{
+ "burger-commercial": {
+  "w": 1344,
+  "h": 768,
+  "dur": 30.0,
+  "audio": true,
+  "mb": 6.85
+ },
+ "buffalo-wings-ad": {
+  "w": 1344,
+  "h": 768,
+  "dur": 17.42,
+  "audio": false,
+  "mb": 3.41
+ },
+ "clothing-brand-reel": {
+  "w": 768,
+  "h": 1344,
+  "dur": 10.12,
+  "audio": true,
+  "mb": 2.56
+ },
+ "wood-fired-pizza": {
+  "w": 1280,
+  "h": 720,
+  "dur": 10.67,
+  "audio": false,
+  "mb": 1.62
+ },
+ "brewery-brand-spot": {
+  "w": 1280,
+  "h": 720,
+  "dur": 11.17,
+  "audio": false,
+  "mb": 1.29
+ },
+ "handmade-paper": {
+  "w": 1280,
+  "h": 720,
+  "dur": 10.62,
+  "audio": false,
+  "mb": 1.7
+ },
+ "sparks-steel": {
+  "w": 1280,
+  "h": 720,
+  "dur": 11.21,
+  "audio": false,
+  "mb": 1.43
+ },
+ "desert-silk-caravan": {
+  "w": 1280,
+  "h": 720,
+  "dur": 10.67,
+  "audio": false,
+  "mb": 1.47
+ },
+ "glass-pavilion": {
+  "w": 1280,
+  "h": 720,
+  "dur": 10.67,
+  "audio": false,
+  "mb": 1.38
+ },
+ "electronics-repair": {
+  "w": 1280,
+  "h": 720,
+  "dur": 11.17,
+  "audio": false,
+  "mb": 0.8
+ },
+ "denim-brand-spot": {
+  "w": 1280,
+  "h": 720,
+  "dur": 8.0,
+  "audio": false,
+  "mb": 0.73
+ },
+ "luxury-watch": {
+  "w": 1280,
+  "h": 720,
+  "dur": 7.75,
+  "audio": false,
+  "mb": 0.84
+ },
+ "paper-boat-at-night": {
+  "w": 1280,
+  "h": 720,
+  "dur": 11.21,
+  "audio": false,
+  "mb": 1.66
+ },
+ "night-drive": {
+  "w": 1280,
+  "h": 720,
+  "dur": 11.17,
+  "audio": false,
+  "mb": 0.77
+ },
+ "night-greenhouse": {
+  "w": 1280,
+  "h": 720,
+  "dur": 10.67,
+  "audio": false,
+  "mb": 0.79
+ },
+ "paper-cut-moon": {
+  "w": 1280,
+  "h": 720,
+  "dur": 12.25,
+  "audio": false,
+  "mb": 1.0
+ },
+ "forged-blade": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.38
+ },
+ "wheat-harvest": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.67,
+  "audio": true,
+  "mb": 2.66
+ },
+ "tide-pool": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 2.75
+ },
+ "campfire": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 2.05
+ },
+ "ice-glass": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.58
+ },
+ "candle-light": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 0.67
+ },
+ "fern-macro": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 2.63
+ },
+ "lighthouse-at-dusk": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 1.26
+ },
+ "opera-house": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.06
+ },
+ "whiskey-pour": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.21,
+  "audio": true,
+  "mb": 2.21
+ },
+ "mountain-steam-train": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 2.0
+ },
+ "medical-tech": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 0.76
+ },
+ "chocolate-break": {
+  "w": 1280,
+  "h": 732,
+  "dur": 9.54,
+  "audio": true,
+  "mb": 1.33
+ },
+ "ice-sculpture": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 2.25
+ },
+ "vinyl-evening": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 0.84
+ },
+ "blacksmith-forge": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.21
+ },
+ "cotton-candy": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.67,
+  "audio": true,
+  "mb": 1.43
+ },
+ "stained-glass": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 1.41
+ },
+ "driftwood": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 1.99
+ },
+ "lava-lamp": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 0.67
+ },
+ "silver-ring": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 1.2
+ },
+ "soil-core": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.67,
+  "audio": true,
+  "mb": 1.74
+ },
+ "basketball-court": {
+  "w": 1280,
+  "h": 732,
+  "dur": 7.59,
+  "audio": true,
+  "mb": 0.97
+ },
+ "clock-room": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.02
+ },
+ "coastline-aerial": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 3.36
+ },
+ "striped-stone": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 1.38
+ },
+ "incense-smoke": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 0.97
+ },
+ "prism-light": {
+  "w": 1280,
+  "h": 732,
+  "dur": 11.17,
+  "audio": true,
+  "mb": 0.85
+ },
+ "molten-metal": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 1.26
+ },
+ "greenhouse-mist": {
+  "w": 1280,
+  "h": 732,
+  "dur": 10.63,
+  "audio": true,
+  "mb": 2.41
+ },
+ "mountain-aerial": {
+  "w": 1280,
+  "h": 720,
+  "dur": 8.0,
+  "audio": false,
+  "mb": 0.7
+ },
+ "logo-reveal": {
+  "w": 1280,
+  "h": 720,
+  "dur": 8.0,
+  "audio": false,
+  "mb": 0.86
+ },
+ "stage-dancer": {
+  "w": 1280,
+  "h": 720,
+  "dur": 8.0,
+  "audio": false,
+  "mb": 0.83
+ },
+ "_showreel": {
+  "dur": 41.21,
+  "mb": 6.2
+ }
+}
