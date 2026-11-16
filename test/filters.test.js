@@ -25,10 +25,17 @@ test('every category used is one the page offers as a chip', () => {
   }
 });
 
-test('demo links are absolute https URLs under the owner pages domain', () => {
+// Apps that need a server (a database, a render worker) run on a host of their own.
+const APP_HOSTS = { 'adforge-studio': 'adforge-studio-sage.vercel.app' };
+
+test('demo links are https: Pages demos live at /<name>, server apps on their named host', () => {
   for (const project of site.projects.filter((p) => p.demo)) {
     const url = new URL(project.demo);
     assert.equal(url.protocol, 'https:');
+    if (APP_HOSTS[project.name]) {
+      assert.equal(url.hostname, APP_HOSTS[project.name], `${project.name} demo host`);
+      continue;
+    }
     assert.equal(url.hostname, `${site.owner}.github.io`);
     assert.ok(url.pathname.startsWith(`/${project.name}`), `${project.name} demo path`);
   }

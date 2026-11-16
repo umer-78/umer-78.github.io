@@ -17,6 +17,7 @@ const site = {
     "Games & interactive"
   ],
   "featured": [
+    "adforge-studio",
     "coinvantage",
     "stocksense",
     "umer-78-llm-gateway",
@@ -1139,6 +1140,29 @@ const site = {
         "game-development",
         "input-system"
       ]
+    },
+    {
+      "name": "adforge-studio",
+      "title": "AdForge Studio",
+      "category": "Applications & services",
+      "language": "TypeScript",
+      "summary": "An ad studio for short video and photo ads: generate, edit, voice, score and publish in one place, and every AI run shows its price before it starts. Visitors can try it without signing in, as a guest editor that cannot reach the owner's account, keys or publishing.",
+      "highlights": [
+        "Prices every AI run before it starts, stops paid work at the monthly budget, and caps spend per day while the studio is open to visitors",
+        "Timeline editor with templates, captions, motion graphics and 3D device mockups, rendered by a Remotion worker",
+        "Text tasks run on Claude or on a free Gemini key; video, image and voice go through fal, Replicate and ElevenLabs, with each workspace's keys checked and stored encrypted",
+        "Next.js and TypeScript in a pnpm monorepo: Vercel for the app, Railway for the render worker, Supabase for data and storage"
+      ],
+      "topics": [
+        "typescript",
+        "nextjs",
+        "remotion",
+        "video",
+        "ai",
+        "supabase"
+      ],
+      "demo": "https://adforge-studio-sage.vercel.app",
+      "preview": "assets/previews/adforge-studio.webp"
     }
   ]
 };

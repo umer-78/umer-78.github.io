@@ -77,6 +77,7 @@ export const PROJECT_ENVIRONMENT = {
   'project-tracker': 'mosaic',
   'image-toolkit': 'mosaic',
   'pipeline-forensics': 'mosaic',
+  'adforge-studio': 'mosaic',
   'ui-lab': 'arcade',
   'snake-game': 'arcade',
   GD_PROJECT: 'arcade',
