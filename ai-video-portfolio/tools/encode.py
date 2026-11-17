@@ -46,6 +46,11 @@ CID = {slugify(t): cid for cid, t, *_ in SHOTS}
 def clip_segs(key):
     """Where each shot of a video sits, {index: (start, end)}. Ads keep their hard edit cuts."""
     c, e = CUTS[key], EDITS.get(key, {})
+    if key in ADINFO and ADINFO[key].get("keep"):
+        b = [0.0]
+        for a, z in ADINFO[key]["keep"]:
+            b.append(b[-1] + z - a)
+        return {i: (b[i], b[i + 1]) for i in range(len(b) - 1)}
     if key in ADINFO:
         b = [0.0] + c["cuts"] + [c["dur"]]
         return {i: (b[i], b[i + 1]) for i in range(len(b) - 1)}
@@ -74,7 +79,8 @@ def encode(p):
     if p["kind"] == "ad":
         a = ADINFO[s]
         src = f"{SRC_ADS}/{a['src']}"
-        look.process(src, full, [], probe(src)["dur"], soft=False, crf=22, scale="", keep_audio=False)
+        look.process(src, full, [], probe(src)["dur"], soft=False, crf=22, scale="", keep_audio=False,
+                     spans=a.get("keep"))
         t = a["poster_t"]
     else:
         cid = CID[s]

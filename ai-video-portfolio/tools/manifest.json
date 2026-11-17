@@ -2,9 +2,9 @@
  "burger-commercial": {
   "w": 1344,
   "h": 768,
-  "dur": 30.0,
+  "dur": 20.92,
   "audio": true,
-  "mb": 6.87
+  "mb": 5.24
  },
  "buffalo-wings-ad": {
   "w": 1344,
@@ -41,20 +41,6 @@
   "audio": true,
   "mb": 1.87
  },
- "sparks-steel": {
-  "w": 1280,
-  "h": 720,
-  "dur": 11.21,
-  "audio": true,
-  "mb": 1.62
- },
- "desert-silk-caravan": {
-  "w": 1280,
-  "h": 720,
-  "dur": 10.67,
-  "audio": true,
-  "mb": 1.64
- },
  "glass-pavilion": {
   "w": 1280,
   "h": 720,
@@ -65,9 +51,9 @@
  "electronics-repair": {
   "w": 1280,
   "h": 720,
-  "dur": 11.17,
+  "dur": 8.21,
   "audio": true,
-  "mb": 0.99
+  "mb": 0.73
  },
  "denim-brand-spot": {
   "w": 1280,
@@ -75,13 +61,6 @@
   "dur": 8.0,
   "audio": true,
   "mb": 0.87
- },
- "luxury-watch": {
-  "w": 1280,
-  "h": 720,
-  "dur": 7.75,
-  "audio": true,
-  "mb": 0.97
  },
  "paper-boat-at-night": {
   "w": 1280,
@@ -100,9 +79,9 @@
  "night-greenhouse": {
   "w": 1280,
   "h": 720,
-  "dur": 10.67,
+  "dur": 8.46,
   "audio": true,
-  "mb": 0.98
+  "mb": 0.74
  },
  "paper-cut-moon": {
   "w": 1280,
@@ -188,20 +167,6 @@
   "audio": true,
   "mb": 2.04
  },
- "medical-tech": {
-  "w": 1280,
-  "h": 732,
-  "dur": 10.63,
-  "audio": true,
-  "mb": 0.8
- },
- "chocolate-break": {
-  "w": 1280,
-  "h": 732,
-  "dur": 9.54,
-  "audio": true,
-  "mb": 1.37
- },
  "ice-sculpture": {
   "w": 1280,
   "h": 732,
@@ -278,13 +243,6 @@
   "dur": 10.63,
   "audio": true,
   "mb": 1.06
- },
- "coastline-aerial": {
-  "w": 1280,
-  "h": 732,
-  "dur": 11.17,
-  "audio": true,
-  "mb": 3.4
  },
  "striped-stone": {
   "w": 1280,

@@ -62,8 +62,25 @@ def timeline(cuts, dur, drop=()):
     return out
 
 
-def process(src, out, cuts, dur, drop=(), soft=True, crf=25, keep_audio=True, pre="", scale=SCALE, abr="96k"):
-    """Write the cleaned, graded clip to `out`. Returns (segments, length in seconds) or None."""
+def _spans(src, out, spans, crf, scale):
+    fc = [f"[0:v]trim={a}:{z},setpts=PTS-STARTPTS,fps=24,settb=AVTB[v{i}]" for i, (a, z) in enumerate(spans)]
+    length = sum(z - a for a, z in spans)
+    fc.append("".join(f"[v{i}]" for i in range(len(spans))) + f"concat=n={len(spans)}:v=1:a=0,"
+              f"fade=t=out:st={length - 0.5:.3f}:d=0.5,{grade(scale)}[vout]")
+    r = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", src, "-filter_complex", ";".join(fc),
+                        "-map", "[vout]", "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", str(crf),
+                        "-pix_fmt", "yuv420p", "-movflags", "+faststart", out], capture_output=True, text=True)
+    if r.returncode:
+        print("FAIL", out, r.stderr[-600:], flush=True)
+        return None
+    return spans, length
+
+
+def process(src, out, cuts, dur, drop=(), soft=True, crf=25, keep_audio=True, pre="", scale=SCALE, abr="96k", spans=None):
+    """Write the cleaned, graded clip to `out`. Returns (segments, length in seconds) or None.
+    spans: exact (start, end) parts of the source to keep, joined with hard cuts and a short fade out."""
+    if spans:
+        return _spans(src, out, spans, crf, scale)
     segs = segments(cuts, dur, drop) if soft else [(0.0, dur)]
     aud = keep_audio and has_audio(src)
     pre = f"{pre}," if pre else ""

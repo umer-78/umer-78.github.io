@@ -19,14 +19,16 @@ def slugify(s):
 
 # Finished ads: the strongest work, shown first everywhere.
 ADS = [
-    dict(title="Burger Commercial", src="Burger Commercial (30s).mp4", runtime="30s",
-         orient="landscape", poster_t=24.0, sound=True,
-         short="A 30-second commercial for a gourmet burger, from fresh ingredients to the final hero shot.",
-         desc=("A 30-second spec commercial for a gourmet burger. Fresh ingredients, the patty and cheese "
+    # keep: the spans of the source used, joined with hard cuts (the shots with a floating sauce spoon are left out)
+    dict(title="Burger Commercial", src="Burger Commercial (30s).mp4", runtime="21s",
+         keep=[(0.4, 3.6), (4.0, 7.75), (10.0, 14.95), (18.0, 20.0), (20.0, 27.0)],
+         orient="landscape", poster_t=16.5, sound=True,
+         short="A 21-second commercial for a gourmet burger, from fresh ingredients to the final hero shot.",
+         desc=("A 21-second spec commercial for a gourmet burger. Fresh ingredients, the patty and cheese "
                "on the grill, the build, and a hero shot that ends on the line “One bite. Endless craving.”"),
          steps=[("Concept & shot list", "Ingredients, grill, build, hero shot and end line, planned beat by beat."),
                 ("AI generation", "Each shot generated with AI video from a detailed prompt, keeping one consistent look."),
-                ("Edit & sound", "Shots cut to 30 seconds with the end line, scored with original music and grill sizzle.")],
+                ("Edit & sound", "Cut down to 21 seconds with the end line, scored with original music and grill sizzle.")],
          tags=["Food ad", "16:9", "With sound"]),
     dict(title="Buffalo Wings Ad", src="Buffalo Wings Ad (17s).mp4", runtime="17s",
          orient="landscape", poster_t=8.4, sound=True,
@@ -52,16 +54,16 @@ CATS = ["Food & Drink", "Product", "Craft & Industry", "Nature", "Places & Inter
         "People & Performance", "Cars & Sport", "Tech & Science", "Animation & Logos"]
 
 # (clip id, title, category, one-line description)
+# Left out for visible AI errors: c05 Sparks & Steel (sparks turn into a tunnel), c06 Desert Silk Caravan (incoherent),
+# c10 Luxury Watch (garbled dial lettering), c26 Medical Tech (nonsense monitor numbers), c27 Chocolate Break
+# (made-up lettering on the bar), c41 Coastline Aerial (unnatural fractal foam).
 SHOTS = [
     ("c01", "Wood-Fired Pizza", "Food & Drink", "An overhead pizza reveal, a stretchy cheese pull, the blistered crust and a hand lifting a slice in warm oven light."),
     ("c02", "Brewery Brand Spot", "Food & Drink", "Copper brew kettles, a beer pour from the tap and a carved wooden logo for a made-up brewery."),
     ("c04", "Handmade Paper", "Craft & Industry", "An artisan paper workshop: pulp vats, a fresh sheet lifted from the mould, paper drying on lines and a kite rising at sunset."),
-    ("c05", "Sparks & Steel", "Craft & Industry", "Grinder sparks flying off a steel rail, the glowing edge, then a long railway tunnel."),
-    ("c06", "Desert Silk Caravan", "Places & Interiors", "Wind-rippled dunes, merchants opening a crate of raw silk, silk threads catching the light and a camel caravan at sunset."),
     ("c07", "Glass Pavilion", "Places & Interiors", "A modern glass house beside a reflecting pool, from the timber roof down to the lounge inside."),
-    ("c08", "Electronics Repair", "Tech & Science", "Soldering a vintage radio board from above, glowing vacuum tubes and a blue oscilloscope trace."),
+    ("c08", "Electronics Repair", "Tech & Science", "Soldering a vintage radio board from above, then glowing vacuum tubes."),
     ("c09", "Denim Brand Spot", "People & Performance", "A model in a denim jacket against a timber slat wall breaks into movement, ending on a logo card for a made-up brand."),
-    ("c10", "Luxury Watch", "Product", "A chronograph watch on dark marble: light sweeping across it, a side view of the case and a hand picking it up."),
     ("c11", "Paper Boat at Night", "Places & Interiors", "A paper boat drifting across a pond that mirrors lit windows, ending on the lamplit street beside it."),
     ("c12", "Night Drive", "Cars & Sport", "Headlights on a dark mountain road, the view from the driver's seat and red tail lights fading out."),
     ("c13", "Night Greenhouse", "Nature", "Lilies under a hanging lamp inside a glasshouse at night, seen from inside and out."),
@@ -77,8 +79,6 @@ SHOTS = [
     ("c23", "Opera House", "Places & Interiors", "Light beams through a grand theatre, an empty chair among red seats, the gilded ceiling and a spotlit stage."),
     ("c24", "Whiskey Pour", "Food & Drink", "An empty crystal glass on oak, whiskey poured over ice and the finished drink."),
     ("c25", "Mountain Steam Train", "Places & Interiors", "A steam train climbing a mountain pass, seen from the hillside and from inside the carriage."),
-    ("c26", "Medical Tech", "Tech & Science", "A patient monitor, a gentle hand on skin and a hospital scanner."),
-    ("c27", "Chocolate Break", "Food & Drink", "A chocolate bar snapping apart in slow motion."),
     ("c29", "Ice Sculpture", "Craft & Industry", "Clear ice chiselled into a sculpture that ends up on a table in window light."),
     ("c30", "Vinyl Evening", "Places & Interiors", "A lamp, a record spinning on a turntable and a warm bedroom in the evening."),
     ("c31", "Blacksmith Forge", "Craft & Industry", "A blacksmith in a dark forge, hot steel on the anvil and the fire up close."),
@@ -90,7 +90,6 @@ SHOTS = [
     ("c38", "Soil Core", "Nature", "A layered column of soil in macro detail, then held in two hands."),
     ("c39", "Basketball Court", "Cars & Sport", "A player dribbling on a court seen from above, then a ball dropping through the net."),
     ("c40", "Clock Room", "Places & Interiors", "Sunbeams through dust in an old room with a wall clock."),
-    ("c41", "Coastline Aerial", "Nature", "Top-down surf foam spreading over a green coastline."),
     ("c42", "Striped Stone", "Product", "A black-and-white striped stone slab in a dark studio, explored up close."),
     ("c43", "Incense Smoke", "Places & Interiors", "Incense smoke curling through a calm, sunlit room."),
     ("c44", "Prism Light", "Tech & Science", "White light split into a rainbow by a glass prism turned by hand."),
@@ -108,6 +107,8 @@ SHOT_STEPS = [("Shot design", "Subject, camera move, lens feel and lighting, des
 
 # Per-shot fixes for the natural-look pass (tools/look.py). "drop" counts shots between cuts from 0.
 EDITS = {
+    "c08": {"drop": [2]},                   # cut the patient monitor with made-up numbers at the end
+    "c13": {"drop": [1]},                   # cut the flat grid of flowers
     "c10": {"drop": [1]},                   # cut the dial close-up with garbled lettering
     "c12": {"pre": "crop=1652:930:134:0"},  # crop out garbled text burned into the bottom-left corner
     "c27": {"drop": [3]},                   # cut the made-up wrapper end shot
@@ -117,7 +118,7 @@ EDITS = {
 
 # Showreel, in order: (shot id, which shot inside it counted from 0) or (ad slug, start second), then its
 # length in beats of the 96 BPM score. Cuts land on the beat; only the most true-to-life footage is used.
-SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 23.0, 4), ("c15", 0, 4), ("c18", 1, 2),
+SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 16.9, 4), ("c15", 0, 4), ("c18", 1, 2),
             ("buffalo-wings-ad", 7.0, 4), ("c16", 1, 4), ("c25", 0, 4), ("clothing-brand-reel", 5.5, 4),
             ("c45", 0, 4), ("c20", 0, 4), ("c12", 2, 4), ("c50", 0, 4), ("c22", 0, 4), ("c48", 0, 8)]
 
@@ -196,7 +197,7 @@ SOUND = {
     "c49": {"amb": [], "music": ("lux", -2), "hits": [(2.0, "whoosh", -4), (2.05, "impact", -3)]},
     "c50": {"amb": [("room", -14, {"hall": True, "reverb": (2.0, 0.4)})], "music": ("pulse", 0)},
     # ads (the burger's original bed was only a hum and hiss, so it is fully rescored)
-    "burger-commercial": {"amb": [("sizzle", -4, {"segs": [1, 2]}), ("room", -18)], "music": ("food", -2),
+    "burger-commercial": {"amb": [("sizzle", -4, {"segs": [1]}), ("room", -18)], "music": ("food", -2),
                           "hits": [(("seg", 3, 0.0), "whoosh", -10), (("seg", 4, 0.0), "impact", -6)]},
     "buffalo-wings-ad": {"amb": [("room", -10), ("hum", -16), ("sizzle", -12)], "music": ("food", -3)},
     "clothing-brand-reel": {"amb": [("room", -18)], "music": ("pulse", -1)},
