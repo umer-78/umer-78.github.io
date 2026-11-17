@@ -19,16 +19,18 @@ def slugify(s):
 
 # Finished ads: the strongest work, shown first everywhere.
 ADS = [
-    # keep: the spans of the source used, joined with hard cuts (the shots with a floating sauce spoon are left out)
-    dict(title="Burger Commercial", src="Burger Commercial (30s).mp4", runtime="21s",
-         keep=[(0.4, 3.6), (4.0, 7.75), (10.0, 14.95), (18.0, 20.0), (20.0, 27.0)],
-         orient="landscape", poster_t=16.5, sound=True,
-         short="A 21-second commercial for a gourmet burger, from fresh ingredients to the final hero shot.",
-         desc=("A 21-second spec commercial for a gourmet burger. Fresh ingredients, the patty and cheese "
+    # keep: the spans of the source used, joined with hard cuts. The source's floating sauce-spoon shots are left out
+    # and replaced by an Agnes reshoot with a hand holding the spoon (a (file, start, end) span).
+    dict(title="Burger Commercial", src="Burger Commercial (30s).mp4", runtime="22s",
+         keep=[(0.4, 3.6), (4.0, 7.75), ("Burger sauce on bun (Agnes reshoot).mp4", 0.1, 1.2), (10.0, 14.95),
+               (18.0, 20.0), (20.0, 27.0)],
+         orient="landscape", poster_t=17.6, sound=True,
+         short="A 22-second commercial for a gourmet burger, from fresh ingredients to the final hero shot.",
+         desc=("A 22-second spec commercial for a gourmet burger. Fresh ingredients, the patty and cheese "
                "on the grill, the build, and a hero shot that ends on the line “One bite. Endless craving.”"),
          steps=[("Concept & shot list", "Ingredients, grill, build, hero shot and end line, planned beat by beat."),
                 ("AI generation", "Each shot generated with AI video from a detailed prompt, keeping one consistent look."),
-                ("Edit & sound", "Cut down to 21 seconds with the end line, scored with original music and grill sizzle.")],
+                ("Edit & sound", "Cut down to 22 seconds with the end line, scored with original music and grill sizzle.")],
          tags=["Food ad", "16:9", "With sound"]),
     dict(title="Buffalo Wings Ad", src="Buffalo Wings Ad (17s).mp4", runtime="17s",
          orient="landscape", poster_t=8.4, sound=True,
@@ -56,18 +58,19 @@ CATS = ["Food & Drink", "Product", "Craft & Industry", "Nature", "Places & Inter
 # (clip id, title, category, one-line description)
 # Left out for visible AI errors: c05 Sparks & Steel (sparks turn into a tunnel), c06 Desert Silk Caravan (incoherent),
 # c10 Luxury Watch (garbled dial lettering), c26 Medical Tech (nonsense monitor numbers), c27 Chocolate Break
-# (made-up lettering on the bar), c41 Coastline Aerial (unnatural fractal foam).
+# (made-up lettering on the bar), c41 Coastline Aerial (unnatural fractal foam), c32 Cotton Candy (the candy turns
+# into a soft-serve swirl).
 SHOTS = [
     ("c01", "Wood-Fired Pizza", "Food & Drink", "An overhead pizza reveal, a stretchy cheese pull, the blistered crust and a hand lifting a slice in warm oven light."),
     ("c02", "Brewery Brand Spot", "Food & Drink", "Copper brew kettles, a beer pour from the tap and a carved wooden logo for a made-up brewery."),
     ("c04", "Handmade Paper", "Craft & Industry", "An artisan paper workshop: pulp vats, a fresh sheet lifted from the mould, paper drying on lines and a kite rising at sunset."),
     ("c07", "Glass Pavilion", "Places & Interiors", "A modern glass house beside a reflecting pool, from the timber roof down to the lounge inside."),
-    ("c08", "Electronics Repair", "Tech & Science", "Soldering a vintage radio board from above, then glowing vacuum tubes."),
+    ("c08", "Electronics Repair", "Tech & Science", "Soldering a vintage radio board from above, by hand with a fine iron."),
     ("c09", "Denim Brand Spot", "People & Performance", "A model in a denim jacket against a timber slat wall breaks into movement, ending on a logo card for a made-up brand."),
     ("c11", "Paper Boat at Night", "Places & Interiors", "A paper boat drifting across a pond that mirrors lit windows, ending on the lamplit street beside it."),
     ("c12", "Night Drive", "Cars & Sport", "Headlights on a dark mountain road, the view from the driver's seat and red tail lights fading out."),
     ("c13", "Night Greenhouse", "Nature", "Lilies under a hanging lamp inside a glasshouse at night, seen from inside and out."),
-    ("c14", "Paper-Cut Moon", "Animation & Logos", "A layered paper-cut animation of the moon changing phase between clouds and hills."),
+    ("c14", "Paper-Cut Moon", "Animation & Logos", "A layered paper-cut animation of a crescent moon glowing between clouds and hills."),
     ("c15", "Forged Blade", "Craft & Industry", "Hammer sparks, a blade glowing on the anvil, a quench in oil and the finished steel."),
     ("c16", "Wheat Harvest", "Nature", "Low over a wheat field, a combine harvester at work, ripe ears up close and the machine at sunset."),
     ("c17", "Tide Pool", "Nature", "Macro life in a rock pool: an anemone, a hermit crab and barnacled stones."),
@@ -82,7 +85,6 @@ SHOTS = [
     ("c29", "Ice Sculpture", "Craft & Industry", "Clear ice chiselled into a sculpture that ends up on a table in window light."),
     ("c30", "Vinyl Evening", "Places & Interiors", "A lamp, a record spinning on a turntable and a warm bedroom in the evening."),
     ("c31", "Blacksmith Forge", "Craft & Industry", "A blacksmith in a dark forge, hot steel on the anvil and the fire up close."),
-    ("c32", "Cotton Candy", "Food & Drink", "Pink sugar spun into cotton candy inside a neon-lit machine."),
     ("c33", "Stained Glass", "Craft & Industry", "Coloured glass sorted and set by hand, ending on the finished window glowing in daylight."),
     ("c34", "Driftwood", "Nature", "Driftwood on the shoreline as waves wash over its barnacles."),
     ("c35", "Lava Lamp", "Product", "A lava lamp glowing in a dark wood-panelled room, its wax rising and falling up close."),
@@ -107,7 +109,10 @@ SHOT_STEPS = [("Shot design", "Subject, camera move, lens feel and lighting, des
 
 # Per-shot fixes for the natural-look pass (tools/look.py). "drop" counts shots between cuts from 0.
 EDITS = {
-    "c08": {"drop": [2]},                   # cut the patient monitor with made-up numbers at the end
+    "c01": {"ends": {0: 2.45}},             # end the overhead before a spoon slides in with no hand on it
+    "c08": {"drop": [1, 2]},                # keep the soldering; cut the soldering iron with a gas flame and a tube
+                                            # lifting with no hand, and the monitor with made-up numbers
+    "c14": {"ends": {0: 6.0}},              # end before the moon warps into a spinning disc
     "c13": {"drop": [1]},                   # cut the flat grid of flowers
     "c10": {"drop": [1]},                   # cut the dial close-up with garbled lettering
     "c12": {"pre": "crop=1652:930:134:0"},  # crop out garbled text burned into the bottom-left corner
@@ -118,7 +123,7 @@ EDITS = {
 
 # Showreel, in order: (shot id, which shot inside it counted from 0) or (ad slug, start second), then its
 # length in beats of the 96 BPM score. Cuts land on the beat; only the most true-to-life footage is used.
-SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 16.9, 4), ("c15", 0, 4), ("c18", 1, 2),
+SHOWREEL = [("c24", 2, 4), ("c01", 1, 2), ("burger-commercial", 18.0, 4), ("c15", 0, 4), ("c18", 1, 2),
             ("buffalo-wings-ad", 7.0, 4), ("c16", 1, 4), ("c25", 0, 4), ("clothing-brand-reel", 5.5, 4),
             ("c45", 0, 4), ("c20", 0, 4), ("c12", 2, 4), ("c50", 0, 4), ("c22", 0, 4), ("c48", 0, 8)]
 
@@ -198,13 +203,13 @@ SOUND = {
     "c50": {"amb": [("room", -14, {"hall": True, "reverb": (2.0, 0.4)})], "music": ("pulse", 0)},
     # ads (the burger's original bed was only a hum and hiss, so it is fully rescored)
     "burger-commercial": {"amb": [("sizzle", -4, {"segs": [1]}), ("room", -18)], "music": ("food", -2),
-                          "hits": [(("seg", 3, 0.0), "whoosh", -10), (("seg", 4, 0.0), "impact", -6)]},
+                          "hits": [(("seg", 4, 0.0), "whoosh", -10), (("seg", 5, 0.0), "impact", -6)]},
     "buffalo-wings-ad": {"amb": [("room", -10), ("hum", -16), ("sizzle", -12)], "music": ("food", -3)},
     "clothing-brand-reel": {"amb": [("room", -18)], "music": ("pulse", -1)},
 }
 
 # Spec ads cut from the clean shots above (tools/spots.py). Each shot: (shot id, start second in the encoded
-# shot, length in beats, playback speed, slow push-in amount). Cuts land on the beat of the ad's own cue,
+# shot, length in beats, playback speed, slow push-in amount[, stop second: hold the frame there to the end]). Cuts land on the beat of the ad's own cue,
 # supers and the end card are timed in beats. The brands are made up for these spec ads.
 SPOTS = [
     dict(title="Larchmoor Whisky Spot", cue="spot_jazz", bpm=76, runtime="14s", poster_beat=13.9,
@@ -243,8 +248,8 @@ SPOTS = [
                 ("Edit, music & sound", "Cut on the beat of an original Rhodes cue, with cloth sounds on the polish and a brand end card.")],
          tags=["Jewelry ad", "16:9", "Original music"]),
     dict(title="Ember & Crust Pizza Spot", cue="spot_food", bpm=112, runtime="10s", poster_beat=1.6,
-         shots=[("c01", 4.82, 3, 1.0, 0.0), ("c01", 6.86, 3, 0.95, 0.0), ("c01", 8.70, 3, 1.0, 0.04),
-                ("c01", 0.3, 9, 0.85, 0.07)],
+         shots=[("c01", 2.51, 3, 1.0, 0.0), ("c01", 4.55, 3, 0.95, 0.0), ("c01", 6.39, 3, 1.0, 0.04),
+                ("c01", 0.3, 9, 0.85, 0.07, 2.1)],  # the overhead holds its last frame before the spoon came in
          style=dict(font="sans", color="#ffffff", accent="#ffb15c"),
          supers=[(3.2, 5.9, "HAND-STRETCHED DOUGH"), (6.2, 8.9, "FIRED OVER OAK")],
          card=dict(beat=12.0, brand="EMBER & CRUST", line="WOOD-FIRED PIZZA  ·  ORDER TONIGHT", small=None,

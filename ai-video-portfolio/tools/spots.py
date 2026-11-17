@@ -111,15 +111,18 @@ def build(spot, out, keep=False):
     tmp = tempfile.mkdtemp(prefix=slug)
     inputs, fc = [], []
     card_t = spot["card"]["beat"] * beat
-    for i, (cid, at, beats, speed, push) in enumerate(spot["shots"]):
+    for i, (cid, at, beats, speed, push, *stop) in enumerate(spot["shots"]):
         src = f"{out}/media/shots/{SLUG[cid]}.mp4"
         nf = frames[i + 1] - frames[i]
         seg = max(((a, b) for a, b in look.timeline(*CUTS[cid]).values() if a <= at), key=lambda x: x[0])
         need = nf / FPS * speed
-        assert seg[0] + MARGIN - 0.05 <= at and at + need <= seg[1] - MARGIN + 0.03, (slug, i, seg, at, need)
-        inputs += ["-ss", f"{at:.3f}", "-t", f"{need + 0.4:.3f}", "-i", src]
+        use = min(need, stop[0] - at) if stop else need  # with a stop, the last good frame is held under the logo
+        assert seg[0] + MARGIN - 0.05 <= at and at + use <= seg[1] - MARGIN + 0.03, (slug, i, seg, at, use)
+        inputs += ["-ss", f"{at:.3f}", "-t", f"{use + (0.4 if not stop else 0):.3f}", "-i", src]
         ch = f"[{i}:v]setpts=(PTS-STARTPTS)/{speed},"
         ch += f"framerate=fps={FPS}," if speed != 1 else f"fps={FPS},"
+        if stop:
+            ch += f"tpad=stop_mode=clone:stop_duration={nf / FPS + 1:.2f},"
         dur = nf / FPS
         if push:
             ch += (f"scale=w='2*trunc({W}*(1+{push}*t/{dur:.3f})/2)':h=-2:eval=frame:flags=bicubic,")
@@ -169,6 +172,9 @@ CUTS = {cid: (c["cuts"], c["dur"], ()) for cid, c in json.load(open(os.path.join
 for _cid, _e in __import__("data").EDITS.items():
     if _cid in CUTS and "drop" in _e:
         CUTS[_cid] = (CUTS[_cid][0], CUTS[_cid][1], tuple(_e["drop"]))
+for _cid, _e in __import__("data").EDITS.items():
+    if _cid in CUTS and "ends" in _e:
+        CUTS[_cid] = (*CUTS[_cid][:3], _e["ends"])
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]

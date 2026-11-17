@@ -2,9 +2,9 @@
  "burger-commercial": {
   "w": 1344,
   "h": 768,
-  "dur": 20.92,
+  "dur": 22.0,
   "audio": true,
-  "mb": 5.24
+  "mb": 5.56
  },
  "buffalo-wings-ad": {
   "w": 1344,
@@ -23,9 +23,9 @@
  "wood-fired-pizza": {
   "w": 1280,
   "h": 720,
-  "dur": 10.67,
+  "dur": 8.33,
   "audio": true,
-  "mb": 1.8
+  "mb": 1.44
  },
  "brewery-brand-spot": {
   "w": 1280,
@@ -51,9 +51,9 @@
  "electronics-repair": {
   "w": 1280,
   "h": 720,
-  "dur": 8.21,
+  "dur": 4.75,
   "audio": true,
-  "mb": 0.73
+  "mb": 0.34
  },
  "denim-brand-spot": {
   "w": 1280,
@@ -86,9 +86,9 @@
  "paper-cut-moon": {
   "w": 1280,
   "h": 720,
-  "dur": 12.25,
+  "dur": 6.0,
   "audio": true,
-  "mb": 1.21
+  "mb": 0.55
  },
  "forged-blade": {
   "w": 1280,
@@ -187,13 +187,6 @@
   "dur": 10.63,
   "audio": true,
   "mb": 1.25
- },
- "cotton-candy": {
-  "w": 1280,
-  "h": 732,
-  "dur": 10.67,
-  "audio": true,
-  "mb": 1.47
  },
  "stained-glass": {
   "w": 1280,
@@ -310,7 +303,7 @@
   "h": 720,
   "dur": 9.62,
   "audio": true,
-  "mb": 2.6
+  "mb": 2.49
  },
  "larchmoor-whisky-spot": {
   "w": 1280,

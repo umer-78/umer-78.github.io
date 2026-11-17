@@ -48,13 +48,13 @@ def clip_segs(key):
     c, e = CUTS[key], EDITS.get(key, {})
     if key in ADINFO and ADINFO[key].get("keep"):
         b = [0.0]
-        for a, z in ADINFO[key]["keep"]:
-            b.append(b[-1] + z - a)
+        for sp in ADINFO[key]["keep"]:
+            b.append(b[-1] + sp[-1] - sp[-2])
         return {i: (b[i], b[i + 1]) for i in range(len(b) - 1)}
     if key in ADINFO:
         b = [0.0] + c["cuts"] + [c["dur"]]
         return {i: (b[i], b[i + 1]) for i in range(len(b) - 1)}
-    return look.timeline(c["cuts"], c["dur"], e.get("drop", ()))
+    return look.timeline(c["cuts"], c["dur"], e.get("drop", ()), e.get("ends"))
 
 
 def soundtrack(key, dur, music_on=True, lufs=None):
@@ -80,13 +80,14 @@ def encode(p):
         a = ADINFO[s]
         src = f"{SRC_ADS}/{a['src']}"
         look.process(src, full, [], probe(src)["dur"], soft=False, crf=22, scale="", keep_audio=False,
-                     spans=a.get("keep"))
+                     spans=[(os.path.join(SRC_ADS, k[0]), *k[1:]) if len(k) == 3 else k for k in a.get("keep") or []])
         t = a["poster_t"]
     else:
         cid = CID[s]
         c, e = CUTS[cid], EDITS.get(cid, {})
         _, length = look.process(f"{SRC_CLIPS}/{cid}.mp4", full, c["cuts"], c["dur"],
-                                 drop=e.get("drop", ()), pre=e.get("pre", ""), keep_audio=False)
+                                 drop=e.get("drop", ()), pre=e.get("pre", ""), keep_audio=False,
+                                 ends=e.get("ends"))
         t = round(length * 0.35, 2)
     add_sound(p)
     o = probe(full)

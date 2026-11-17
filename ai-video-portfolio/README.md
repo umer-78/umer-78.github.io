@@ -6,8 +6,8 @@ Product ads, fashion reels and cinematic shots made with AI video generation and
 
 ## What's on the site
 
-- **6 finished spec ads:** Larchmoor Whisky Spot (14s), Halden Silver Ring Spot (13s), Ember & Crust Pizza Spot (10s), Burger Commercial (21s), Buffalo Wings Ad (17s), Clothing Brand Reel (10s, vertical)
-- **40 single AI shots** in 9 styles: food & drink, product, craft & industry, nature, places & interiors, people, cars & sport, tech & science, animation & logos
+- **6 finished spec ads:** Larchmoor Whisky Spot (14s), Halden Silver Ring Spot (13s), Ember & Crust Pizza Spot (10s), Burger Commercial (22s), Buffalo Wings Ad (17s), Clothing Brand Reel (10s, vertical)
+- **39 single AI shots** in 9 styles: food & drink, product, craft & industry, nature, places & interiors, people, cars & sport, tech & science, animation & logos
 - **A 38-second showreel** cut from the ads and the strongest shots
 
 Each video is listed once, on the Work page, and has its own page.
@@ -17,7 +17,7 @@ Each video is listed once, on the Work page, and has its own page.
 | Path | What it is |
 | --- | --- |
 | `index.html` | Home page with the showreel |
-| `work/` | Every video: the 6 ads, then the 40 shots with style filters and an in-page player |
+| `work/` | Every video: the 6 ads, then the 39 shots with style filters and an in-page player |
 | `work/<name>/` | One page per video, with its process, credits and specs |
 | `about/`, `services/`, `contact/` | About me, what I make, and how to hire me through Upwork |
 | `media/` | One web-ready MP4 and one poster image per video, plus the showreel |

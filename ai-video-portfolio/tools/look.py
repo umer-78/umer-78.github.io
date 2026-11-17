@@ -30,14 +30,17 @@ def has_audio(f):
     return bool(r.stdout.strip())
 
 
-def segments(cuts, dur, drop=(), min_len=1.0):
-    """Shots between cuts, minus the dropped indices (counted from 0) and the warped edges."""
+def segments(cuts, dur, drop=(), min_len=1.0, ends=None):
+    """Shots between cuts, minus the dropped indices (counted from 0) and the warped edges.
+    ends: {index: source second} to end a shot early (before something goes wrong in it)."""
     b = [0.0] + list(cuts) + [dur]
     segs = []
     for i in range(len(b) - 1):
         a, z = b[i], b[i + 1]
         if i in drop:
             continue
+        if ends and i in ends:
+            z = min(z, ends[i] + (TRIM if i < len(b) - 2 else 0))
         if i > 0:
             a += TRIM
         if i < len(b) - 2:
@@ -47,13 +50,15 @@ def segments(cuts, dur, drop=(), min_len=1.0):
     return segs
 
 
-def timeline(cuts, dur, drop=()):
+def timeline(cuts, dur, drop=(), ends=None):
     """Where each kept shot lands in the processed clip: {original index: (start, end)} in seconds."""
     b = [0.0] + list(cuts) + [dur]
     out, t = {}, 0.0
     for i, (a, z) in enumerate(zip(b, b[1:])):
         if i in drop:
             continue
+        if ends and i in ends:
+            z = min(z, ends[i] + (TRIM if i < len(b) - 2 else 0))
         a, z = a + (TRIM if i else 0), z - (TRIM if i < len(b) - 2 else 0)
         if z - a < 1.0:
             continue
@@ -63,11 +68,19 @@ def timeline(cuts, dur, drop=()):
 
 
 def _spans(src, out, spans, crf, scale):
-    fc = [f"[0:v]trim={a}:{z},setpts=PTS-STARTPTS,fps=24,settb=AVTB[v{i}]" for i, (a, z) in enumerate(spans)]
-    length = sum(z - a for a, z in spans)
+    """spans: (start, end) in src, or (other file, start, end) to cut in a shot from another clip."""
+    files, fc = [src], []
+    for i, sp in enumerate(spans):
+        f, a, z = sp if len(sp) == 3 else (src, *sp)
+        if f not in files:
+            files.append(f)
+        fc.append(f"[{files.index(f)}:v]trim={a}:{z},setpts=PTS-STARTPTS,fps=24,"
+                  f"scale=1344:768:force_original_aspect_ratio=increase,crop=1344:768,setsar=1,settb=AVTB[v{i}]")
+    length = sum(sp[-1] - sp[-2] for sp in spans)
     fc.append("".join(f"[v{i}]" for i in range(len(spans))) + f"concat=n={len(spans)}:v=1:a=0,"
               f"fade=t=out:st={length - 0.5:.3f}:d=0.5,{grade(scale)}[vout]")
-    r = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", src, "-filter_complex", ";".join(fc),
+    ins = [x for f in files for x in ("-i", f)]
+    r = subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", *ins, "-filter_complex", ";".join(fc),
                         "-map", "[vout]", "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", str(crf),
                         "-pix_fmt", "yuv420p", "-movflags", "+faststart", out], capture_output=True, text=True)
     if r.returncode:
@@ -76,12 +89,13 @@ def _spans(src, out, spans, crf, scale):
     return spans, length
 
 
-def process(src, out, cuts, dur, drop=(), soft=True, crf=25, keep_audio=True, pre="", scale=SCALE, abr="96k", spans=None):
+def process(src, out, cuts, dur, drop=(), soft=True, crf=25, keep_audio=True, pre="", scale=SCALE, abr="96k", spans=None,
+            ends=None):
     """Write the cleaned, graded clip to `out`. Returns (segments, length in seconds) or None.
     spans: exact (start, end) parts of the source to keep, joined with hard cuts and a short fade out."""
     if spans:
         return _spans(src, out, spans, crf, scale)
-    segs = segments(cuts, dur, drop) if soft else [(0.0, dur)]
+    segs = segments(cuts, dur, drop, ends=ends) if soft else [(0.0, dur)]
     aud = keep_audio and has_audio(src)
     pre = f"{pre}," if pre else ""
     fc = []
