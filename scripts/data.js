@@ -17,6 +17,7 @@ const site = {
     "Games & interactive"
   ],
   "featured": [
+    "ai-automation-demos",
     "adforge-studio",
     "coinvantage",
     "stocksense",
@@ -26,6 +27,29 @@ const site = {
     "warmstart"
   ],
   "projects": [
+    {
+      "name": "ai-automation-demos",
+      "title": "AI Automation Demos",
+      "category": "LLM engineering",
+      "language": "Python",
+      "summary": "Two working builds for client work: an agency automation hub (client onboarding, ad reporting with alerts, AI website drafts) and a B2B sales agent that researches real companies, scores them, reads a CRM and drafts emails that wait for a person to approve them.",
+      "highlights": [
+        "Every email the sales agent drafts cites a real, linked fact; a URL it did not find in that run's own searches is refused in code",
+        "No send path exists: an email file is made only after a recorded approval, and a test proves it",
+        "Rejection reasons reach the next run: “too long, ask for a 15-minute call” comes back as a shorter draft that asks for one",
+        "Ad reporting runs on numbers priced from published 2026 Google and Meta benchmarks, and catches a planted spike where one client's cost per conversion more than triples",
+        "165 tests across both builds, with 3D front ends in React Three Fiber"
+      ],
+      "topics": [
+        "python",
+        "fastapi",
+        "ai-agents",
+        "claude",
+        "automation",
+        "react-three-fiber"
+      ],
+      "preview": "assets/previews/ai-automation-demos.webp"
+    },
     {
       "name": "regex-engine",
       "title": "Rex",

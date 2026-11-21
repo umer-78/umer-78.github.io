@@ -33,6 +33,7 @@ export const ENVIRONMENTS = {
 
 /** Which world each project lives in. A project missing here gets its category's default. */
 export const PROJECT_ENVIRONMENT = {
+  'ai-automation-demos': 'gatehouse',
   'regex-engine': 'constellation',
   'route-planner': 'constellation',
   'graph-rag': 'constellation',
