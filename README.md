@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/umer-78/umer-78.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/umer-78/umer-78.github.io/actions/workflows/ci.yml)
 
+[![The portfolio: a 3D gallery of every project](.github/preview.jpg)](https://umer-78.github.io/)
+
 My project portfolio: a gallery in 3D where every project is a monolith, and every
 project opens into a 3D environment of its own, with search, category filters and
 links to the code and the live demos.
