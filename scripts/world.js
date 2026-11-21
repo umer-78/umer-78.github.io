@@ -94,6 +94,7 @@ function boot() {
   let galleryVisible = true;
   let paused = false;
   let switchToken = 0;
+  let current = null; // the project whose environment is open or opening
   let readySent = false;
 
   // ---- sizing: the scene sits beside the text on wide screens and above it on narrow ones
@@ -163,7 +164,8 @@ function boot() {
 
   async function openEnvironment(name) {
     const index = site.projects.findIndex((p) => p.name === name);
-    if (index < 0) return;
+    if (index < 0 || name === current) return; // already open (or opening): a second request would fade it out and rebuild it
+    current = name;
     const token = ++switchToken;
     await fade(true);
     if (token !== switchToken) return;
@@ -212,6 +214,7 @@ function boot() {
   }
 
   async function closeEnvironment() {
+    current = null;
     const token = ++switchToken;
     if (mode === 'gallery' && !stage) {
       // closed before the opening fade finished: nothing was built, but the canvas is still faded out
@@ -270,7 +273,7 @@ function boot() {
 
   // ---- input
   addEventListener('pointermove', (e) => {
-    if (mode !== 'gallery') return;
+    if (mode !== 'gallery' || !galleryVisible) return; // nothing to redraw while the gallery is scrolled away
     gallery.pointerMove(e.clientX, e.clientY, e.target === canvas);
     needsRender = true;
   }, { passive: true });
@@ -287,7 +290,7 @@ function boot() {
   });
   addEventListener('scroll', () => {
     gallery.scroll(scrollY / Math.max(1, innerHeight));
-    needsRender = true;
+    if (galleryVisible) needsRender = true; // further down the page the canvas is covered: no frames while scrolling there
   }, { passive: true });
 
   const hero = document.querySelector('.hero');
